@@ -1,0 +1,6 @@
+*truffle.js
+/node_modules
+/build
+*package-lock.json
+*test
+/ABI

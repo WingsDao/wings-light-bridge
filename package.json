@@ -1,0 +1,23 @@
+{
+  "name": "wings-light-bridge",
+  "version": "1.0.0",
+  "description": "In this tutorial we are going to walkthrough the Wings integration process.",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wingsdao/wings-light-integration.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wingsdao/wings-light-integration/issues"
+  },
+  "homepage": "https://github.com/wingsdao/wings-light-integration#readme"
+}
