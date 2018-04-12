@@ -9,6 +9,7 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
   - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
   - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#5-find-crowdsalecontroller-address)
+  - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#6-transfer-management-of-bridge-contract)
 #### Bridge methods
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
