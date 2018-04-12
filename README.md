@@ -2,6 +2,18 @@
 
 In this tutorial we are going to walkthrough the Wings integration process.
 
+## Content
+#### Initial setup
+  - [Setup](https://github.com/WingsDao/wings-light-bridge#1-setup)
+  - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
+  - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
+  - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
+  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#5-find-crowdsalecontroller-address)
+#### Bridge methods
+  - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
+  - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
+  - [finish](https://github.com/WingsDao/wings-light-bridge#finish)
+
 ## Requirements
 
 - Nodejs v8
@@ -43,7 +55,7 @@ Like on image:
 
 ### 5. Find crowdsaleController address ###
 
-`crowdsaleController()`
+`crowdsaleController()` - `DAO` getter function.
 
 **Returns:**
   - address of Crowdsale Controller
