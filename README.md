@@ -84,6 +84,10 @@ When project is created call method `transferManager(address _newManager)` and p
 **Parameters:**
   - `_newManager` - address of `CrowdsaleController`
 
+---
+You can start your crowdsale.
+---
+
 ## When crowdsale is about to end
 
 ### notifySale ###
@@ -149,7 +153,9 @@ function finish()
 }
 ```
 
-That's it!
+---
+That's it. Crowdsale is finished.
+---
 
 ## Developing
 
