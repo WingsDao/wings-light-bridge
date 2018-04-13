@@ -8,8 +8,9 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
   - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
   - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#5-find-crowdsalecontroller-address)
-  - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#6-transfer-management-of-bridge-contract)
+  - [Find DAO address](https://github.com/WingsDao/wings-light-bridge#5-find-dao-address)
+  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#6-find-crowdsalecontroller-address)
+  - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#7-transfer-management-of-bridge-contract)
 #### Bridge methods
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
@@ -54,7 +55,15 @@ Like on image:
 
 ![contract address](https://i.imgur.com/myATGnp.png)
 
-### 5. Find crowdsaleController address ###
+### 5. Find DAO address
+
+To do it, just take URL of your project, like:
+
+https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
+
+As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used during project creation at [wings.ai](https://wings.ai) is owner of this smart contract.
+
+### 6. Find crowdsaleController address ###
 
 `crowdsaleController()` - `DAO` getter function.
 
@@ -67,7 +76,7 @@ const dao = await DAO.at('0x0000000000000000000000000000000000000000') // change
 const ccAddress = await dao.crowdsaleController.call()
 ```
 
-### 6. Transfer management of Bridge contract ###
+### 7. Transfer management of Bridge contract ###
 
 When project is created call method `transferManager(address _newManager)` and pass address of `CrowdsaleController` to it.
 
