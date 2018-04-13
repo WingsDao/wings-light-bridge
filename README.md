@@ -14,6 +14,7 @@ In this tutorial we are going to walkthrough the Wings integration process.
 #### Bridge methods
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
+  - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
   - [finish](https://github.com/WingsDao/wings-light-bridge#finish)
 
 ## Requirements
@@ -85,8 +86,6 @@ When project is created call method `transferManager(address _newManager)` and p
 
 ## When crowdsale is about to end
 
-Send token and ETH rewards to bridge contract.
-
 ### notifySale ###
 
 When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
@@ -127,6 +126,12 @@ function calculateRewards() public view returns (uint256, uint256) {
 **Returns:**
   - `ethReward` - ETH reward amount (in Wei)
   - `tokenReward` - token reward amount
+
+### Transferring rewards ###
+
+And now, before making a call to `finish` method, make a call to method `calculateRewards` to find out the amount of rewards.
+
+**Send token and ETH rewards to bridge contract.**
 
 ### finish ###
 
