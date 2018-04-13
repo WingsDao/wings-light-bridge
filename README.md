@@ -131,7 +131,7 @@ function calculateRewards() public view returns (uint256, uint256) {
 
 And now, before making a call to `finish` method, make a call to method `calculateRewards` to find out the amount of rewards.
 
-**Send token and ETH rewards to bridge contract.**
+**Important:** Send token and ETH rewards to `Bridge` contract.
 
 ### finish ###
 
@@ -148,6 +148,8 @@ function finish()
   completed = true;
 }
 ```
+
+That's it!
 
 ## Developing
 
