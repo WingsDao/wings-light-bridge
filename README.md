@@ -11,13 +11,16 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Find DAO address](https://github.com/WingsDao/wings-light-bridge#5-find-dao-address)
   - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#6-find-crowdsalecontroller-address)
   - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#7-transfer-management-of-bridge-contract)
+
 #### Bridge methods
   - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
   - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
-  - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
+
+#### Finishing Bridge
+  - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
   - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
-  - [finish](https://github.com/WingsDao/wings-light-bridge#finish)
+  - [Finishing Bridge](https://github.com/WingsDao/wings-light-bridge#finish)
 
 ## Requirements
 
