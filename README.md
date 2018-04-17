@@ -112,7 +112,7 @@ function getToken()
 
 ### changeToken ###
 
-To change token address before crowdsale start, use `changeToken` method.
+To change token address use `changeToken` method.
 
 ```sc
 function changeToken(address _newToken) onlyOwner() {
@@ -121,7 +121,7 @@ function changeToken(address _newToken) onlyOwner() {
 ```
 **Parameters:**
   - `_newToken` - address of new token contract
-  
+
 ### notifySale ###
 
 When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
