@@ -13,6 +13,11 @@
     "type": "git",
     "url": "git+https://github.com/wingsdao/wings-light-integration.git"
   },
+  "devDependencies": {
+    "chai": "latest",
+    "zeppelin-solidity": "1.4.0",
+    "bignumber.js": "^4.0.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

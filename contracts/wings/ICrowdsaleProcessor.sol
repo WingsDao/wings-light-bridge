@@ -1,8 +1,8 @@
-pragma solidity 0.4.18;
+pragma solidity 0.4.19;
 
 
-import './wings/Manageable.sol';
-import './wings/Ownable.sol';
+import './Manageable.sol';
+import './Ownable.sol';
 
 
 /*

@@ -1,6 +1,8 @@
-pragma solidity 0.4.18;
+pragma solidity 0.4.19;
 
-
+/*
+  Standard zeppelin-solidity Ownable
+*/
 contract Ownable {
   address public owner;
 

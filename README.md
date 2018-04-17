@@ -12,6 +12,8 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#6-find-crowdsalecontroller-address)
   - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#7-transfer-management-of-bridge-contract)
 #### Bridge methods
+  - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
+  - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [calculateRewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
   - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
@@ -92,6 +94,34 @@ You can start your crowdsale.
 
 ## When crowdsale is about to end
 
+### getToken ###
+
+If you need to check address of token contract which you specified during Bridge deploy, use `getToken` method.
+
+```sc
+function getToken()
+  public
+  view
+  returns (address)
+{
+  return address(token);
+}
+```
+**Returns:**
+  - address of token contract
+
+### changeToken ###
+
+To change token address before crowdsale start, use `changeToken` method.
+
+```sc
+function changeToken(address _newToken) onlyOwner() {
+  token = IERC20(_newToken);
+}
+```
+**Parameters:**
+  - `_newToken` - address of new token contract
+  
 ### notifySale ###
 
 When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
