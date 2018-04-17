@@ -30,7 +30,7 @@ contract Bridge is BasicCrowdsale {
   {
     minimalGoal = _minimalGoal;
     hardCap = _hardCap;
-    token = BasicToken(_token);
+    token = IERC20(_token);
   }
 
   /*
@@ -146,6 +146,6 @@ contract Bridge is BasicCrowdsale {
   }
 
   function changeToken(address _newToken) onlyOwner() {
-    token = BasicToken(_newToken);
+    token = IERC20(_newToken);
   }
 }
