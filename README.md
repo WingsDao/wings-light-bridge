@@ -40,14 +40,14 @@ git clone https://github.com/wingsdao/wings-light-bridge.git
 
 ### 2. Prepare constructor arguments ###
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph 2 and assign your deployed token address to `token` variable.*
+*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph b) and assign your deployed token address to `token` variable.*
 
-**1. Prepare these variables for DefaultToken contract:**
+**a) Prepare these variables for DefaultToken contract:**
   - `name` - name of your token
   - `symbol` - symbol of your token
   - `decimals` - token decimals
 
-**2. Prepare these variables for Bridge contract:**
+**b) Prepare these variables for Bridge contract:**
   - `minimalGoal` - soft cap of your crowdfunding campaign
   - `hardCap` - hard cap of your crowdfunding campaign
   - `token` - address of your ERC20-compliant token
