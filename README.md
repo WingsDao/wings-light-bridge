@@ -104,7 +104,13 @@ When project is created call method `transferManager(address _newManager)` and p
 
 ---
 
-After this step you can start your forecasting and than crowdsale.
+After this step you can start your forecasting.
+
+When the forecasting finish you have 45 days to start your crowdsale.
+
+Start crowdsale.
+
+When the crowdsale is about to end come back to this tutorial to complete next steps.
 
 ---
 
