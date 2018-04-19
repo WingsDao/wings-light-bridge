@@ -12,6 +12,8 @@ import './wings/IERC20.sol';
 */
 contract Bridge is BasicCrowdsale {
 
+  event DAO_TOKEN_CREATE(address token, bytes32 name, bytes32 symbol, uint8 decimals);
+
   using SafeMath for uint256;
 
   // Crowdsale token must be ERC20-compliant
@@ -147,5 +149,7 @@ contract Bridge is BasicCrowdsale {
 
   function changeToken(address _newToken) onlyOwner() {
     token = IERC20(_newToken);
+
+    DAO_TOKEN_CREATE(address(token), "", "", token.decimals());
   }
 }

@@ -9,6 +9,8 @@ const sendETH = async (txObject) => {
   await web3.eth.sendTransaction(txObject)
 }
 
+const EMPTY_32BYTES = "0x0000000000000000000000000000000000000000000000000000000000000000"
+
 contract('Bridge', (accounts) => {
   let creator = accounts.splice(0, 1).pop()
   let participant = accounts.splice(0, 1).pop()
@@ -21,13 +23,15 @@ contract('Bridge', (accounts) => {
   let totalCollected = web3.toWei(100, 'ether')
   let totalSold = web3.toWei(1500, 'ether')
 
-  let token, crowdsale, controller, bridge
+  let token, crowdsale, controller, bridge, decimals
 
   before(async () => {
     // deploy token
     token = await Token.new(web3.toWei(10000, 'ether'), {
       from: creator
     })
+
+    decimals = (await token.decimals.call()).toNumber()
 
     // deploy bridge
     bridge = await Bridge.new(
@@ -55,8 +59,20 @@ contract('Bridge', (accounts) => {
   })
 
   it('Should allow to change token', async () => {
+
+    let changeToken_event = bridge.DAO_TOKEN_CREATE({}, {fromBlock: 0, toBlock: 'latest'})
+
     await bridge.changeToken(token.address, {
       from: creator
+    })
+
+    changeToken_event.get((error, events) => {
+        // console.log(events[0])
+        let args = events[0].args
+        args.token.should.be.equal(token.address)
+        args.name.should.be.equal(EMPTY_32BYTES)
+        args.symbol.should.be.equal(EMPTY_32BYTES)
+        args.decimals.toNumber().should.be.equal(decimals)
     })
   })
 
