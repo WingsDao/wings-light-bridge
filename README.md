@@ -104,7 +104,7 @@ When project is created call method `transferManager(address _newManager)` and p
 
 ---
 
-You can start your crowdsale.
+After this step you can start your forecasting and than crowdsale.
 
 ---
 

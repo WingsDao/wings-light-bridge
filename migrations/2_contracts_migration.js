@@ -20,7 +20,7 @@ module.exports = async (deployer) => {
   let token = await DefaultToken.deployed()
 
   if (minimalGoal == 0 || hardCap == 0 || token.address == 'undefined') {
-    // throw new Error('Cannot deploy contract with empty arguments.')
+    throw new Error('Cannot deploy contract with empty arguments.')
   }
 
   await deployer.deploy(Bridge, minimalGoal, hardCap, token.address)
