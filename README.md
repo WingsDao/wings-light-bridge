@@ -25,7 +25,7 @@ In this tutorial we are going to walkthrough the Wings integration process.
 ## Requirements
 
 - Nodejs v8
-- Truffle
+- Truffle v4.0.6
 - Ganache-cli v6.1.0
 
 # Step by step guide
@@ -40,7 +40,14 @@ git clone https://github.com/wingsdao/wings-light-bridge.git
 
 ### 2. Prepare constructor arguments ###
 
-**You need to prepare these variables:**
+*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph 2 and assign your deployed token address to `token` variable.*
+
+**1. Prepare these variables for DefaultToken contract:**
+  - `name` - name of your token
+  - `symbol` - symbol of your token
+  - `decimals` - token decimals
+
+**2. Prepare these variables for Bridge contract:**
   - `minimalGoal` - soft cap of your crowdfunding campaign
   - `hardCap` - hard cap of your crowdfunding campaign
   - `token` - address of your ERC20-compliant token
@@ -49,7 +56,13 @@ git clone https://github.com/wingsdao/wings-light-bridge.git
 
 Deploy contracts to mainnet using truffle, parity, etc.
 
-**Important:** During deployment pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
+*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case you only need to deploy Bridge contract.*
+
+**Deployment process:**
+
+During deployment of `DefaultToken` pass `name`, `symbol` and `decimals` as arguments to constructor.
+
+During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
 
 ### 4. Create project ###
 
@@ -114,6 +127,8 @@ function getToken()
   - address of token contract
 
 ### changeToken ###
+
+**Please note that if you used `DefaultToken` you must change token address to the address of your real token contract which stores your project token rewards.**
 
 To change token address use `changeToken` method.
 

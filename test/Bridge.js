@@ -2,7 +2,7 @@ const { should } = require('chai').should()
 const BigNumber = require('bignumber.js')
 
 const Bridge = artifacts.require('Bridge');
-const Token = artifacts.require('Token');
+const Token = artifacts.require('TestToken');
 const ControllerStub = artifacts.require('ControllerStub')
 
 const sendETH = async (txObject) => {
