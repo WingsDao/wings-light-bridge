@@ -66,9 +66,9 @@ During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as argument
 
 ### 4. Create project ###
 
-Create project at Wings platform as custom contract and provide address of **bridge** contract.
+Create project on Wings platform as custom contract and provide address of **bridge** contract.
 
-Now we need to create project at Wings platform. We go to [Wings](https://wings.ai), fill project details, and at **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
+Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
 
 Like on image:
 
@@ -80,7 +80,7 @@ To do it, just take URL of your project, like:
 
 https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
 
-As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used during project creation at [wings.ai](https://wings.ai) is owner of this smart contract.
+As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used during project creation on [wings.ai](https://wings.ai) is owner of this smart contract.
 
 ### 6. Find crowdsaleController address ###
 
