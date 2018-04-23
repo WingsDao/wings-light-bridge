@@ -1,4 +1,4 @@
-pragma solidity 0.4.19;
+pragma solidity ^0.4.18;
 
 
 import './wings/BasicCrowdsale.sol';
@@ -12,7 +12,7 @@ import './wings/IERC20.sol';
 */
 contract Bridge is BasicCrowdsale {
 
-  event DAO_TOKEN_CREATE(address token, bytes32 name, bytes32 symbol, uint8 decimals);
+  event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
 
   using SafeMath for uint256;
 
@@ -150,6 +150,6 @@ contract Bridge is BasicCrowdsale {
   function changeToken(address _newToken) onlyOwner() {
     token = IERC20(_newToken);
 
-    DAO_TOKEN_CREATE(address(token), "", "", token.decimals());
+    CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
   }
 }
