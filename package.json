@@ -17,7 +17,8 @@
   "devDependencies": {
     "chai": "latest",
     "zeppelin-solidity": "1.4.0",
-    "bignumber.js": "^4.0.0"
+    "bignumber.js": "^4.0.0",
+    "wings-integration": "^1.1.4"
   },
   "keywords": [],
   "author": "",

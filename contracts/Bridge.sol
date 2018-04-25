@@ -1,10 +1,11 @@
 pragma solidity ^0.4.18;
 
 
-import './wings/BasicCrowdsale.sol';
-import './wings/IWingsController.sol';
-import './wings/SafeMath.sol';
-import './wings/IERC20.sol';
+import 'wings-integration/contracts/BasicCrowdsale.sol';
+import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+
+import './IWingsController.sol';
+import './DefaultToken.sol';
 
 
 /*
@@ -17,7 +18,7 @@ contract Bridge is BasicCrowdsale {
   using SafeMath for uint256;
 
   // Crowdsale token must be ERC20-compliant
-  IERC20 token;
+  DefaultToken token;
 
   // Crowdsale state
   bool completed;
@@ -32,7 +33,9 @@ contract Bridge is BasicCrowdsale {
   {
     minimalGoal = _minimalGoal;
     hardCap = _hardCap;
-    token = IERC20(_token);
+    token = DefaultToken(_token);
+
+    CUSTOM_CROWDSALE_TOKEN_ADDED(token, uint8(token.decimals()));
   }
 
   /*
@@ -42,7 +45,6 @@ contract Bridge is BasicCrowdsale {
   // Returns address of crowdsale token
   function getToken()
     public
-    view
     returns (address)
   {
     return address(token);
@@ -148,7 +150,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   function changeToken(address _newToken) onlyOwner() {
-    token = IERC20(_newToken);
+    token = DefaultToken(_newToken);
 
     CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
   }

@@ -1,6 +1,8 @@
-pragma solidity 0.4.19;
+pragma solidity ^0.4.18;
 
-import "../wings/IWingsController.sol";
+
+import "../IWingsController.sol";
+
 
 // Minimal crowdsale token for custom contracts
 contract ControllerStub is IWingsController {
