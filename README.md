@@ -76,11 +76,13 @@ Like on image:
 
 ### 5. Find DAO address
 
-To do it, just take URL of your project, like:
+To do it, just take URL of your project, which looks like:
 
-https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
+https://wings.ai/config_forecasting/0x9e16947b3ab022a34201ce757bdd853eb2bc7151
 
-As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used during project creation on [wings.ai](https://wings.ai) is owner of this smart contract.
+*NOTE: You can find this url by going to your profile page and then visiting __My latest projects__ section and selecting your recently created project.*
+
+As you see - `0x9e16947b3ab022a34201ce757bdd853eb2bc7151`, it's your DAO contract address. You can check it via parity or some other ethereum clients/tools. Account that you used during project creation on [wings.ai](https://wings.ai) is owner of this smart contract.
 
 ### 6. Find crowdsaleController address ###
 
