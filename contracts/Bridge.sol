@@ -13,9 +13,9 @@ import './DefaultToken.sol';
 */
 contract Bridge is BasicCrowdsale {
 
-  event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
-
   using SafeMath for uint256;
+
+  event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
 
   // Crowdsale token must be ERC20-compliant
   DefaultToken token;
