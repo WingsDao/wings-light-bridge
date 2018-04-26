@@ -129,7 +129,7 @@ When the forecasting finish you have 45 days to start your project's crowdsale.
 
 To start crowdsale, complete the following steps.
 
-## 1. Make a call to method createCustomCrowdsale in DAO contract
+### 1. Make a call to method createCustomCrowdsale in DAO contract
 
 Make a call to method `DAO.createCustomCrowdsale()`.
 
@@ -143,7 +143,7 @@ function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(
 await dao.createCustomCrowdsale()
 ```
 
-## 2. Find crowdsaleController address
+### 2. Find crowdsaleController address
 
 Make a call to getter method `DAO.crowdsaleController()`.
 
@@ -159,7 +159,7 @@ const ccAddress = await dao.crowdsaleController.call()
 const crowdsaleController = await CrowdsaleController.at(ccAddress)
 ```
 
-## 3. Start crowdsale
+### 3. Start crowdsale
 
 
 **Interface:**
