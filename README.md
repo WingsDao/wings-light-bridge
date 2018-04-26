@@ -90,7 +90,7 @@ Like on image:
 
 ![contract address](https://i.imgur.com/myATGnp.png)
 
-### 2. Find DAO address from url
+### 1. Find DAO address from url
 
 To do it, just take URL of your project, like:
 
@@ -108,7 +108,7 @@ Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master
 const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change with your DAO address
 ```
 
-### 6. Transfer management to DAO
+### 2. Transfer management to DAO
 
 During forecasting period transfer manager to `DAO` contract.
 
