@@ -15,7 +15,7 @@ In this tutorial we are going to walkthrough the Wings integration process.
 
 #### Crowdsale start
   - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#-find-crowdsalecontroller-address)
+  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#2-find-crowdsalecontroller-address)
   - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#3-start-crowdsale)
 
 #### Bridge methods
