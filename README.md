@@ -8,9 +8,6 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
   - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
   - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
-  - [Find DAO address](https://github.com/WingsDao/wings-light-bridge#5-find-dao-address)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#6-find-crowdsalecontroller-address)
-  - [Transfer management of Bridge contract](https://github.com/WingsDao/wings-light-bridge#7-transfer-management-of-bridge-contract)
 
 #### Crowdsale start
   - [Find DAO address from url](https://github.com/WingsDao/wings-light-bridge#1-find-dao-address-from-url)
