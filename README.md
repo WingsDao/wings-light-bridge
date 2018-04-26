@@ -101,7 +101,9 @@ As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contrac
 
 Initiate `DAO` contract with the address we just retrieved:
 
-Here is [ABI](https://github.com/WingsDao/wings-light-bridge/tree/master/ABI) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
+Here are [ABI](https://github.com/WingsDao/wings-light-bridge/tree/master/ABI) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
+
+Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/interfaces) for contracts.
 
 ```js
 const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change with your DAO address
