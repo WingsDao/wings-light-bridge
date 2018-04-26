@@ -70,6 +70,16 @@ During deployment of `DefaultToken` pass `name`, `symbol` and `decimals` as argu
 
 During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
 
+### 4. Create project
+
+Create project on Wings platform as custom contract and provide address of **bridge** contract.
+
+Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
+
+Like on image:
+
+![contract address](https://i.imgur.com/myATGnp.png)
+
 ---
 
 
@@ -79,16 +89,6 @@ After this step you can start your project's forecasting.
 ---
 
 ## During forecasting
-
-### 1. Create project
-
-Create project on Wings platform as custom contract and provide address of **bridge** contract.
-
-Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
-
-Like on image:
-
-![contract address](https://i.imgur.com/myATGnp.png)
 
 ### 1. Find DAO address from url
 
