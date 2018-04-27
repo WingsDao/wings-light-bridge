@@ -174,15 +174,12 @@ function start(
         uint256 _endTimestamp,
         address _fundingAddress
     )
-        public
-        onlyOwner()
-        hasntStopped()
-        hasntStarted();
+        public;
 ```
 **Parameters:**
-`_startTimestamp` - timestamp of the start of your crowdsale.
-`_endTimestamp` - timestamp of the end of your crowdsale.
-`_fundingAddress` - the address, which will receive funds
+  - `_startTimestamp` - timestamp of the start of your crowdsale.
+  - `_endTimestamp` - timestamp of the end of your crowdsale.
+  - `_fundingAddress` - the address, which will receive funds
 
 **Example:**
 ```js
