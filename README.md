@@ -166,6 +166,7 @@ const crowdsaleController = await CrowdsaleController.at(ccAddress)
 
 ### 3. Start crowdsale
 
+To actually start your project's crowdsale you need to make a call to `crowdsaleController`'s method `start`.
 
 **Interface:**
 ```sc
