@@ -166,7 +166,7 @@ const crowdsaleController = await CrowdsaleController.at(ccAddress)
 
 ### 3. Start crowdsale
 
-To start your project's crowdsale (Bridge) you need to make a call to `crowdsaleController`'s method `start`.
+To start your project's crowdsale (`Bridge`) you need to make a call to `crowdsaleController`'s method `start`.
 
 **Interface:**
 ```sc
@@ -187,7 +187,7 @@ function start(
 await crowdsaleController.start(0, 0, '0x0')
 ```
 
-**IMPORTANT:** values like 0, 0, '0x0' for start works fine only if you using bridge. If you've done full integration, you have to do it in another way.
+**IMPORTANT:** values like 0, 0, '0x0' for start works fine only if you are using bridge. If you've done full integration, you have to do it in another way.
 
 ---
 
