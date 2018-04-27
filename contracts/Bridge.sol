@@ -149,6 +149,7 @@ contract Bridge is BasicCrowdsale {
     return (ethReward, tokenReward);
   }
 
+  // Change token address (in case you've used the dafault token address during bridge deployment)
   function changeToken(address _newToken) public onlyOwner() {
     token = DefaultToken(_newToken);
 
