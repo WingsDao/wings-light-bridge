@@ -149,7 +149,7 @@ contract Bridge is BasicCrowdsale {
     return (ethReward, tokenReward);
   }
 
-  function changeToken(address _newToken) onlyOwner() {
+  function changeToken(address _newToken) public onlyOwner() {
     token = DefaultToken(_newToken);
 
     CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));

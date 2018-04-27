@@ -219,7 +219,7 @@ function getToken()
 To change token address use `changeToken` method.
 
 ```sc
-function changeToken(address _newToken) onlyOwner() {
+function changeToken(address _newToken) public onlyOwner() {
   token = IERC20(_newToken);
 }
 ```
