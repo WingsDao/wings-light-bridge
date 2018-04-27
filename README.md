@@ -112,6 +112,11 @@ const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change
 
 During forecasting period transfer manager to `DAO` contract.
 
+**Interface:**
+```sc
+function transferManager(address _newManager) public;
+```
+
 **Example:**
 ```js
 await bridge.transferManager(dao.address, { from: yourAccount }) // change with your DAO address
