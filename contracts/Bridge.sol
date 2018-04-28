@@ -34,8 +34,6 @@ contract Bridge is BasicCrowdsale {
     minimalGoal = _minimalGoal;
     hardCap = _hardCap;
     token = DefaultToken(_token);
-
-    CUSTOM_CROWDSALE_TOKEN_ADDED(token, uint8(token.decimals()));
   }
 
   /*

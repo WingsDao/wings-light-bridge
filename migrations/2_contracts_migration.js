@@ -6,14 +6,11 @@ const DefaultToken = artifacts.require('DefaultToken')
 
 module.exports = async (deployer) => {
 
-  /*
-    Setup these parameters before deploy
-  */
-  const name = ""
-  const symbol = ""
-  const decimals = 0
-  const minimalGoal = 0
-  const hardCap = 0
+  const name = process.env.NAME
+  const symbol = process.env.SYMBOL
+  const decimals = process.env.DECIMALS
+  const minimalGoal = process.env.SOFTCAP
+  const hardCap = process.env.HARDCAP
 
   await deployer.deploy(DefaultToken, name, symbol, decimals)
 
