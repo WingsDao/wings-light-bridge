@@ -3,6 +3,10 @@ const fs = require("fs")
 
 const mnemonic = "12 seed words"
 
+const PROVIDER = ""
+const PORT = ""
+const API_TOKEN = ""
+
 module.exports = {
   contracts_build_folder: './build',
   networks: {
@@ -13,7 +17,7 @@ module.exports = {
     },
     mainnet: {
       provider: function() {
-        return new HDWalletProvider(mnemonic, "https://mainnet.infura.io/<API-TOKEN>")
+        return new HDWalletProvider(mnemonic, PROVIDER + PORT + API_TOKEN)
       },
       network_id: 1,
       gasPrice: 4000000000
