@@ -21,7 +21,7 @@ module.exports.transferManager = async (from, to, recipient) => {
 
   const txParams = {
     nonce,
-    gasLimit: 1000000,
+    gasLimit: 50000,
     gasPrice,
     to,
     value: 0,

@@ -7,10 +7,18 @@ const raw = require("./helpers/raw")
 const { checkArtifacts, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
 
 
+let account = {
+  address: "0x2bcfaf1f505501ab3d9733911c1cdc03e42ccb11",
+  privateKey: new Buffer("03ed91b51ab4968f734f39842492db9393f9ef6fc7fed6b4e56591f90e608418", "hex")
+}
 
-let account = {}
-account.address = "0xdecee0be145f03a7ee5bee7ddae0f1d94b2d1f3e"
-account.privateKey = new Buffer("ba7e8c3c791d54b4e4882a84b1e0cfd50e6bb634c5bdc114b67669e000f8faae", "hex")
+const sendTX = async (tx) => {
+  tx.sign(account.privateKey)
+  let txId = await web3.eth.sendRawTransaction(tx.serialize())
+  await waitForTransaction(txId)
+
+  log(`Transaction ID: ${txId}`)
+}
 
 const PROVIDER = "http://localhost:8545"
 
@@ -62,16 +70,36 @@ async function deploy() {
 }
 
 async function forecasting() {
+  await checkArtifacts()
+
+  const bridgeABI = require("./build/contracts/Bridge.json")
+
+  const Bridge = contract(bridgeABI)
+
+  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+
   const bridgeAddress = await input.text("Enter Bridge address:")
   const daoAddress = await input.text("Enter DAO address:")
 
-  try {
-    let tx = await raw.transferManager(account.address, bridgeAddress, daoAddress)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
+  const bridge = await Bridge.at(bridgeAddress)
 
-    log(`Transaction ID: ${txId}`)
+  try {
+    let manager = await bridge.manager.call()
+
+    if (manager.toString() == daoAddress) {
+      throw new Error("DAO is already manager")
+    }
+
+    let tx = await raw.transferManager(account.address, bridgeAddress, daoAddress)
+
+    await sendTX(tx)
+
+    manager = await bridge.manager.call()
+
+    if (manager.toString() == account.address || manager.toString() != daoAddress) {
+      throw new Error("Transaction failed")
+    }
+
     log_success("Management transferred")
   } catch (err) {
     log_error(err.message)
@@ -94,43 +122,48 @@ async function start() {
 
   try {
     let tx = await raw.createCustomCrowdsale(account.address, daoAddress)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
 
-    log(`Transaction ID: ${txId}`)
-    log_success("Call to DAO was successful")
-  } catch (err) {
-    log_error(err.message)
-    throw new Error()
-  }
+    await sendTX(tx)
 
-  const ccAddress = await dao.crowdsaleController.call()
+    log_success("Call to DAO createCustomCrowdsale function")
 
-  try {
+    const ccAddress = await dao.crowdsaleController.call()
+
     await raw.start(account.address, ccAddress, 0, 0, "0x0")
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
 
-    log(`Transaction ID: ${txId}`)
-    log_success("Crowdsale controller start")
+    await sendTX(tx)
+
+    log_success("Call to Crowdsale controller start function")
   } catch (err) {
     log_error(err.message)
   }
 }
 
 async function changeToken() {
+  await checkArtifacts()
+
+  const bridgeABI = require("./build/contracts/Bridge.json")
+
+  const Bridge = contract(bridgeABI)
+
+  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+
   const bridgeAddress = await input.text("Enter Bridge address:")
   const tokenAddress = await input.text("Enter new Token address:")
 
+  const bridge = await Bridge.at(bridgeAddress)
+
   try {
     let tx = await raw.changeToken(account.address, bridgeAddress, tokenAddress)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
 
-    log(`Transaction ID: ${txId}`)
+    await sendTX(tx)
+
+    let newTokenAddress = await bridge.getToken.call()
+
+    if (newTokenAddress.toString() != tokenAddress) {
+      throw new Error("Transaction failed")
+    }
+
     log_success("Token was changed")
   } catch (err) {
     log_error(err.message)
@@ -138,6 +171,89 @@ async function changeToken() {
 }
 
 async function calculateRewards() {
+  await checkArtifacts()
+
+  const bridgeABI = require("./build/contracts/Bridge.json")
+  const tokenABI = require("./build/contracts/DefaultToken.json")
+
+  const Bridge = contract(bridgeABI)
+  const Token = contract(tokenABI)
+
+  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Token.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+
+  const bridgeAddress = await input.text("Enter Bridge address:")
+  const bridge = await Bridge.at(bridgeAddress)
+
+  const tokenAddress = await bridge.getToken.call()
+  const token = await Token.at(tokenAddress)
+
+  const tokenSymbol = await token.symbol.call()
+  const tokenDecimals = await token.decimals.call()
+
+  let totalCollected
+  let totalSold
+
+  while (isNaN(totalCollected) || isNaN(totalSold) || parseInt(totalCollected) <= 0 || parseInt(totalSold) <= 0) {
+    totalCollected = await input.text("Enter total collected amount (ETH):")
+    totalSold = await input.text(`Enter total sold amount (${tokenSymbol.toString()}):`)
+  }
+
+  try {
+    // TODO: fix revert
+    let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), parseInt(totalSold) * Math.pow(10, tokenDecimals.toNumber()))
+
+    await sendTX(tx)
+
+    let newTotalCollected = await bridge.totalCollected.call()
+    let newTotalSold = await bridge.totalSold.call()
+
+    if (newTotalCollected.toNumber() == 0 || newTotalSold.toNumber() == 0) {
+      throw new Error("Transaction failed")
+    }
+
+    log_success("Notification completed")
+  } catch (err) {
+    log_error(err.message)
+  }
+
+  const [ethReward, tokenReward] = await bridge.calculateRewards.call()
+
+  log("ETH reward amount: " + ethReward.toString(10))
+  log("Token reward amount: " + tokenReward.toString(10))
+
+  const doTransfer = await input.select("Do you want to transfer rewards now?", [{ name: "Yes", value: true }, { name: "No", value: false }])
+
+  if (doTransfer) {
+    try {
+      let tx = await raw.transfer(account.address, tokenAddress, bridgeAddress, tokenReward)
+
+      await sendTX(tx)
+
+      let bridgeTokenBalance = await token.balanceOf.call(bridgeAddress)
+
+      if (bridgeTokenBalance.toNumber() < tokenReward.toNumber()) {
+        throw new Error("Token transfer failed")
+      }
+
+      if (ethReward.toNumber() > 0) {
+        let tx = await raw.sendTransaction(account.address, bridgeAddress, ethReward)
+
+        await sendTX(tx)
+
+        let bridgeEthBalance = web3.getBalance(bridgeAddress)
+
+        if (bridgeEthBalance.toNumber() < ethReward.toNumber()) {
+          throw new Error("ETH transfer failed")
+        }
+      }
+    } catch(err) {
+      log_error(err)
+    }
+  }
+}
+
+async function finish() {
   await checkArtifacts()
 
   const bridgeABI = require("./build/contracts/Bridge.json")
@@ -151,55 +267,15 @@ async function calculateRewards() {
   const bridge = await Bridge.at(bridgeAddress)
 
   try {
-    let tx = await raw.notifySale(account.address, bridgeAddress, totalCollected, totalSold)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
-
-    log(`Transaction ID: ${txId}`)
-    log_success("Notification completed")
-  } catch (err) {
-    log_error(err.message)
-  }
-
-  const [ethReward, tokenReward] = await bridge.calculateRewards()
-
-  log("ETH reward amount: " + ethReward)
-  log("Token reward amount: " + tokenReward)
-
-  const doTransfer = await input.select("Do you want to transfer rewards now?", [{ name: "Yes", value: true }, { name: "No", value: false }])
-
-  if (doTransfer) {
-    const tokenAddress = await input.text("Enter token address:")
-
-    let tx = await raw.transfer(account.address, tokenAddress, bridgeAddress, tokenReward)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
-
-    log(`Transaction ID: ${txId}`)
-
-    if (ethReward > 0) {
-      let tx = await raw.sendTransaction(account.address, bridgeAddress, ethReward)
-      tx.sign(account.privateKey)
-      let txId = await web3.eth.sendRawTransaction(tx.serialize())
-      await waitForTransaction(txId)
-
-      log(`Transaction ID: ${txId}`)
-    }
-  }
-}
-
-async function finish() {
-  const bridgeAddress = await input.text("Enter Bridge address:")
-
-  try {
     let tx = await raw.finish(account.address, bridgeAddress)
-    tx.sign(account.privateKey)
-    let txId = await web3.eth.sendRawTransaction(tx.serialize())
-    await waitForTransaction(txId)
 
-    log(`Transaction ID: ${txId}`)
+    await sendTX(tx)
+
+    let completed = await bridge.isSuccessful.call()
+
+    if (completed.toString() == "false") {
+      throw new Error("Transaction failed")
+    }
     log_success("Bridge finished")
   } catch (err) {
     log_error(err.message)
