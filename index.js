@@ -1,15 +1,21 @@
+const { account, PROVIDER, networks } = require("./truffle")
+
 const input = require("input")
 const { spawn } = require("child_process")
 const contract = require("truffle-contract")
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
 const raw = require("./helpers/raw")
-const { checkArtifacts, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
+const { checkArtifacts, checkConfig, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
+const { isZeroAddress } = require("ethereumjs-util")
 
 
-let account = {
-  address: "0x2bcfaf1f505501ab3d9733911c1cdc03e42ccb11",
-  privateKey: new Buffer("03ed91b51ab4968f734f39842492db9393f9ef6fc7fed6b4e56591f90e608418", "hex")
+const inputValidAddress = async (contractName) => {
+  let address
+  do {
+    address = await input.text(`Enter ${contractName} address:`)
+  } while (isZeroAddress(address) || address == "" || address.length != 42)
+  return address
 }
 
 const sendTX = async (tx) => {
@@ -19,8 +25,6 @@ const sendTX = async (tx) => {
 
   log(`Transaction ID: ${txId}`)
 }
-
-const PROVIDER = "http://localhost:8545"
 
 async function deploy() {
   await checkArtifacts()
@@ -34,8 +38,8 @@ async function deploy() {
   Token.setProvider(new Web3.providers.HttpProvider(PROVIDER))
   Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  var tokenName = await input.text("Enter token name:")
-  var tokenSymbol = await input.text("Enter token symbol:")
+  let tokenName = ""
+  let tokenSymbol = ""
 
   while (tokenName.length < 1 ||tokenName.length > 12 || tokenSymbol.length < 3 || tokenSymbol.length > 7 ) {
     tokenName = await input.text("Enter token name:")
@@ -44,8 +48,8 @@ async function deploy() {
 
   const tokenDecimals = await input.select("Select token decimals:", ["8", "10", "16", "18"])
 
-  var softcap
-  var hardcap
+  let softcap
+  let hardcap
 
   while (isNaN(softcap) || isNaN(hardcap) || parseInt(softcap) <= 0 || parseInt(hardcap) <= 0 || parseInt(hardcap) <= parseInt(softcap)) {
     softcap = await input.text("Enter crowdsale softcap (ETH):")
@@ -61,9 +65,16 @@ async function deploy() {
     env['SOFTCAP'] = web3.toWei(softcap, "ether")
     env['HARDCAP'] = web3.toWei(hardcap, "ether")
 
-    let bridgeAddress = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate'], { env: env })
+    let networkList = []
+    Object.keys(networks).forEach((key) => {
+      networkList.push(key)
+    })
 
-    bridgeAddress.stdout.pipe(process.stdout)
+    const desiredNetwork = await input.select("Select network:", networkList)
+
+    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', desiredNetwork], { env: env })
+
+    deployStream.stdout.pipe(process.stdout)
   } catch (err) {
     log_error(err.message)
   }
@@ -78,8 +89,8 @@ async function forecasting() {
 
   Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  const bridgeAddress = await input.text("Enter Bridge address:")
-  const daoAddress = await input.text("Enter DAO address:")
+  const bridgeAddress = await inputValidAddress("Bridge")
+  const daoAddress = await inputValidAddress("DAO")
 
   const bridge = await Bridge.at(bridgeAddress)
 
@@ -116,7 +127,7 @@ async function start() {
   DAO.setProvider(new Web3.providers.HttpProvider(PROVIDER))
   CC.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  const daoAddress = await input.text("Enter DAO address:")
+  const daoAddress = await inputValidAddress("DAO")
 
   const dao = await DAO.at(daoAddress)
 
@@ -125,15 +136,27 @@ async function start() {
 
     await sendTX(tx)
 
-    log_success("Call to DAO createCustomCrowdsale function")
-
     const ccAddress = await dao.crowdsaleController.call()
+
+    if (isZeroAddress(ccAddress)) {
+      throw new Error("Call to DAO createCustomCrowdsale failed")
+    }
+
+    log_success("Call to DAO createCustomCrowdsale succeeded")
+
+    const cc = await CC.at(ccAddress)
 
     await raw.start(account.address, ccAddress, 0, 0, "0x0")
 
     await sendTX(tx)
 
-    log_success("Call to Crowdsale controller start function")
+    let started = await cc.started.call()
+
+    if (started.toString() == false) {
+      throw new Error("Call to Crowdsale controller start failed")
+    }
+
+    log_success("Call to Crowdsale controller start succeeded")
   } catch (err) {
     log_error(err.message)
   }
@@ -148,8 +171,8 @@ async function changeToken() {
 
   Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  const bridgeAddress = await input.text("Enter Bridge address:")
-  const tokenAddress = await input.text("Enter new Token address:")
+  const bridgeAddress = await inputValidAddress("Bridge")
+  const tokenAddress = await inputValidAddress("new Token")
 
   const bridge = await Bridge.at(bridgeAddress)
 
@@ -182,7 +205,7 @@ async function calculateRewards() {
   Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
   Token.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  const bridgeAddress = await input.text("Enter Bridge address:")
+  const bridgeAddress = await inputValidAddress("Bridge")
   const bridge = await Bridge.at(bridgeAddress)
 
   const tokenAddress = await bridge.getToken.call()
@@ -200,7 +223,6 @@ async function calculateRewards() {
   }
 
   try {
-    // TODO: fix revert
     let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), parseInt(totalSold) * Math.pow(10, tokenDecimals.toNumber()))
 
     await sendTX(tx)
@@ -262,7 +284,7 @@ async function finish() {
 
   Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
 
-  const bridgeAddress = await input.text("Enter Bridge address:")
+  const bridgeAddress = await inputValidAddress("Bridge")
 
   const bridge = await Bridge.at(bridgeAddress)
 

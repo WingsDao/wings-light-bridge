@@ -1,8 +1,11 @@
-const EthereumTx = require('ethereumjs-tx')
-const EthereumABI = require('ethereumjs-abi')
+const { PROVIDER } = require("../truffle")
+
+const TX = require('ethereumjs-tx')
+const ABI = require('ethereumjs-abi')
 const BigNumber = require('bignumber.js')
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
+
 
 const prepareParams = async (from) => {
   let nonce = await web3.eth.getTransactionCount(from)
@@ -15,7 +18,7 @@ const prepareParams = async (from) => {
 }
 
 module.exports.transferManager = async (from, to, recipient) => {
-  let data = '0x' + EthereumABI.simpleEncode("transferManager(address)", recipient).toString('hex')
+  let data = '0x' + ABI.simpleEncode("transferManager(address)", recipient).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -28,11 +31,11 @@ module.exports.transferManager = async (from, to, recipient) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.createCustomCrowdsale = async (from, to) => {
-  let data = '0x' + EthereumABI.simpleEncode("createCustomCrowdsale()").toString('hex')
+  let data = web3.sha3("createCustomCrowdsale()").slice(0, 10)
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -45,11 +48,11 @@ module.exports.createCustomCrowdsale = async (from, to) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.start = async (from, to, startTimestamp, endTimestamp, fundingAddress) => {
-  let data = '0x' + EthereumABI.simpleEncode("start(uint256,uint256,address)", startTimestamp, endTimestamp, fundingAddress).toString('hex')
+  let data = '0x' + ABI.simpleEncode("start(uint256,uint256,address)", startTimestamp, endTimestamp, fundingAddress).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -62,11 +65,11 @@ module.exports.start = async (from, to, startTimestamp, endTimestamp, fundingAdd
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.changeToken = async (from, to, newToken) => {
-  let data = '0x' + EthereumABI.simpleEncode("changeToken(address)", newToken).toString('hex')
+  let data = '0x' + ABI.simpleEncode("changeToken(address)", newToken).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -79,11 +82,11 @@ module.exports.changeToken = async (from, to, newToken) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.notifySale = async (from, to, ethAmount, tokenAmount) => {
-  let data = '0x' + EthereumABI.simpleEncode("notifySale(uint256,uint256)", ethAmount, tokenAmount).toString('hex')
+  let data = '0x' + ABI.simpleEncode("notifySale(uint256,uint256)", ethAmount, tokenAmount).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -96,11 +99,11 @@ module.exports.notifySale = async (from, to, ethAmount, tokenAmount) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.transfer = async (from, to, bridgeAddress, tokenReward) => {
-  let data = '0x' + EthereumABI.simpleEncode("transfer(address,uint256)", bridgeAddress, tokenReward).toString('hex')
+  let data = '0x' + ABI.simpleEncode("transfer(address,uint256)", bridgeAddress, tokenReward).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -113,7 +116,7 @@ module.exports.transfer = async (from, to, bridgeAddress, tokenReward) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.sendTransaction = async (from, to, ethReward) => {
@@ -130,11 +133,11 @@ module.exports.sendTransaction = async (from, to, ethReward) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }
 
 module.exports.finish = async (from, to) => {
-  let data = '0x' + EthereumABI.simpleEncode("finish()").toString('hex')
+  let data = web3.sha3("finish()").slice(0, 10)
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -147,5 +150,5 @@ module.exports.finish = async (from, to) => {
     data
   }
 
-  return new EthereumTx(txParams)
+  return new TX(txParams)
 }

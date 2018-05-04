@@ -1,23 +1,29 @@
-const HDWalletProvider = require("truffle-hdwallet-provider")
+const HDWalletProvider = require("truffle-hdwallet-provider-privkey")
 const fs = require("fs")
+const { privateToAddress } = require("ethereumjs-util")
 
-const mnemonic = "12 seed words"
+const rawPrivateKey = ""
 
-const PROVIDER = ""
-const PORT = ""
+const account = {
+  address: "0x" + privateToAddress("0x" + rawPrivateKey).toString("hex"),
+  privateKey: new Buffer(rawPrivateKey, "hex")
+}
+
+const PROVIDER = "http://localhost:8545"
 const API_TOKEN = ""
 
 module.exports = {
   contracts_build_folder: './build',
   networks: {
     development: {
-      host: 'localhost',
-      port: 8545,
+      provider: () => {
+        return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
+      },
       network_id: '*'
     },
     mainnet: {
-      provider: function() {
-        return new HDWalletProvider(mnemonic, PROVIDER + PORT + API_TOKEN)
+      provider: () => {
+        return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
       },
       network_id: 1,
       gasPrice: 4000000000
@@ -28,5 +34,7 @@ module.exports = {
       enabled: true,
       runs: 10
     }
-  }
+  },
+  account: account,
+  PROVIDER: PROVIDER
 }

@@ -1,8 +1,11 @@
+const { PROVIDER } = require("../truffle")
+
 const fs = require("fs")
 const { spawnSync } = require("child_process")
 const BigNumber = require('bignumber.js')
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"))
+const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
+
 
 const log = (msg) => {
   console.log("system: " + msg)
@@ -17,7 +20,6 @@ const log_error = (msg) => {
 }
 
 module.exports.checkArtifacts = async () => {
-
   if (!fs.existsSync('./build')) {
     log("Artifacts not found.")
     log("Compiling contracts...")
@@ -28,7 +30,6 @@ module.exports.checkArtifacts = async () => {
 }
 
 module.exports.waitForTransaction = async (txId) => {
-
   const wait = (ms) => {
     return new Promise((resolve) => {
       setTimeout(resolve, ms)
