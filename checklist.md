@@ -1,0 +1,8 @@
+- [x] config.js
+- [x] checkArtifacts
+- [x] deploy
+- [x] forecasting
+- [x] start
+- [x] changeToken
+- [x] calculateRewards
+- [x] finish
