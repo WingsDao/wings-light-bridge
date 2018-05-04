@@ -35,13 +35,16 @@ module.exports.transferManager = async (from, to, recipient) => {
 }
 
 module.exports.createCustomCrowdsale = async (from, to) => {
-  let data = web3.sha3("createCustomCrowdsale()").slice(0, 10)
+  let data = '0x' + ABI.methodID(
+    'createCustomCrowdsale',
+    []
+  ).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
   const txParams = {
     nonce,
-    gasLimit: 1000000,
+    gasLimit: 4000000,
     gasPrice,
     to,
     value: 0,
@@ -120,13 +123,13 @@ module.exports.transfer = async (from, to, bridgeAddress, tokenReward) => {
 }
 
 module.exports.sendTransaction = async (from, to, ethReward) => {
-  let data = '0x'
+  let data = ''
 
   let [nonce, gasPrice] = await prepareParams(from)
 
   const txParams = {
     nonce,
-    gasLimit: 21000,
+    gasLimit: 50000,
     gasPrice,
     to,
     value: ethReward,
@@ -137,7 +140,10 @@ module.exports.sendTransaction = async (from, to, ethReward) => {
 }
 
 module.exports.finish = async (from, to) => {
-  let data = web3.sha3("finish()").slice(0, 10)
+  let data = '0x' + ABI.methodID(
+    'finish',
+    []
+  ).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 

@@ -6,6 +6,7 @@ const contract = require("truffle-contract")
 const Web3 = require("web3")
 const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
 const raw = require("./helpers/raw")
+const BigNumber = require("bignumber.js")
 const { checkArtifacts, checkConfig, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
 const { isZeroAddress } = require("ethereumjs-util")
 
@@ -146,7 +147,7 @@ async function start() {
 
     const cc = await CC.at(ccAddress)
 
-    await raw.start(account.address, ccAddress, 0, 0, "0x0")
+    tx = await raw.start(account.address, ccAddress, 0, 0, "0x0")
 
     await sendTX(tx)
 
@@ -223,7 +224,9 @@ async function calculateRewards() {
   }
 
   try {
-    let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), parseInt(totalSold) * Math.pow(10, tokenDecimals.toNumber()))
+    totalSold = new BigNumber(totalSold)
+
+    let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), totalSold.multipliedBy((new BigNumber(10)).pow(tokenDecimals.toNumber())).toString(10))
 
     await sendTX(tx)
 
@@ -236,11 +239,11 @@ async function calculateRewards() {
 
     log_success("Notification completed")
   } catch (err) {
-    log_error(err.message)
+    log_error(err)
   }
 
   const [ethReward, tokenReward] = await bridge.calculateRewards.call()
-
+  
   log("ETH reward amount: " + ethReward.toString(10))
   log("Token reward amount: " + tokenReward.toString(10))
 
@@ -248,7 +251,7 @@ async function calculateRewards() {
 
   if (doTransfer) {
     try {
-      let tx = await raw.transfer(account.address, tokenAddress, bridgeAddress, tokenReward)
+      let tx = await raw.transfer(account.address, tokenAddress, bridgeAddress.toString(10), tokenReward.toString(10))
 
       await sendTX(tx)
 
@@ -258,16 +261,21 @@ async function calculateRewards() {
         throw new Error("Token transfer failed")
       }
 
+      log_success("Token transfer succeeded")
+
       if (ethReward.toNumber() > 0) {
-        let tx = await raw.sendTransaction(account.address, bridgeAddress, ethReward)
+        console.log("0x" + ethReward.toString(16))
+        let tx = await raw.sendTransaction(account.address, bridgeAddress, "0x" + ethReward.toString(16))
 
         await sendTX(tx)
 
-        let bridgeEthBalance = web3.getBalance(bridgeAddress)
+        let bridgeEthBalance = web3.eth.getBalance(bridgeAddress)
 
         if (bridgeEthBalance.toNumber() < ethReward.toNumber()) {
           throw new Error("ETH transfer failed")
         }
+
+        log_success("ETH transfer succeeded")
       }
     } catch(err) {
       log_error(err)
