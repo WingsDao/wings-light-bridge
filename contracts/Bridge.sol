@@ -16,6 +16,7 @@ contract Bridge is BasicCrowdsale {
   using SafeMath for uint256;
 
   event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
+  event CUSTOM_CROWDSALE_FINISH();
 
   // Crowdsale token must be ERC20-compliant
   DefaultToken token;
@@ -110,6 +111,8 @@ contract Bridge is BasicCrowdsale {
     onlyOwner()
   {
     completed = true;
+    
+    CUSTOM_CROWDSALE_FINISH();
   }
 
   function isFailed()

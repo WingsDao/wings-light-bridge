@@ -35,10 +35,7 @@ module.exports.transferManager = async (from, to, recipient) => {
 }
 
 module.exports.createCustomCrowdsale = async (from, to) => {
-  let data = '0x' + ABI.methodID(
-    'createCustomCrowdsale',
-    []
-  ).toString('hex')
+  let data = '0x' + ABI.methodID('createCustomCrowdsale', []).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 
@@ -140,10 +137,7 @@ module.exports.sendTransaction = async (from, to, ethReward) => {
 }
 
 module.exports.finish = async (from, to) => {
-  let data = '0x' + ABI.methodID(
-    'finish',
-    []
-  ).toString('hex')
+  let data = '0x' + ABI.methodID('finish', []).toString('hex')
 
   let [nonce, gasPrice] = await prepareParams(from)
 

@@ -317,6 +317,12 @@
     },
     {
       "anonymous": false,
+      "inputs": [],
+      "name": "CUSTOM_CROWDSALE_FINISH",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
       "inputs": [
         {
           "indexed": false,

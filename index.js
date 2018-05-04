@@ -243,7 +243,7 @@ async function calculateRewards() {
   }
 
   const [ethReward, tokenReward] = await bridge.calculateRewards.call()
-  
+
   log("ETH reward amount: " + ethReward.toString(10))
   log("Token reward amount: " + tokenReward.toString(10))
 
@@ -264,7 +264,6 @@ async function calculateRewards() {
       log_success("Token transfer succeeded")
 
       if (ethReward.toNumber() > 0) {
-        console.log("0x" + ethReward.toString(16))
         let tx = await raw.sendTransaction(account.address, bridgeAddress, "0x" + ethReward.toString(16))
 
         await sendTX(tx)
