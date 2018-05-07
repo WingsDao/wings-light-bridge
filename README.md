@@ -4,11 +4,11 @@ Command-Line Interface for Wings Light Bridge.
 Original [documentation](https://github.com/WingsDao/wings-light-bridge/tree/master#wings-light-bridge).
 
 ## Content
- - Getting started
- - Deploy
- - Forecasting
- - Before crowdsale start
- - Before crowdsale end
+ - [Getting started](https://github.com/WingsDao/wings-light-bridge/tree/cli#getting-started)
+ - [Deploy](https://github.com/WingsDao/wings-light-bridge/tree/cli#deploy)
+ - [Forecasting](https://github.com/WingsDao/wings-light-bridge/tree/cli#forecasting)
+ - [Before crowdsale start](https://github.com/WingsDao/wings-light-bridge/tree/cli#before-crowdsale-start)
+ - [Before crowdsale end](https://github.com/WingsDao/wings-light-bridge/tree/cli#before-crowdsale-end)
 
 ## Requirements
 
