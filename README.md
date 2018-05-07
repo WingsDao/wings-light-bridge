@@ -1,32 +1,14 @@
-# Wings Light Bridge
+# Wings Light Bridge CLI
 
-In this tutorial we are going to walkthrough the Wings integration process.
+Command-Line Interface for Wings Light Bridge.
+Original [documentation](https://github.com/WingsDao/wings-light-bridge/tree/master#wings-light-bridge).
 
 ## Content
-#### Initial setup
-  - [Setup](https://github.com/WingsDao/wings-light-bridge#1-setup)
-  - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
-  - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
-  - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
-
-#### During forecasting
-  - [Find DAO address from url](https://github.com/WingsDao/wings-light-bridge#1-find-dao-address-from-url)
-  - [Transfer management to DAO](https://github.com/WingsDao/wings-light-bridge#2-transfer-management-to-dao)
-
-#### Crowdsale start
-  - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#2-find-crowdsalecontroller-address)
-  - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#3-start-crowdsale)
-
-#### Bridge methods
-  - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
-  - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
-  - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
-
-#### Finishing Bridge
-  - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
-  - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
-  - [Finishing Bridge](https://github.com/WingsDao/wings-light-bridge#finish)
+ - Getting started
+ - Deploy
+ - Forecasting
+ - Before crowdsale start
+ - Before crowdsale end
 
 ## Requirements
 
@@ -34,267 +16,94 @@ In this tutorial we are going to walkthrough the Wings integration process.
 - Truffle v4.0.6
 - Ganache-cli v6.1.0
 
-# Step by step guide
+# Getting started
 
-### 1. Setup
-
-Clone this repository.
+### 1. Clone repository
 
 ```
-git clone https://github.com/wingsdao/wings-light-bridge.git
+git clone -b cli https://github.com/wingsdao/wings-light-bridge.git
 ```
 
-### 2. Prepare constructor arguments
+### 2. Install dependencies
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph b) and assign your deployed token address to `token` variable.*
+```
+npm i
+```
 
-**a) Prepare these variables for DefaultToken contract:**
-  - `name` - name of your token
-  - `symbol` - symbol of your token
-  - `decimals` - token decimals
+### 3. Configure truffle.js
 
-**b) Prepare these variables for Bridge contract:**
-  - `minimalGoal` - soft cap of your crowdfunding campaign
-  - `hardCap` - hard cap of your crowdfunding campaign
-  - `token` - address of your ERC20-compliant token
+```
+cp truffle-config.js truffle.js
+```
+Take a look at `truffle-config.js`, which is example of how `truffle.js` should look like and configure it for your needs (configure network parameters).
 
-### 3. Deploy
+### 4. Start cli
 
-Deploy contracts to mainnet using truffle, parity, etc.
+In `truffle.js` file there is a variable `const rawPrivateKey` where you need to put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case you only need to deploy Bridge contract.*
+```
+node index
+```
 
-**Deployment process:**
+## Deploy
 
-During deployment of `DefaultToken` pass `name`, `symbol` and `decimals` as arguments to constructor.
+You will be asked to enter:
+ - token name (1-12 characters)
+ - token symbol (3-5 characters)
+ - token decimals
 
-During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
+You also will be able to choose the network where you're going to deploy your contracts (`DefaultToken` and `Bridge`) (in case you want to make test deploy).
 
-### 4. Create project
+*NOTE: Save bridge contract address, you will need it later.*
 
-Create project on Wings platform as custom contract and provide address of **bridge** contract.
+## Forecasting
 
-Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
+During forecasting period we need to transfer management of the `Bridge` contract to `DAO` contract.
 
-Like on image:
+You will be asked to enter:
+ - `Bridge` contract address
+ - `DAO` contract address
 
-![contract address](https://i.imgur.com/myATGnp.png)
-
----
-
-
-After this step you can start your project's forecasting.
-
-
----
-
-## During forecasting
-
-### 1. Find DAO address from url
-
+You can find `DAO` contract address from url.
 To do it, just take URL of your project, like:
 
-`https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a`
+https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
 
-As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contract address. You can check it via parity or some other ethereum client/tool. Account that you used during project creation on [wings.ai](https://wings.ai) is owner of this smart contract.
+As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your `DAO` contract address.
 
-Initiate `DAO` contract with the address we just retrieved:
+## Before crowdsale start
 
-Here are [ABI](https://github.com/WingsDao/wings-light-bridge/tree/master/ABI) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
+At this stage we need to start bridge.
 
-Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/interfaces) for contracts.
+You will be asked to enter:
+ - `DAO` contract address
 
-```js
-const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change with your DAO address
-```
+## Before crowdsale end
 
-### 2. Transfer management to DAO
+### Change token
 
-During forecasting period transfer manager to `DAO` contract.
+Because during initial deploy `Default token` was used now we need to change it to the real one.
 
-**Interface:**
-```sc
-function transferManager(address _newManager) public;
-```
+You will be asked to enter:
+ - address of your real token contract
 
-**Example:**
-```js
-await bridge.transferManager(dao.address, { from: yourAccount }) // change with your DAO address
-```
+### Calculate rewards
 
----
+You will be asked to enter:
+ - total collected amount (ETH)
+ - total sold amount (integer amount of tokens)
+ - whether you are ready to transfer rewards or not (yes/no)
 
+### Finish bridge
 
-When the forecasting finish you have 45 days to start your project's crowdsale.
+The final step is to finish the Bridge.
 
-
----
-
-## Crowdsale start
-
-To start crowdsale, complete the following steps.
-
-### 1. Make a call to method createCustomCrowdsale in DAO contract
-
-Make a call to method `DAO.createCustomCrowdsale()`.
-
-**Interface:**
-```sc
-function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(Stage.ForecastingClosed);
-```
-
-**Example:**
-```js
-await dao.createCustomCrowdsale()
-```
-
-### 2. Find crowdsaleController address
-
-Make a call to getter method `DAO.crowdsaleController()`.
-
-
-**Interface:**
-```sc
-function crowdsaleController() public view returns (address);
-```
-
-**Example:**
-```js
-const ccAddress = await dao.crowdsaleController.call()
-const crowdsaleController = await CrowdsaleController.at(ccAddress)
-```
-
-### 3. Start crowdsale
-
-To start your project's crowdsale (`Bridge`) you need to make a call to `crowdsaleController`'s method `start`.
-
-**Interface:**
-```sc
-function start(
-        uint256 _startTimestamp,
-        uint256 _endTimestamp,
-        address _fundingAddress
-    )
-        public;
-```
-**Parameters:**
-  - `_startTimestamp` - timestamp of the start of your crowdsale.
-  - `_endTimestamp` - timestamp of the end of your crowdsale.
-  - `_fundingAddress` - the address, which will receive funds
-
-**Example:**
-```js
-await crowdsaleController.start(0, 0, '0x0')
-```
-
-**IMPORTANT:** values like 0, 0, '0x0' for start works fine only if you are using bridge. If you've done full integration, you have to do it in another way.
+You will be asked to enter:
+ - `Bridge` contract address
 
 ---
 
-
-After this step your crowdsale is taking place and you come back right before the end of crowdfunding to complete few final steps.
-
-
----
-
-## When crowdsale is about to end
-
-### getToken
-
-If you need to check address of token contract which you specified during Bridge deploy, use `getToken` method.
-
-```sc
-function getToken()
-  public
-  view
-  returns (address)
-{
-  return address(token);
-}
-```
-**Returns:**
-  - address of token contract
-
-### changeToken
-
-**Please note that if you used `DefaultToken` you must change token address to the address of your real token contract which stores your project token rewards.**
-
-To change token address use `changeToken` method.
-
-```sc
-function changeToken(address _newToken) public onlyOwner() {
-  token = IERC20(_newToken);
-}
-```
-**Parameters:**
-  - `_newToken` - address of new token contract
-
-### notifySale
-
-When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
-
-```sc
-function notifySale(uint256 _ethAmount, uint256 _tokensAmount)
-  public
-  hasBeenStarted()
-  hasntStopped()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  totalCollected = totalCollected.add(_ethAmount);
-  totalSold = totalSold.add(_tokensAmount);
-}
-```
-
-**Parameters:**
-  - `_ethAmount` - the amount of funds raised (in Wei)
-  - `_tokensAmount` - the amount of tokens sold
-
-### calculateRewards
-
-Communicates with `CrowdsaleController` (aka `IWingsController`) and calculates rewards.
-
-```sc
-function calculateRewards() public view returns (uint256, uint256) {
-  uint256 tokenRewardPart = IWingsController(manager).tokenRewardPart();
-  uint256 ethRewardPart = IWingsController(manager).ethRewardPart();
-
-  uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
-  uint256 ethReward = (ethRewardPart == 0) ? 0 : (totalCollected.mul(ethRewardPart) / 1000000);
-
-  return (ethReward, tokenReward);
-}
-```
-
-**Returns:**
-  - `ethReward` - ETH reward amount (in Wei)
-  - `tokenReward` - token reward amount
-
-### Transferring rewards
-
-And now, before making a call to `finish` method, make a call to method `calculateRewards` to find out the amount of rewards.
-
-**Important:** Send token and ETH rewards to `Bridge` contract.
-
-### finish
-
-Call this method to stop `Bridge`. Changes the state of crowdsale to `completed`.
-
-```sc
-function finish()
-  public
-  hasntStopped()
-  hasBeenStarted()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  completed = true;
-}
-```
-
----
-
-That's it. Crowdsale is finished.
+That's it. Bridge is finished.
 
 ---
 

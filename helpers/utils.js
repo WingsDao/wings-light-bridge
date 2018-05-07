@@ -37,8 +37,7 @@ module.exports.waitForTransaction = async (txId) => {
   }
 
   const transactionReceiptAsync = async (txId) => {
-    const receipt = await
-      await web3.eth.getTransactionReceipt(txId)
+    const receipt = web3.eth.getTransactionReceipt(txId)
     if (receipt == null) {
       await wait(1000)
       return await transactionReceiptAsync(txId)

@@ -42,20 +42,20 @@ async function deploy() {
   let tokenName = ""
   let tokenSymbol = ""
 
-  while (tokenName.length < 1 ||tokenName.length > 12 || tokenSymbol.length < 3 || tokenSymbol.length > 7 ) {
+  while (tokenName.length < 1 ||tokenName.length > 12 || tokenSymbol.length < 3 || tokenSymbol.length > 5 ) {
     tokenName = await input.text("Enter token name:")
     tokenSymbol = await input.text("Enter token symbol:")
   }
 
   const tokenDecimals = await input.select("Select token decimals:", ["8", "10", "16", "18"])
 
-  let softcap
-  let hardcap
-
-  while (isNaN(softcap) || isNaN(hardcap) || parseInt(softcap) <= 0 || parseInt(hardcap) <= 0 || parseInt(hardcap) <= parseInt(softcap)) {
-    softcap = await input.text("Enter crowdsale softcap (ETH):")
-    hardcap = await input.text("Enter crowdsale hardcap (ETH):")
-  }
+  let softcap = 1
+  let hardcap = 1
+  //
+  // while (isNaN(softcap) || isNaN(hardcap) || parseInt(softcap) <= 0 || parseInt(hardcap) <= 0 || parseInt(hardcap) <= parseInt(softcap)) {
+  //   softcap = await input.text("Enter crowdsale softcap (ETH):")
+  //   hardcap = await input.text("Enter crowdsale hardcap (ETH):")
+  // }
 
   try {
     let env = {}
