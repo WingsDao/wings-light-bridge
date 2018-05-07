@@ -96,6 +96,11 @@ You will be asked to enter:
  - total sold amount (integer amount of tokens)
  - whether you are ready to transfer rewards or not (yes/no)
 
+*NOTE: You have to have enough tokens and ETH for rewards on your balance before you make a transfer.*
+*NOTE: If you don't have enough tokens and/or ETH on your account please choose no, fund your account and repeat the process.*
+
+**Important: Be careful because if you choose yes token and ETH reward amounts will immediately be transferred to `Bridge` contract.**
+
 ### Finish bridge
 
 The final step is to finish the Bridge.
