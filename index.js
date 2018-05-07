@@ -66,7 +66,7 @@ async function deploy() {
     env['SOFTCAP'] = web3.toWei(softcap, "ether")
     env['HARDCAP'] = web3.toWei(hardcap, "ether")
 
-    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'mainnet'], { env: env })
+    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
 
     deployStream.stdout.pipe(process.stdout)
   } catch (err) {

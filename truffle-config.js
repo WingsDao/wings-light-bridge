@@ -14,11 +14,11 @@ const API_TOKEN = ""
 
 module.exports = {
   networks: {
-    mainnet: {
+    any: {
       provider: () => {
         return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
       },
-      network_id: 1,
+      network_id: '*',
       gasPrice: 4000000000 // 4 gwei
     }
   },

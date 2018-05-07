@@ -37,10 +37,11 @@ cp truffle-config.js truffle.js
 ```
 Take a look at `truffle-config.js`, which is example of how `truffle.js` should look like and configure it for your needs (configure network parameters).
 
-In `truffle.js` file there is a variable `rawPrivateKey` where you need to put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
-
-Set your web3 provider in `PROVIDER` variable.  
-(optional) Set api access token if your web3 provider needs it in `API_TOKEN`.
+In `truffle.js` file make setup:
+ - `rawPrivateKey` - put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
+ - Set your web3 provider in `PROVIDER` variable.  
+  - (optional) Set api access token if your web3 provider needs it in `API_TOKEN`.
+ - (optional) Set the `gasPrice` to the amount which you are most comfortable with.
 
 ### 4. Start cli
 
@@ -68,7 +69,7 @@ You will be asked to enter:
 You can find `DAO` contract address from url.
 To do it, just take URL of your project, like:
 
-https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
+> https://wings.ai/project/0x28e7f296570498f1182cf148034e818df723798a
 
 As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your `DAO` contract address.
 
