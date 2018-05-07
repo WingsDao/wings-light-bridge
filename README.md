@@ -37,9 +37,12 @@ cp truffle-config.js truffle.js
 ```
 Take a look at `truffle-config.js`, which is example of how `truffle.js` should look like and configure it for your needs (configure network parameters).
 
-### 4. Start cli
+In `truffle.js` file there is a variable `rawPrivateKey` where you need to put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
 
-In `truffle.js` file there is a variable `const rawPrivateKey` where you need to put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
+Set your web3 provider in `PROVIDER` variable.
+(optional) Set api access token if your web3 provider needs it `API_TOKEN`.
+
+### 4. Start cli
 
 ```
 node index
