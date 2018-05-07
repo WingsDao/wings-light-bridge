@@ -13,19 +13,13 @@ const PROVIDER = "http://localhost:8545"
 const API_TOKEN = ""
 
 module.exports = {
-  contracts_build_folder: './build',
   networks: {
-    development: {
-      host: 'localhost',
-      port: 8545,
-      network_id: '*'
-    },
     mainnet: {
       provider: () => {
         return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
       },
       network_id: 1,
-      gasPrice: 4000000000
+      gasPrice: 4000000000 // 4 gwei
     }
   },
   solc: {

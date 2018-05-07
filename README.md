@@ -55,8 +55,6 @@ You will be asked to enter:
  - token symbol (3-5 characters)
  - token decimals
 
-You also will be able to choose the network where you're going to deploy your contracts (`DefaultToken` and `Bridge`) (in case you want to make test deploy).
-
 *NOTE: Save bridge contract address, you will need it later.*
 
 ## Forecasting
