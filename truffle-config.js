@@ -16,9 +16,8 @@ module.exports = {
   contracts_build_folder: './build',
   networks: {
     development: {
-      provider: () => {
-        return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
-      },
+      host: 'localhost',
+      port: 8545,
       network_id: '*'
     },
     mainnet: {
