@@ -12,8 +12,8 @@ module.exports = async (deployer) => {
   const name = ""
   const symbol = ""
   const decimals = 0
-  const minimalGoal = 0
-  const hardCap = 0
+  const minimalGoal = 1
+  const hardCap = 1
 
   await deployer.deploy(DefaultToken, name, symbol, decimals)
 

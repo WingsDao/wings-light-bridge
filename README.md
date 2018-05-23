@@ -54,8 +54,8 @@ git clone https://github.com/wingsdao/wings-light-bridge.git
   - `decimals` - token decimals
 
 **b) Prepare these variables for Bridge contract:**
-  - `minimalGoal` - soft cap of your crowdfunding campaign
-  - `hardCap` - hard cap of your crowdfunding campaign
+  - `minimalGoal` - soft cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
+  - `hardCap` - hard cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
   - `token` - address of your ERC20-compliant token
 
 ### 3. Deploy
