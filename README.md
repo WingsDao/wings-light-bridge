@@ -30,8 +30,8 @@ In this tutorial we are going to walkthrough the Wings integration process.
 
 ## Requirements
 
-- Nodejs v8
-- Truffle v4.0.6
+- Nodejs v10.2.1
+- Truffle v4.1.8
 - Ganache-cli v6.1.0
 
 # Step by step guide
