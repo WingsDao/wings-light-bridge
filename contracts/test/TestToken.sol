@@ -1,7 +1,7 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 
-import 'zeppelin-solidity/contracts/token/BasicToken.sol';
+import 'zeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
 
 
 contract TestToken is BasicToken {
@@ -11,7 +11,7 @@ contract TestToken is BasicToken {
   uint8 public decimals = 18;
 
   function TestToken(uint256 _totalSupply) {
-    totalSupply = _totalSupply;
-    balances[msg.sender] = totalSupply;
+    totalSupply_ = _totalSupply;
+    balances[msg.sender] = totalSupply_;
   }
 }

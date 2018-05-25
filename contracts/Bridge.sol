@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 
 import 'wings-integration/contracts/BasicCrowdsale.sol';
@@ -25,7 +25,7 @@ contract Bridge is BasicCrowdsale {
   bool completed;
 
   // Constructor
-  function Bridge(
+  constructor(
     uint256 _minimalGoal,
     uint256 _hardCap,
     address _token
@@ -99,7 +99,7 @@ contract Bridge is BasicCrowdsale {
   {
     started = true;
 
-    CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
+    emit CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
   }
 
   // Finish crowdsale
@@ -111,8 +111,8 @@ contract Bridge is BasicCrowdsale {
     onlyOwner()
   {
     completed = true;
-    
-    CUSTOM_CROWDSALE_FINISH();
+
+    emit CUSTOM_CROWDSALE_FINISH();
   }
 
   function isFailed()
@@ -154,6 +154,6 @@ contract Bridge is BasicCrowdsale {
   function changeToken(address _newToken) public onlyOwner() {
     token = DefaultToken(_newToken);
 
-    CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
   }
 }

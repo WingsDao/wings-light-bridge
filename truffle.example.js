@@ -6,7 +6,7 @@ const rawPrivateKey = ""
 
 const account = {
   address: "0x" + privateToAddress("0x" + rawPrivateKey).toString("hex"),
-  privateKey: new Buffer(rawPrivateKey, "hex")
+  privateKey: new Buffer.from(rawPrivateKey, "hex")
 }
 
 const PROVIDER = "http://localhost:8545"
