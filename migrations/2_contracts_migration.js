@@ -18,6 +18,6 @@ module.exports = async (deployer) => {
     throw new Error('Cannot deploy contract with empty arguments.')
   }
 
-  await deployer.deploy(Bridge, minimalGoal, hardCap, token.address, { gas: 2000000 })
+  await deployer.deploy(Bridge, minimalGoal, hardCap, token.address, { gas: 4000000 })
   process.exit(0)
 }

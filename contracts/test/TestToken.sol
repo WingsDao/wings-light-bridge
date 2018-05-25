@@ -10,7 +10,7 @@ contract TestToken is BasicToken {
   string public symbol = "VTT";
   uint8 public decimals = 18;
 
-  function TestToken(uint256 _totalSupply) {
+  constructor(uint256 _totalSupply) {
     totalSupply_ = _totalSupply;
     balances[msg.sender] = totalSupply_;
   }
