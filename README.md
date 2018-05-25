@@ -12,8 +12,8 @@ Original [documentation](https://github.com/WingsDao/wings-light-bridge/tree/mas
 
 ## Requirements
 
-- Nodejs v8
-- Truffle v4.0.6
+- Nodejs v10.2.1
+- Truffle v4.1.8
 - Ganache-cli v6.1.0
 
 # Getting started
