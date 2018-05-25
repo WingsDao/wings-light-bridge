@@ -1,4 +1,4 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.23;
 
 
 import "../IWingsController.sol";
@@ -6,7 +6,8 @@ import "../IWingsController.sol";
 
 // Minimal crowdsale token for custom contracts
 contract ControllerStub is IWingsController {
-  function ControllerStub(uint256 _ethRewardPart, uint256 _tokenRewardPart) {
+  
+  constructor(uint256 _ethRewardPart, uint256 _tokenRewardPart) {
     ethRewardPart = _ethRewardPart;
     tokenRewardPart = _tokenRewardPart;
   }
