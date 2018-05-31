@@ -1,7 +1,7 @@
 const { should } = require('chai').should()
 
-const Bridge = artifacts.require('Bridge');
-const Token = artifacts.require('TestToken');
+const Bridge = artifacts.require('Bridge')
+const Token = artifacts.require('TestToken')
 const ControllerStub = artifacts.require('ControllerStub')
 
 const sendETH = async (txObject) => {
@@ -9,12 +9,12 @@ const sendETH = async (txObject) => {
 }
 
 contract('Bridge', (accounts) => {
-  let creator = accounts.splice(0, 1).pop()
-  let participant = accounts.splice(0, 1).pop()
+  let creator = accounts[0]
+  let participant = accounts[1]
 
   const rewards = {
-    tokens: 100000,
-    eth: 100000,
+    tokens: 10000,
+    eth: 10000
   }
 
   let totalCollected = web3.toWei(600000, 'ether') // let's say 600000 USD
