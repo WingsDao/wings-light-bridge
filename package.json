@@ -15,8 +15,7 @@
     "url": "git+https://github.com/wingsdao/wings-light-bridge.git"
   },
   "devDependencies": {
-    "chai": "latest",
-    "truffle-hdwallet-provider-privkey": "^0.2.0"
+    "chai": "latest"
   },
   "keywords": [],
   "author": "",

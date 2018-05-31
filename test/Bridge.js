@@ -17,7 +17,7 @@ contract('Bridge', (accounts) => {
     eth: 100000,
   }
 
-  let totalCollected = web3.toWei(100, 'ether')
+  let totalCollected = web3.toWei(600000, 'ether') // let's say 600000 USD
   let totalCollectedETH = web3.toWei(100, 'ether')
   let totalSold = web3.toWei(1500, 'ether')
 
@@ -65,7 +65,6 @@ contract('Bridge', (accounts) => {
     })
 
     changeToken_event.get((error, events) => {
-      // console.log(events[0])
       let args = events[0].args
       args.token.should.be.equal(token.address)
       args.decimals.toNumber().should.be.equal(decimals)
@@ -130,19 +129,15 @@ contract('Bridge', (accounts) => {
 
   it('Should have tokens reward on contract', async () => {
     const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000)
-    const balance = await token.balanceOf.call(bridge.address)
+    const tokenBalance = await token.balanceOf.call(bridge.address)
 
-    balance.toString(10).should.be.equal(tokenReward.toString(10))
+    tokenBalance.toString(10).should.be.equal(tokenReward.toString(10))
   })
 
   it('Should have eth reward on contract', async () => {
-    const ethReward = web3.toBigNumber(totalCollected).mul(rewards.eth).div(1000000)
-    web3.eth.getBalance(bridge.address, (e, result) => {
-      console.log(result.toString(10))
-    })
+    const ethReward = web3.toBigNumber(totalCollectedETH).mul(rewards.eth).div(1000000)
+    const ethBalance = web3.eth.getBalance(bridge.address)
 
-    console.log(ethReward.toString(10))
-
-    // balance.toString(10).should.be.equal(ethReward.toString(10))
+    ethBalance.toString(10).should.be.equal(ethReward.toString(10))
   })
 })
