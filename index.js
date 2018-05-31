@@ -58,17 +58,29 @@ async function deploy() {
   // }
 
   try {
-    let env = {}
+    // let env = {}
+    //
+    // env['NAME'] = tokenName
+    // env['SYMBOL'] = tokenSymbol
+    // env['DECIMALS'] = tokenDecimals
+    // env['SOFTCAP'] = web3.toWei(softcap, "ether")
+    // env['HARDCAP'] = web3.toWei(hardcap, "ether")
 
-    env['NAME'] = tokenName
-    env['SYMBOL'] = tokenSymbol
-    env['DECIMALS'] = tokenDecimals
-    env['SOFTCAP'] = web3.toWei(softcap, "ether")
-    env['HARDCAP'] = web3.toWei(hardcap, "ether")
+    // let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
 
-    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
-
-    deployStream.stdout.pipe(process.stdout)
+    // deployStream.stdout.pipe(process.stdout)
+    console.log(72)
+    const defaultTokenArtifact = require('./build/contracts/DefaultToken.json')
+    const bridgeArtifact = require('./build/contracts/Bridge.json')
+    const DefaultToken = contract({ abi: defaultTokenArtifact.abi, unlinked_binary: defaultTokenArtifact.bytecode })
+    const Bridge = contract({ abi: bridgeArtifact.abi, unlinked_binary: bridgeArtifact.bytecode })
+    console.log(75)
+    DefaultToken.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+    Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+    console.log(DefaultToken)
+    const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000 })
+    console.log(82)
+    const bridge = await Bridge.new(web3.toWei(softcap, "ether"), web3.toWei(hardcap, "ether"), defaultToken.address)
   } catch (err) {
     log_error(err.message)
   }
