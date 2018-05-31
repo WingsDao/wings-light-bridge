@@ -74,14 +74,15 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Update information about collected ETH and sold tokens amount
-  function notifySale(uint256 _ethAmount, uint256 _tokensAmount)
+  function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
     public
     hasBeenStarted()
     hasntStopped()
     whenCrowdsaleAlive()
     onlyOwner()
   {
-    totalCollected = totalCollected.add(_ethAmount);
+    totalCollected = totalCollected.add(_amount);
+    totalCollectedETH = totalCollectedETH.add(_ethAmount);
     totalSold = totalSold.add(_tokensAmount);
   }
 
