@@ -234,21 +234,28 @@ function changeToken(address _newToken) public onlyOwner() {
 When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
 
 ```sc
-function notifySale(uint256 _ethAmount, uint256 _tokensAmount)
+function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
   public
   hasBeenStarted()
   hasntStopped()
   whenCrowdsaleAlive()
   onlyOwner()
 {
-  totalCollected = totalCollected.add(_ethAmount);
+  totalCollected = totalCollected.add(_amount);
+  totalCollectedETH = totalCollectedETH.add(_ethAmount);
   totalSold = totalSold.add(_tokensAmount);
 }
 ```
 
 **Parameters:**
-  - `_ethAmount` - the amount of funds raised (in Wei)
+  - `_amount` - totalCollected amount in any currency
+  - `_ethAmount` - the amount of funds raised (in Wei) (optional)
   - `_tokensAmount` - the amount of tokens sold
+
+**Important:** If collected amount is in normal currency (with 2 decimal places, e.g. EUR) it should be padded to the number with 18 decimal places.
+*Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`*
+
+**Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and it's translated amount in ETH as `_ethAmount` argument.
 
 ### calculateRewards
 
