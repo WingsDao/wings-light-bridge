@@ -248,9 +248,9 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
 ```
 
 **Parameters:**
-  - `_amount` - totalCollected amount (in currency which you specified in forecasting question)
-  - `_ethAmount` - the amount of funds raised (in Wei) (optional)
-  - `_tokensAmount` - the amount of tokens sold
+  - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
+  - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
+  - `_tokensAmount` - amount of tokens sold
 
 **Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
 *Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
