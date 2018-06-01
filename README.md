@@ -248,7 +248,7 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
 ```
 
 **Parameters:**
-  - `_amount` - totalCollected amount in any currency
+  - `_amount` - totalCollected amount (in currency which you specified in forecasting question)
   - `_ethAmount` - the amount of funds raised (in Wei) (optional)
   - `_tokensAmount` - the amount of tokens sold
 
