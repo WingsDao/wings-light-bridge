@@ -130,7 +130,7 @@ contract('Bridge', (accounts) => {
   it('Should have tokens reward on contract', async () => {
     const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000)
     const tokenBalance = await token.balanceOf.call(bridge.address)
-
+    
     tokenBalance.toString(10).should.be.equal(tokenReward.toString(10))
   })
 
