@@ -1,5 +1,5 @@
-const { account, web3Provider } = require("./truffle")
-
+const { account, web3Provider } = require("./config")
+let { gasPrice } = require("./config")
 const input = require("input")
 const contract = require("truffle-contract")
 const Web3 = require("web3")
@@ -8,6 +8,8 @@ const raw = require("./helpers/raw")
 const BigNumber = require("bignumber.js")
 const { checkArtifacts, checkConfig, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
 const { isZeroAddress } = require("ethereumjs-util")
+
+if (gasPrice == 0) gasPrice = web3.eth.gasPrice
 
 
 const inputValidAddress = async (contractName) => {
@@ -57,12 +59,12 @@ async function deploy() {
     DefaultToken.setProvider(new Web3.providers.HttpProvider(web3Provider))
     Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
-    const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000 })
-    
+    const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000, gasPrice: gasPrice })
+
     log('Default token deployed')
     log(defaultToken.address)
 
-    const bridge = await Bridge.new(web3.toWei(1, "ether"), web3.toWei(1, "ether"), defaultToken.address, { from: account.address, gas: 3000000 })
+    const bridge = await Bridge.new(web3.toWei(1, "ether"), web3.toWei(1, "ether"), defaultToken.address, { from: account.address, gas: 3000000, gasPrice: gasPrice })
 
     log_success('Bridge deployed')
     log_success(bridge.address)
@@ -74,6 +76,8 @@ async function deploy() {
 
 async function forecasting() {
   await checkArtifacts()
+
+  log("Transfer management of Bridge to DAO")
 
   const bridgeABI = require("./build/contracts/Bridge.json")
 

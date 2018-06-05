@@ -1,10 +1,10 @@
-const { PROVIDER } = require("../truffle")
+const { web3Provider } = require("../config")
 
 const fs = require("fs")
 const { spawnSync } = require("child_process")
 const BigNumber = require('bignumber.js')
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
+const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider))
 
 
 const log = (msg) => {

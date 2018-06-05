@@ -33,14 +33,13 @@ npm i
 ### 3. Configure truffle.js
 
 ```
-cp truffle.example.js truffle.js
+cp config.example.js config.js
 ```
-Have a look at `truffle.example.js`, which is example of how `truffle.js` should look like and configure it for your needs (configure network parameters).
+Have a look at `config.example.js`, which is example of how `config.js` should look like and configure it for your needs (configure network parameters).
 
-In `truffle.js` file make setup:
+In `config.js` file make setup:
  - `rawPrivateKey` - put your raw private key (without `0x` prefix). It will be used during deploy of contracts and for signing transactions.
- - Set your web3 provider in `PROVIDER` variable.  
-   - (optional) Set api access token if your web3 provider needs it in `API_TOKEN`.
+ - Set your web3 provider in `web3Provider` variable.
  - (optional) Set the `gasPrice` to the amount which you are most comfortable with.
 
 ### 4. Start cli

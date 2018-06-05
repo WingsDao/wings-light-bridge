@@ -8,8 +8,10 @@ const account = {
 }
 
 const web3Provider = "http://localhost:8545"
+const gasPrice = 0
 
 module.exports = {
   account: account,
-  web3Provider: web3Provider
+  web3Provider: web3Provider,
+  gasPrice: gasPrice
 }

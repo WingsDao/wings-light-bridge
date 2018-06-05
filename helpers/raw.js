@@ -1,9 +1,9 @@
-const { PROVIDER } = require("../truffle")
+const { web3Provider } = require("../config")
 
 const TX = require('ethereumjs-tx')
 const ABI = require('ethereumjs-abi')
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
+const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider))
 
 
 const prepareParams = async (from) => {
