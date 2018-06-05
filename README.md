@@ -13,7 +13,7 @@ Original [documentation](https://github.com/WingsDao/wings-light-bridge/tree/mas
 ## Requirements
 
 - Nodejs v10.2.1
-- Truffle v4.1.8
+- Truffle v4.1.11
 - Ganache-cli v6.1.0
 
 # Getting started
@@ -30,7 +30,7 @@ git clone -b cli https://github.com/wingsdao/wings-light-bridge.git
 npm i
 ```
 
-### 3. Configure truffle.js
+### 3. Configure config.js
 
 ```
 cp config.example.js config.js
