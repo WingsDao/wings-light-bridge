@@ -1,5 +1,3 @@
-const HDWalletProvider = require("truffle-hdwallet-provider-privkey")
-const fs = require("fs")
 const { privateToAddress } = require("ethereumjs-util")
 
 const rawPrivateKey = ""
@@ -9,25 +7,9 @@ const account = {
   privateKey: new Buffer.from(rawPrivateKey, "hex")
 }
 
-const PROVIDER = "http://localhost:8545"
-const API_TOKEN = ""
+const web3Provider = "http://localhost:8545"
 
 module.exports = {
-  networks: {
-    any: {
-      provider: () => {
-        return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
-      },
-      network_id: '*',
-      gasPrice: 4000000000 // 4 gwei
-    }
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 10
-    }
-  },
   account: account,
-  PROVIDER: PROVIDER
+  web3Provider: web3Provider
 }

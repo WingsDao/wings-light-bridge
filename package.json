@@ -26,8 +26,6 @@
     "fs": "0.0.1-security",
     "input": "^1.0.1",
     "truffle-contract": "^3.0.5",
-    "truffle-hdwallet-provider": "0.0.3",
-    "truffle-hdwallet-provider-privkey": "^0.2.0",
     "web3": "0.20.4",
     "bignumber.js": "7.0.1",
     "chai": "latest",
