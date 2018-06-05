@@ -1,5 +1,4 @@
 const { should } = require('chai').should()
-const BigNumber = require('bignumber.js')
 
 const Bridge = artifacts.require('Bridge');
 const Token = artifacts.require('TestToken');
@@ -14,8 +13,8 @@ contract('Bridge', (accounts) => {
   let participant = accounts.splice(0, 1).pop()
 
   const rewards = {
-    tokens: 100000,
-    eth: 100000
+    tokens: 10000,
+    eth: 10000
   }
 
   let totalCollected = web3.toWei(100, 'ether')
@@ -119,14 +118,14 @@ contract('Bridge', (accounts) => {
   })
 
   it('Should have tokens reward on contract', async () => {
-    const tokenReward = new BigNumber(totalSold).mul(rewards.tokens).div(1000000)
+    const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000)
     const balance = await token.balanceOf.call(bridge.address)
 
     balance.toString(10).should.be.equal(tokenReward.toString(10))
   })
 
   it('Should have eth reward on contract', async () => {
-    const ethReward = new BigNumber(totalCollected).mul(rewards.eth).div(1000000)
+    const ethReward = web3.toBigNumber(totalCollected).mul(rewards.eth).div(1000000)
     const balance = web3.eth.getBalance(bridge.address)
 
     balance.toString(10).should.be.equal(ethReward.toString(10))
