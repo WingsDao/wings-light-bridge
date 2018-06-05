@@ -2,7 +2,6 @@ const { PROVIDER } = require("../truffle")
 
 const TX = require('ethereumjs-tx')
 const ABI = require('ethereumjs-abi')
-const BigNumber = require('bignumber.js')
 const Web3 = require("web3")
 const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
 
@@ -10,9 +9,9 @@ const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
 const prepareParams = async (from) => {
   let nonce = await web3.eth.getTransactionCount(from)
   let gasPrice = web3.eth.gasPrice
-  gasPrice = '0x' + new BigNumber(gasPrice).toString(16)
+  gasPrice = '0x' + web3.toBigNumber(gasPrice).toString(16)
 
-  nonce = '0x' + new BigNumber(nonce).toString(16)
+  nonce = '0x' + web3.toBigNumber(nonce).toString(16)
 
   return [nonce, gasPrice]
 }

@@ -1,7 +1,6 @@
 const { account, web3Provider } = require("./truffle")
 
 const input = require("input")
-const { spawn } = require("child_process")
 const contract = require("truffle-contract")
 const Web3 = require("web3")
 const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider))
@@ -59,7 +58,12 @@ async function deploy() {
     Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
     const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000 })
+    
+    log('Default token deployed')
+    log(defaultToken.address)
+
     const bridge = await Bridge.new(web3.toWei(1, "ether"), web3.toWei(1, "ether"), defaultToken.address, { from: account.address, gas: 3000000 })
+
     log_success('Bridge deployed')
     log_success(bridge.address)
   } catch (err) {
