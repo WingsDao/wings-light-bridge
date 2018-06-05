@@ -17,7 +17,6 @@
   "devDependencies": {
     "chai": "latest",
     "zeppelin-solidity": "1.6.0",
-    "bignumber.js": "^4.0.0",
     "wings-integration": "^1.1.4"
   },
   "keywords": [],
@@ -26,8 +25,5 @@
   "bugs": {
     "url": "https://github.com/wingsdao/wings-light-bridge/issues"
   },
-  "homepage": "https://github.com/wingsdao/wings-light-bridge#readme",
-  "dependencies": {
-    "truffle-hdwallet-provider-privkey": "^0.2.0"
-  }
+  "homepage": "https://github.com/wingsdao/wings-light-bridge#readme"
 }
