@@ -49,38 +49,18 @@ async function deploy() {
 
   const tokenDecimals = await input.select("Select token decimals:", ["8", "10", "16", "18"])
 
-  let softcap = 1
-  let hardcap = 1
-  //
-  // while (isNaN(softcap) || isNaN(hardcap) || parseInt(softcap) <= 0 || parseInt(hardcap) <= 0 || parseInt(hardcap) <= parseInt(softcap)) {
-  //   softcap = await input.text("Enter crowdsale softcap (ETH):")
-  //   hardcap = await input.text("Enter crowdsale hardcap (ETH):")
-  // }
-
   try {
-    // let env = {}
-    //
-    // env['NAME'] = tokenName
-    // env['SYMBOL'] = tokenSymbol
-    // env['DECIMALS'] = tokenDecimals
-    // env['SOFTCAP'] = web3.toWei(softcap, "ether")
-    // env['HARDCAP'] = web3.toWei(hardcap, "ether")
+    let env = {}
 
-    // let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
+    env['NAME'] = tokenName
+    env['SYMBOL'] = tokenSymbol
+    env['DECIMALS'] = tokenDecimals
+    env['SOFTCAP'] = web3.toWei(1, "ether")
+    env['HARDCAP'] = web3.toWei(1, "ether")
 
-    // deployStream.stdout.pipe(process.stdout)
-    console.log(72)
-    const defaultTokenArtifact = require('./build/contracts/DefaultToken.json')
-    const bridgeArtifact = require('./build/contracts/Bridge.json')
-    const DefaultToken = contract({ abi: defaultTokenArtifact.abi, unlinked_binary: defaultTokenArtifact.bytecode })
-    const Bridge = contract({ abi: bridgeArtifact.abi, unlinked_binary: bridgeArtifact.bytecode })
-    console.log(75)
-    DefaultToken.setProvider(new Web3.providers.HttpProvider(PROVIDER))
-    Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
-    console.log(DefaultToken)
-    const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000 })
-    console.log(82)
-    const bridge = await Bridge.new(web3.toWei(softcap, "ether"), web3.toWei(hardcap, "ether"), defaultToken.address)
+    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
+
+    deployStream.stdout.pipe(process.stdout)
   } catch (err) {
     log_error(err.message)
   }

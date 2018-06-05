@@ -1,7 +1,7 @@
-const HDWalletProvider = require("truffle-hdwallet-provider-privkey")
-const fs = require("fs")
+const HDWalletProvider = require("truffle-hdwallet-provider")
 const { privateToAddress } = require("ethereumjs-util")
 
+const mnemonic = ""
 const rawPrivateKey = ""
 
 const account = {
@@ -16,7 +16,7 @@ module.exports = {
   networks: {
     any: {
       provider: () => {
-        return new HDWalletProvider(account.privateKey, PROVIDER + API_TOKEN)
+        return new HDWalletProvider(mnemonic, PROVIDER + API_TOKEN)
       },
       network_id: '*',
       gasPrice: 4000000000 // 4 gwei
