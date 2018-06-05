@@ -1,10 +1,10 @@
-const { account, PROVIDER, networks } = require("./truffle")
+const { account, web3Provider } = require("./truffle")
 
 const input = require("input")
 const { spawn } = require("child_process")
 const contract = require("truffle-contract")
 const Web3 = require("web3")
-const web3 = new Web3(new Web3.providers.HttpProvider(PROVIDER))
+const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider))
 const raw = require("./helpers/raw")
 const BigNumber = require("bignumber.js")
 const { checkArtifacts, checkConfig, waitForTransaction, log, log_success, log_error } = require("./helpers/utils")
@@ -36,8 +36,8 @@ async function deploy() {
   const Token = contract(tokenABI)
   const Bridge = contract(bridgeABI)
 
-  Token.setProvider(new Web3.providers.HttpProvider(PROVIDER))
-  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Token.setProvider(new Web3.providers.HttpProvider(web3Provider))
+  Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   let tokenName = ""
   let tokenSymbol = ""
@@ -50,18 +50,20 @@ async function deploy() {
   const tokenDecimals = await input.select("Select token decimals:", ["8", "10", "16", "18"])
 
   try {
-    let env = {}
+    const defaultTokenArtifact = require('./build/contracts/DefaultToken.json')
+    const bridgeArtifact = require('./build/contracts/Bridge.json')
+    const DefaultToken = contract({ abi: defaultTokenArtifact.abi, unlinked_binary: defaultTokenArtifact.bytecode })
+    const Bridge = contract({ abi: bridgeArtifact.abi, unlinked_binary: bridgeArtifact.bytecode })
 
-    env['NAME'] = tokenName
-    env['SYMBOL'] = tokenSymbol
-    env['DECIMALS'] = tokenDecimals
-    env['SOFTCAP'] = web3.toWei(1, "ether")
-    env['HARDCAP'] = web3.toWei(1, "ether")
+    DefaultToken.setProvider(new Web3.providers.HttpProvider(web3Provider))
+    Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
-    let deployStream = await spawn('/usr/local/bin/node', ['/usr/local/bin/truffle', 'migrate', '--network', 'any'], { env: env })
-
-    deployStream.stdout.pipe(process.stdout)
+    const defaultToken = await DefaultToken.new(tokenName, tokenSymbol, tokenDecimals, { from: account.address, gas: 1000000 })
+    const bridge = await Bridge.new(web3.toWei(1, "ether"), web3.toWei(1, "ether"), defaultToken.address, { from: account.address, gas: 3000000 })
+    log_success('Bridge deployed')
+    log_success(bridge.address)
   } catch (err) {
+    log_error('Error during deployment')
     log_error(err.message)
   }
 }
@@ -73,7 +75,7 @@ async function forecasting() {
 
   const Bridge = contract(bridgeABI)
 
-  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const bridgeAddress = await inputValidAddress("Bridge")
   const daoAddress = await inputValidAddress("DAO")
@@ -110,8 +112,8 @@ async function start() {
   const DAO = contract(daoABI)
   const CC = contract(ccABI)
 
-  DAO.setProvider(new Web3.providers.HttpProvider(PROVIDER))
-  CC.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  DAO.setProvider(new Web3.providers.HttpProvider(web3Provider))
+  CC.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const daoAddress = await inputValidAddress("DAO")
 
@@ -155,7 +157,7 @@ async function changeToken() {
 
   const Bridge = contract(bridgeABI)
 
-  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const bridgeAddress = await inputValidAddress("Bridge")
   const tokenAddress = await inputValidAddress("new Token")
@@ -188,8 +190,8 @@ async function calculateRewards() {
   const Bridge = contract(bridgeABI)
   const Token = contract(tokenABI)
 
-  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
-  Token.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
+  Token.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const bridgeAddress = await inputValidAddress("Bridge")
   const bridge = await Bridge.at(bridgeAddress)
@@ -274,7 +276,7 @@ async function finish() {
 
   const Bridge = contract(bridgeABI)
 
-  Bridge.setProvider(new Web3.providers.HttpProvider(PROVIDER))
+  Bridge.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const bridgeAddress = await inputValidAddress("Bridge")
 
