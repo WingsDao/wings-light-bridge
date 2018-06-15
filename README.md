@@ -22,6 +22,7 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
   - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
+  - [withdraw](https://github.com/WingsDao/wings-light-bridge#withdraw)
 
 #### Finishing Bridge
   - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
@@ -249,6 +250,25 @@ function notifySale(uint256 _ethAmount, uint256 _tokensAmount)
 **Parameters:**
   - `_ethAmount` - the amount of funds raised (in Wei)
   - `_tokensAmount` - the amount of tokens sold
+
+### withdraw
+
+If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
+
+```sc
+function withdraw() public onlyOwner() {
+  uint256 ethBalance = address(this).balance;
+  uint256 tokenBalance = token.balanceOf(address(this));
+
+  if (ethBalance > 0) {
+    require(msg.sender.send(ethBalance));
+  }
+
+  if (tokenBalance > 0) {
+    require(token.transfer(msg.sender, tokenBalance));
+  }
+}
+```
 
 ### calculateRewards
 

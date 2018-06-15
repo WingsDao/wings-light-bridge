@@ -156,4 +156,18 @@ contract Bridge is BasicCrowdsale {
 
     emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
   }
+
+  // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured
+  function withdraw() public onlyOwner() {
+    uint256 ethBalance = address(this).balance;
+    uint256 tokenBalance = token.balanceOf(address(this));
+
+    if (ethBalance > 0) {
+      require(msg.sender.send(ethBalance));
+    }
+
+    if (tokenBalance > 0) {
+      require(token.transfer(msg.sender, tokenBalance));
+    }
+  }
 }
