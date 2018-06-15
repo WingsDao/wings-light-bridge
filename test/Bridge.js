@@ -128,16 +128,28 @@ contract('Bridge', (accounts) => {
   })
 
   it('Should have tokens reward on contract', async () => {
-    const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000)
-    const tokenBalance = await token.balanceOf.call(bridge.address)
-    
-    tokenBalance.toString(10).should.be.equal(tokenReward.toString(10))
+    const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10)
+    const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
+
+    tokenBalance.should.be.equal(tokenReward)
   })
 
   it('Should have eth reward on contract', async () => {
-    const ethReward = web3.toBigNumber(totalCollectedETH).mul(rewards.eth).div(1000000)
-    const ethBalance = web3.eth.getBalance(bridge.address)
+    const ethReward = web3.toBigNumber(totalCollected).mul(rewards.eth).div(1000000).toString(10)
+    const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
 
-    ethBalance.toString(10).should.be.equal(ethReward.toString(10))
+    ethBalance.should.be.equal(ethReward)
+  })
+
+  it('Should allow to withdraw reward', async () => {
+    await bridge.withdraw({ from: creator })
+  })
+
+  it('Shouldn\'t have rewards on contract', async () => {
+    const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
+    const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
+
+    ethBalance.should.be.equal('0')
+    tokenBalance.should.be.equal('0')
   })
 })
