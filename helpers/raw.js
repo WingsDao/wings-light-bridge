@@ -6,8 +6,8 @@ const Web3 = require("web3")
 const web3 = new Web3(new Web3.providers.HttpProvider(web3Provider))
 
 
-const prepareParams = async (from) => {
-  let nonce = await web3.eth.getTransactionCount(from)
+const prepareParams = (from) => {
+  let nonce = web3.eth.getTransactionCount(from)
   let gasPrice = web3.eth.gasPrice
   gasPrice = '0x' + web3.toBigNumber(gasPrice).toString(16)
 
@@ -16,10 +16,10 @@ const prepareParams = async (from) => {
   return [nonce, gasPrice]
 }
 
-module.exports.transferManager = async (from, to, recipient) => {
+module.exports.transferManager = (from, to, recipient) => {
   let data = '0x' + ABI.simpleEncode("transferManager(address)", recipient).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -33,10 +33,10 @@ module.exports.transferManager = async (from, to, recipient) => {
   return new TX(txParams)
 }
 
-module.exports.createCustomCrowdsale = async (from, to) => {
+module.exports.createCustomCrowdsale = (from, to) => {
   let data = '0x' + ABI.methodID('createCustomCrowdsale', []).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -50,10 +50,10 @@ module.exports.createCustomCrowdsale = async (from, to) => {
   return new TX(txParams)
 }
 
-module.exports.start = async (from, to, startTimestamp, endTimestamp, fundingAddress) => {
+module.exports.start = (from, to, startTimestamp, endTimestamp, fundingAddress) => {
   let data = '0x' + ABI.simpleEncode("start(uint256,uint256,address)", startTimestamp, endTimestamp, fundingAddress).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -67,10 +67,10 @@ module.exports.start = async (from, to, startTimestamp, endTimestamp, fundingAdd
   return new TX(txParams)
 }
 
-module.exports.changeToken = async (from, to, newToken) => {
+module.exports.changeToken = (from, to, newToken) => {
   let data = '0x' + ABI.simpleEncode("changeToken(address)", newToken).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -84,10 +84,10 @@ module.exports.changeToken = async (from, to, newToken) => {
   return new TX(txParams)
 }
 
-module.exports.notifySale = async (from, to, ethAmount, tokenAmount) => {
+module.exports.notifySale = (from, to, ethAmount, tokenAmount) => {
   let data = '0x' + ABI.simpleEncode("notifySale(uint256,uint256)", ethAmount, tokenAmount).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -101,10 +101,10 @@ module.exports.notifySale = async (from, to, ethAmount, tokenAmount) => {
   return new TX(txParams)
 }
 
-module.exports.transfer = async (from, to, bridgeAddress, tokenReward) => {
+module.exports.transfer = (from, to, bridgeAddress, tokenReward) => {
   let data = '0x' + ABI.simpleEncode("transfer(address,uint256)", bridgeAddress, tokenReward).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -118,10 +118,10 @@ module.exports.transfer = async (from, to, bridgeAddress, tokenReward) => {
   return new TX(txParams)
 }
 
-module.exports.sendTransaction = async (from, to, ethReward) => {
+module.exports.sendTransaction = (from, to, ethReward) => {
   let data = ''
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,
@@ -135,10 +135,10 @@ module.exports.sendTransaction = async (from, to, ethReward) => {
   return new TX(txParams)
 }
 
-module.exports.finish = async (from, to) => {
+module.exports.finish = (from, to) => {
   let data = '0x' + ABI.methodID('finish', []).toString('hex')
 
-  let [nonce, gasPrice] = await prepareParams(from)
+  let [nonce, gasPrice] = prepareParams(from)
 
   const txParams = {
     nonce,

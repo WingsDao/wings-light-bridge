@@ -88,7 +88,7 @@ async function forecasting() {
   const bridgeAddress = await inputValidAddress("Bridge")
   const daoAddress = await inputValidAddress("DAO")
 
-  const bridge = await Bridge.at(bridgeAddress)
+  const bridge = Bridge.at(bridgeAddress)
 
   try {
     let manager = await bridge.manager.call()
@@ -117,15 +117,15 @@ async function start() {
   const daoABI = require("./ABI/DAO.json")
   const ccABI = require("./ABI/CrowdsaleController.json")
 
-  const DAO = contract(daoABI)
-  const CC = contract(ccABI)
+  const DAO = contract({ abi: daoABI })
+  const CC = contract({ abi: ccABI })
 
   DAO.setProvider(new Web3.providers.HttpProvider(web3Provider))
   CC.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const daoAddress = await inputValidAddress("DAO")
 
-  const dao = await DAO.at(daoAddress)
+  const dao = DAO.at(daoAddress)
 
   try {
     let tx = await raw.createCustomCrowdsale(account.address, daoAddress)
@@ -140,7 +140,7 @@ async function start() {
 
     log_success("Call to DAO createCustomCrowdsale succeeded")
 
-    const cc = await CC.at(ccAddress)
+    const cc = CC.at(ccAddress)
 
     tx = await raw.start(account.address, ccAddress, 0, 0, "0x0")
 
@@ -170,7 +170,7 @@ async function changeToken() {
   const bridgeAddress = await inputValidAddress("Bridge")
   const tokenAddress = await inputValidAddress("new Token")
 
-  const bridge = await Bridge.at(bridgeAddress)
+  const bridge = Bridge.at(bridgeAddress)
 
   try {
     let tx = await raw.changeToken(account.address, bridgeAddress, tokenAddress)
@@ -202,10 +202,10 @@ async function calculateRewards() {
   Token.setProvider(new Web3.providers.HttpProvider(web3Provider))
 
   const bridgeAddress = await inputValidAddress("Bridge")
-  const bridge = await Bridge.at(bridgeAddress)
+  const bridge = Bridge.at(bridgeAddress)
 
   const tokenAddress = await bridge.getToken.call()
-  const token = await Token.at(tokenAddress)
+  const token = Token.at(tokenAddress)
 
   const tokenSymbol = await token.symbol.call()
   const tokenDecimals = await token.decimals.call()
@@ -288,7 +288,7 @@ async function finish() {
 
   const bridgeAddress = await inputValidAddress("Bridge")
 
-  const bridge = await Bridge.at(bridgeAddress)
+  const bridge = Bridge.at(bridgeAddress)
 
   try {
     let tx = await raw.finish(account.address, bridgeAddress)
