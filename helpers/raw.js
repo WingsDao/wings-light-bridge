@@ -84,8 +84,8 @@ module.exports.changeToken = (from, to, newToken) => {
   return new TX(txParams)
 }
 
-module.exports.notifySale = (from, to, ethAmount, tokenAmount) => {
-  let data = '0x' + ABI.simpleEncode("notifySale(uint256,uint256)", ethAmount, tokenAmount).toString('hex')
+module.exports.notifySale = (from, to, amount, ethAmount, tokenAmount) => {
+  let data = '0x' + ABI.simpleEncode("notifySale(uint256,uint256,uint256)", amount, ethAmount, tokenAmount).toString('hex')
 
   let [nonce, gasPrice] = prepareParams(from)
 
