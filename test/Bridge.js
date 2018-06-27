@@ -135,7 +135,7 @@ contract('Bridge', (accounts) => {
   })
 
   it('Should have eth reward on contract', async () => {
-    const ethReward = web3.toBigNumber(totalCollected).mul(rewards.eth).div(1000000).toString(10)
+    const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10)
     const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
 
     ethBalance.should.be.equal(ethReward)
