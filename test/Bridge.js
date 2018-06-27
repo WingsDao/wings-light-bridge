@@ -1,7 +1,7 @@
 const { should } = require('chai').should()
 
-const Bridge = artifacts.require('Bridge');
-const Token = artifacts.require('TestToken');
+const Bridge = artifacts.require('Bridge')
+const Token = artifacts.require('TestToken')
 const ControllerStub = artifacts.require('ControllerStub')
 
 const sendETH = async (txObject) => {
@@ -9,15 +9,16 @@ const sendETH = async (txObject) => {
 }
 
 contract('Bridge', (accounts) => {
-  let creator = accounts.splice(0, 1).pop()
-  let participant = accounts.splice(0, 1).pop()
+  let creator = accounts[0]
+  let participant = accounts[1]
 
   const rewards = {
     tokens: 10000,
     eth: 10000
   }
 
-  let totalCollected = web3.toWei(100, 'ether')
+  let totalCollected = web3.toWei(600000, 'ether') // let's say 600000 USD
+  let totalCollectedETH = web3.toWei(100, 'ether')
   let totalSold = web3.toWei(1500, 'ether')
 
   let token, crowdsale, controller, bridge, decimals
@@ -64,17 +65,26 @@ contract('Bridge', (accounts) => {
     })
 
     changeToken_event.get((error, events) => {
-        // console.log(events[0])
-        let args = events[0].args
-        args.token.should.be.equal(token.address)
-        args.decimals.toNumber().should.be.equal(decimals)
+      let args = events[0].args
+      args.token.should.be.equal(token.address)
+      args.decimals.toNumber().should.be.equal(decimals)
     })
   })
 
   it('Should notify sale', async () => {
-    await bridge.notifySale(totalCollected, totalSold, {
+    await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
       from: creator
     })
+  })
+
+  it('Should check how notification went', async () => {
+    let notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10)
+    let notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10)
+    let notifiedTotalSold = (await bridge.totalSold.call()).toString(10)
+
+    notifiedTotalCollected.should.be.equal(totalCollected.toString(10)),
+    notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10))
+    notifiedTotalSold.should.be.equal(totalSold.toString(10))
   })
 
   it('Should move bridge manager to controller', async () => {
@@ -135,7 +145,7 @@ contract('Bridge', (accounts) => {
     await bridge.withdraw({ from: creator })
   })
 
-  it('Shouldn\'t have eth reward on contract', async () => {
+  it('Shouldn\'t have rewards on contract', async () => {
     const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
     const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
 

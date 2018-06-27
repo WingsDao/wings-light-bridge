@@ -85,6 +85,20 @@
     {
         "constant": true,
         "inputs": [],
+        "name": "totalCollectedETH",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
         "name": "minimalGoal",
         "outputs": [
             {
@@ -403,6 +417,10 @@
     {
         "constant": false,
         "inputs": [
+            {
+                "name": "_amount",
+                "type": "uint256"
+            },
             {
                 "name": "_ethAmount",
                 "type": "uint256"
