@@ -27,7 +27,7 @@
     "input": "^1.0.1",
     "truffle-contract": "^3.0.5",
     "web3": "0.20.6",
-    "wings-integration": "^1.1.4",
+    "wings-integration": "^1.2.0",
     "zeppelin-solidity": "1.6.0"
   }
 }
