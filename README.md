@@ -91,10 +91,12 @@ You will be asked to enter:
 ### Calculate rewards
 
 You will be asked to enter:
- - total collected amount (ETH)
- - total sold amount (integer amount of tokens)
+ - total collected amount (in the same currency as forecast question)
+ - total collected amount (in ETH)
+ - total sold amount (tokens)
  - whether you are ready to transfer rewards or not (yes/no)
 
+*NOTE: All values are passed as integers.*
 *NOTE: You have to have enough tokens and ETH for rewards on your balance before you make a transfer.*  
 *NOTE: If you don't have enough tokens and/or ETH on your account please choose no, fund your account and repeat the process.*
 
