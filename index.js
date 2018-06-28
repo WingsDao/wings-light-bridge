@@ -211,21 +211,24 @@ async function calculateRewards() {
   const tokenDecimals = await token.decimals.call()
 
   let totalCollected
+  let totalCollectedETH
   let totalSold
 
   while (isNaN(totalCollected) || isNaN(totalSold) || parseInt(totalCollected) <= 0 || parseInt(totalSold) <= 0) {
-    totalCollected = await input.text("Enter total collected amount (ETH):")
+    totalCollected = await input.text("Enter total collected amount (in same currency as forecast question):")
+    totalCollectedETH = await input.text("Enter total collected amount (in ETH):")
     totalSold = await input.text(`Enter total sold amount (${tokenSymbol.toString()}):`)
   }
 
   try {
     totalSold = new BigNumber(totalSold)
 
-    let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), totalSold.multipliedBy((new BigNumber(10)).pow(tokenDecimals.toNumber())).toString(10))
+    let tx = await raw.notifySale(account.address, bridgeAddress, web3.toWei(totalCollected, "ether"), web3.toWei(totalCollectedETH, "ether"), totalSold.multipliedBy((new BigNumber(10)).pow(tokenDecimals.toNumber())).toString(10))
 
     await sendTX(tx)
 
     let newTotalCollected = await bridge.totalCollected.call()
+    let newTotalCollectedETH = await bridge.totalCollectedETH.call()
     let newTotalSold = await bridge.totalSold.call()
 
     if (newTotalCollected.toNumber() == 0 || newTotalSold.toNumber() == 0) {
