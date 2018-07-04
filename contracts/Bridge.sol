@@ -160,7 +160,11 @@ contract Bridge is BasicCrowdsale {
   function changeToken(address _newToken) public onlyOwner() {
     token = DefaultToken(_newToken);
 
-    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+    uint8 tokenDecimals = uint8(token.decimals());
+
+    require(tokenDecimals >= 8 && tokenDecimals <= 18);
+
+    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), tokenDecimals);
   }
 
   // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured

@@ -6,11 +6,14 @@ import 'zeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
 
 contract TestToken is BasicToken {
 
-  string public name = "Very Test Token";
-  string public symbol = "VTT";
-  uint8 public decimals = 18;
+  string public name;
+  string public symbol;
+  uint8 public decimals;
 
-  constructor(uint256 _totalSupply) {
+  constructor(string _name, string _symbol, uint8 _decimals, uint256 _totalSupply) {
+    name = _name;
+    symbol = _symbol;
+    decimals = _decimals;
     totalSupply_ = _totalSupply;
     balances[msg.sender] = totalSupply_;
   }

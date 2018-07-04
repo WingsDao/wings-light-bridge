@@ -25,7 +25,7 @@ contract('Bridge', (accounts) => {
 
   before(async () => {
     // deploy token
-    token = await Token.new(web3.toWei(10000, 'ether'), {
+    token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {
       from: creator
     })
 
@@ -33,8 +33,8 @@ contract('Bridge', (accounts) => {
 
     // deploy bridge
     bridge = await Bridge.new(
-      web3.toWei(55, 'ether'),
-      web3.toWei(555, 'ether'),
+      0,
+      0,
       token.address,
       {
         from: creator
