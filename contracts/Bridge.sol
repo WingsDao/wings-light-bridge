@@ -149,8 +149,14 @@ contract Bridge is BasicCrowdsale {
 
     uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
 
+    if (totalCollectedETH != 0) {
+      totalCollected = totalCollectedETH;
+    }
+
+    totalCollected = IWingsController(manager).fitCollectedValueIntoRange(totalCollected);
+
     if (hasEthReward) {
-      ethReward = ((totalCollectedETH == 0) ? totalCollected : totalCollectedETH).mul(ethRewardPart) / 1000000;
+      ethReward = totalCollected.mul(ethRewardPart) / 1000000;
     }
 
     return (ethReward, tokenReward);
