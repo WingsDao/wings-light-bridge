@@ -57,7 +57,6 @@ contract('Bridge', (accounts) => {
   })
 
   it('Should allow to change token', async () => {
-
     let changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'})
 
     await bridge.changeToken(token.address, {
@@ -69,6 +68,18 @@ contract('Bridge', (accounts) => {
       args.token.should.be.equal(token.address)
       args.decimals.toNumber().should.be.equal(decimals)
     })
+  })
+
+  it('Shouldn\'t allow to change token to token with incorrect decimals', async () => {
+    let badToken = await Token.new('Bad Token', 'BT', 4, web3.toWei(10000, 'ether'), {
+      from: creator
+    })
+
+    try {
+      await bridge.changeToken(badToken.address, { from: creator })
+    } catch (e) {
+      (e.message === 'VM Exception while processing transaction: revert').should.be.equal(true)
+    }
   })
 
   it('Should notify sale', async () => {
