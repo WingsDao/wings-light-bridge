@@ -1,8 +1,4 @@
-/*
-  Example
-*/
 const Bridge = artifacts.require('Bridge')
-const DefaultToken = artifacts.require('DefaultToken')
 
 module.exports = (deployer) => {
   deployer.then(async () => {

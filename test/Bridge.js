@@ -24,13 +24,6 @@ contract('Bridge', (accounts) => {
   let token, crowdsale, controller, bridge, decimals
 
   before(async () => {
-    // deploy token
-    token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {
-      from: creator
-    })
-
-    decimals = (await token.decimals.call()).toNumber()
-
     // deploy bridge
     bridge = await Bridge.new(
       creator,
@@ -55,6 +48,12 @@ contract('Bridge', (accounts) => {
     })
   })
 
+  it('Should deploy token', async () => {
+    token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {
+      from: creator
+    })
+  })
+
   it('Should allow to change token', async () => {
     let changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'})
 
@@ -65,7 +64,6 @@ contract('Bridge', (accounts) => {
     changeToken_event.get((error, events) => {
       let args = events[0].args
       args.token.should.be.equal(token.address)
-      args.decimals.toNumber().should.be.equal(decimals)
     })
   })
 
