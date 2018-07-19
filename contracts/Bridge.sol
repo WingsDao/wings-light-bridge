@@ -1,11 +1,11 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.18;
 
 
 import 'wings-integration/contracts/BasicCrowdsale.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import 'zeppelin-solidity/contracts/token/DetailedERC20.sol';
 
 import './IWingsController.sol';
-import './DefaultToken.sol';
 
 
 /*
@@ -16,26 +16,29 @@ contract Bridge is BasicCrowdsale {
   using SafeMath for uint256;
 
   event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
+  event CUSTOM_CROWDSALE_GOAL_ADDED(uint256 minimalGoal, uint256 hardCap);
+  event CUSTOM_CROWDSALE_PERIOD_ADDED(uint256 startTimestamp, uint256 endTimestamp);
   event CUSTOM_CROWDSALE_FINISH();
 
+  modifier onlyOwnerOrManager() {
+    require(msg.sender == owner || msg.sender == manager);
+    _;
+  }
+
   // Crowdsale token must be ERC20-compliant
-  DefaultToken token;
+  DetailedERC20 token;
 
   // Crowdsale state
   bool completed;
 
   // Constructor
-  constructor(
-    uint256 _minimalGoal,
-    uint256 _hardCap,
-    address _token
+  function Bridge(
+    address _owner,
+    address _manager
   )
-    BasicCrowdsale(msg.sender, msg.sender) // owner, manager
-  {
-    minimalGoal = _minimalGoal;
-    hardCap = _hardCap;
-    token = DefaultToken(_token);
-  }
+    public
+    BasicCrowdsale(_owner, _manager) // owner, manager
+  {}
 
   /*
      Here goes ICrowdsaleProcessor methods implementation
@@ -50,7 +53,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Mints token Rewards to Forecasting contract
-  // called by CrowdsaleController
+  // called by IWingsController
   function mintTokenRewards(
     address _contract,
     uint256 _amount    // agreed part of totalSold which is intended for rewards
@@ -87,7 +90,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Validates parameters and starts crowdsale
-  // called by CrowdsaleController
+  // called by IWingsController
   function start(
     uint256 _startTimestamp,
     uint256 _endTimestamp,
@@ -100,7 +103,7 @@ contract Bridge is BasicCrowdsale {
   {
     started = true;
 
-    emit CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
+    CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
   }
 
   // Finish crowdsale
@@ -113,7 +116,7 @@ contract Bridge is BasicCrowdsale {
   {
     completed = true;
 
-    emit CUSTOM_CROWDSALE_FINISH();
+    CUSTOM_CROWDSALE_FINISH();
   }
 
   function isFailed()
@@ -149,24 +152,38 @@ contract Bridge is BasicCrowdsale {
 
     uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
 
-    if (totalCollectedETH != 0) {
-      totalCollected = totalCollectedETH;
-    }
-
-    totalCollected = IWingsController(manager).fitCollectedValueIntoRange(totalCollected);
-
     if (hasEthReward) {
-      ethReward = totalCollected.mul(ethRewardPart) / 1000000;
+      ethReward = ((totalCollectedETH == 0) ? totalCollected : totalCollectedETH).mul(ethRewardPart) / 1000000;
     }
 
     return (ethReward, tokenReward);
   }
 
   // Change token address (in case you've used the dafault token address during bridge deployment)
-  function changeToken(address _newToken) public onlyOwner() {
-    token = DefaultToken(_newToken);
+  function changeToken(address _newToken) public onlyOwnerOrManager() {
+    token = DetailedERC20(_newToken);
 
-    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+    CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+  }
+
+  // Set/update crowdsale goal
+  function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() {
+    require(_minimalGoal > 0 && _hardCap > _minimalGoal);
+
+    minimalGoal = _minimalGoal;
+    hardCap = _hardCap;
+
+    CUSTOM_CROWDSALE_GOAL_ADDED(minimalGoal, hardCap);
+  }
+
+  // Set/update crowdsale period
+  function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public onlyOwnerOrManager() {
+    require(_startTimestamp > 0 && _endTimestamp > _startTimestamp);
+
+    startTimestamp = _startTimestamp;
+    endTimestamp = _endTimestamp;
+
+    CUSTOM_CROWDSALE_PERIOD_ADDED(startTimestamp, endTimestamp);
   }
 
   // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured

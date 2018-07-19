@@ -1,7 +1,7 @@
 {
   "name": "wings-light-bridge",
-  "version": "1.0.0",
-  "description": "In this tutorial we are going to walkthrough the Wings integration process.",
+  "version": "1.1.0",
+  "description": "Wings easy integration.",
   "main": "truffle.js",
   "directories": {
     "test": "test"
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/wingsdao/wings-light-bridge#readme",
   "dependencies": {
-    "zeppelin-solidity": "1.6.0",
+    "zeppelin-solidity": "1.4.0",
     "wings-integration": "^1.2.0"
   }
 }
