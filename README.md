@@ -45,31 +45,26 @@ Clone this repository.
 git clone https://github.com/wingsdao/wings-light-bridge.git
 ```
 
-### 2. Prepare constructor arguments
+### 2. Сonstructor
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph b) and assign your deployed token address to `token` variable.*
+```
+await deployer.deploy(Bridge, owner, manager, { from: creator })
+```
 
-**a) Prepare these variables for DefaultToken contract:**
-  - `name` - name of your token
-  - `symbol` - symbol of your token
-  - `decimals` - token decimals
-
-**b) Prepare these variables for Bridge contract:**
-  - `minimalGoal` - soft cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
-  - `hardCap` - hard cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
-  - `token` - address of your ERC20-compliant token
+**Parameters:**
+ - `owner` - address - owner of Bridge
+ - `manager` - address - could be either owner or DAO address (if already exists)
 
 ### 3. Deploy
 
-Deploy contracts to mainnet using truffle, parity, etc.
+Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor arguments described above.
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case you only need to deploy Bridge contract.*
+---
 
-**Deployment process:**
+## If you already created project on wings.ai head to [¶Crowdsale start](https://github.com/WingsDao/wings-light-bridge#crowdsale-start).
 
-During deployment of `DefaultToken` pass `name`, `symbol` and `decimals` as arguments to constructor.
+---
 
-During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
 
 ### 4. Create project
 
@@ -263,19 +258,29 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
 If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
 
 ```sc
-function withdraw() public onlyOwner() {
-  uint256 ethBalance = address(this).balance;
-  uint256 tokenBalance = token.balanceOf(address(this));
-
-  if (ethBalance > 0) {
-    require(msg.sender.send(ethBalance));
-  }
-
-  if (tokenBalance > 0) {
-    require(token.transfer(msg.sender, tokenBalance));
-  }
-}
+function withdraw() public;
 ```
+
+### setCrowdsaleGoal
+
+```sc
+function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public;
+```
+
+**Parameters:**
+ - `_minimalGoal` - uint256 - soft cap of crowdsale
+ - `_hardCap` - uint256 - hard cap of crowdsale
+
+### setCrowdsalePeriod
+
+```sc
+function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public;
+```
+
+**Parameters:**
+ - `_startTimestamp` - uint256 - start of crowdsale
+ - `_endTimestamp` - uint256 - end of crowdsale
+
 
 ### calculateRewards
 

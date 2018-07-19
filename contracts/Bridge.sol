@@ -25,6 +25,11 @@ contract Bridge is BasicCrowdsale {
     _;
   }
 
+  modifier uncompleted() {
+    require(!completed);
+    _;
+  }
+
   // Crowdsale token must be ERC20-compliant
   DetailedERC20 token;
 
@@ -116,6 +121,8 @@ contract Bridge is BasicCrowdsale {
   {
     completed = true;
 
+    endTimestamp = block.timestamp;
+
     CUSTOM_CROWDSALE_FINISH();
   }
 
@@ -171,7 +178,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Set/update crowdsale goal
-  function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() {
+  function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() uncompleted() {
     require(_minimalGoal > 0 && _hardCap > _minimalGoal);
 
     minimalGoal = _minimalGoal;
@@ -181,7 +188,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Set/update crowdsale period
-  function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public onlyOwnerOrManager() {
+  function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public onlyOwnerOrManager() uncompleted() {
     require(_startTimestamp > 0 && _endTimestamp > _startTimestamp);
 
     startTimestamp = _startTimestamp;
