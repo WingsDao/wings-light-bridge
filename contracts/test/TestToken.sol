@@ -1,7 +1,7 @@
 pragma solidity ^0.4.23;
 
 
-import 'zeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
+import 'zeppelin-solidity/contracts/token/BasicToken.sol';
 
 
 contract TestToken is BasicToken {
@@ -14,7 +14,7 @@ contract TestToken is BasicToken {
     name = _name;
     symbol = _symbol;
     decimals = _decimals;
-    totalSupply_ = _totalSupply;
-    balances[msg.sender] = totalSupply_;
+    totalSupply = _totalSupply;
+    balances[msg.sender] = totalSupply;
   }
 }

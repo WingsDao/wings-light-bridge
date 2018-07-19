@@ -33,9 +33,8 @@ contract('Bridge', (accounts) => {
 
     // deploy bridge
     bridge = await Bridge.new(
-      0,
-      0,
-      token.address,
+      creator,
+      creator,
       {
         from: creator
       }
