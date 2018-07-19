@@ -163,7 +163,11 @@ contract Bridge is BasicCrowdsale {
   function changeToken(address _newToken) public onlyOwnerOrManager() {
     token = DetailedERC20(_newToken);
 
-    CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+    uint8 tokenDecimals = uint8(token.decimals());
+
+    require(tokenDecimals >= 8 && tokenDecimals <= 18);
+
+    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), tokenDecimals);
   }
 
   // Set/update crowdsale goal
