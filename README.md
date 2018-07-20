@@ -33,9 +33,9 @@ Wings easy integration.
 
 ## Requirements
 
-- Nodejs v10.2.1
-- Truffle v4.0.4
-- Ganache-cli v6.1.0
+- Nodejs ~8.6.0
+- Truffle ^4.0.4
+- Ganache-cli ^6.1.0
 
 # Step by step guide
 
@@ -65,7 +65,7 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 ---
 
-## If you already created project on wings.ai head to [¶Crowdsale start](https://github.com/WingsDao/wings-light-bridge#crowdsale-start).
+## If you already created project on wings.ai head to [¶During forecasting](https://github.com/WingsDao/wings-light-bridge#during-forecasting).
 
 ---
 
@@ -197,7 +197,7 @@ After this step your crowdsale is taking place and you come back right before th
 
 ---
 
-## When crowdsale is about to end
+## Bridge methods
 
 ### getToken
 
