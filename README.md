@@ -102,7 +102,7 @@ Initiate `DAO` contract with the address we just retrieved:
 
 Here are [artifacts](https://github.com/WingsDao/wings-light-bridge/tree/master/build) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
 
-Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/interfaces) for contracts.
+Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/contracts/interfaces) for contracts.
 
 ```js
 const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change with your DAO address
@@ -161,7 +161,7 @@ function crowdsaleController() public view returns (address);
 **Example:**
 ```js
 const ccAddress = await dao.crowdsaleController.call()
-const crowdsaleController = await CrowdsaleController.at(ccAddress)
+const crowdsaleController = await IWingsController.at(ccAddress)
 ```
 
 ### 3. Start crowdsale

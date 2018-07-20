@@ -3,22 +3,22 @@
   "abi": [],
   "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582044b04010893390d7362d209953f71fd51ae9df16b7cc4abc21ce9cf57f6da9de0029",
   "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582044b04010893390d7362d209953f71fd51ae9df16b7cc4abc21ce9cf57f6da9de0029",
-  "sourceMap": "27:23:3:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:23:3;;;;;;;",
-  "deployedSourceMap": "27:23:3:-;;;;;",
+  "sourceMap": "27:23:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:23:2;;;;;;;",
+  "deployedSourceMap": "27:23:2:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\ncontract Migrations {\n}\n",
   "sourcePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
   "ast": {
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
     "exportedSymbols": {
       "Migrations": [
-        507
+        554
       ]
     },
-    "id": 508,
+    "id": 555,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 506,
+        "id": 553,
         "literals": [
           "solidity",
           "^",
@@ -26,7 +26,7 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:3"
+        "src": "0:24:2"
       },
       {
         "baseContracts": [],
@@ -34,31 +34,31 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 507,
+        "id": 554,
         "linearizedBaseContracts": [
-          507
+          554
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 508,
-        "src": "27:23:3"
+        "scope": 555,
+        "src": "27:23:2"
       }
     ],
-    "src": "0:51:3"
+    "src": "0:51:2"
   },
   "legacyAST": {
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
     "exportedSymbols": {
       "Migrations": [
-        507
+        554
       ]
     },
-    "id": 508,
+    "id": 555,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 506,
+        "id": 553,
         "literals": [
           "solidity",
           "^",
@@ -66,7 +66,7 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:3"
+        "src": "0:24:2"
       },
       {
         "baseContracts": [],
@@ -74,18 +74,18 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 507,
+        "id": 554,
         "linearizedBaseContracts": [
-          507
+          554
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 508,
-        "src": "27:23:3"
+        "scope": 555,
+        "src": "27:23:2"
       }
     ],
-    "src": "0:51:3"
+    "src": "0:51:2"
   },
   "compiler": {
     "name": "solc",
@@ -93,5 +93,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-19T15:52:01.905Z"
+  "updatedAt": "2018-07-20T09:49:34.657Z"
 }

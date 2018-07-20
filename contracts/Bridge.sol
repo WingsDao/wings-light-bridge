@@ -1,20 +1,21 @@
 pragma solidity ^0.4.18;
 
 
-import 'wings-integration/contracts/BasicCrowdsale.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
 import 'zeppelin-solidity/contracts/token/DetailedERC20.sol';
 
-import './IWingsController.sol';
+import './interfaces/IWingsController.sol';
+import './interfaces/IBridge.sol';
 
 
 /*
   Standalone Bridge
 */
-contract Bridge is BasicCrowdsale {
+contract Bridge is IBridge {
 
   using SafeMath for uint256;
 
+  event CROWDSALE_START(uint256 startTimestamp, uint256 endTimestamp, address fundingAddress);
   event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
   event CUSTOM_CROWDSALE_GOAL_ADDED(uint256 minimalGoal, uint256 hardCap);
   event CUSTOM_CROWDSALE_PERIOD_ADDED(uint256 startTimestamp, uint256 endTimestamp);
@@ -42,8 +43,10 @@ contract Bridge is BasicCrowdsale {
     address _manager
   )
     public
-    BasicCrowdsale(_owner, _manager) // owner, manager
-  {}
+  {
+    owner = _owner;
+    manager = _manager;
+  }
 
   /*
      Here goes ICrowdsaleProcessor methods implementation
@@ -52,6 +55,7 @@ contract Bridge is BasicCrowdsale {
   // Returns address of crowdsale token
   function getToken()
     public
+    view
     returns (address)
   {
     return address(token);
@@ -70,7 +74,28 @@ contract Bridge is BasicCrowdsale {
     token.transfer(_contract, _amount);
   }
 
-  function releaseTokens() public onlyManager() hasntStopped() whenCrowdsaleSuccessful() {
+  // called by CrowdsaleController to transfer reward part of ETH
+  // collected by successful crowdsale to Forecasting contract.
+  // This call is made upon closing successful crowdfunding process
+  // iff agreed ETH reward part is not zero
+  function mintETHRewards(
+    address _contract,  // Forecasting contract
+    uint256 _amount     // agreed part of totalCollected which is intended for rewards
+  )
+    public
+    onlyManager() // manager is CrowdsaleController instance
+  {
+    require(_contract.call.value(_amount)());
+  }
+
+  // cancels crowdsale
+  function stop() public onlyManager() hasntStopped()  {
+    // we can stop only not started and not completed crowdsale
+    if (started) {
+      require(!isFailed());
+      require(!isSuccessful());
+    }
+    stopped = true;
   }
 
   /*
@@ -108,7 +133,7 @@ contract Bridge is BasicCrowdsale {
   {
     started = true;
 
-    CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
+    CROWDSALE_START(_startTimestamp, _endTimestamp, address(0));
   }
 
   // Finish crowdsale

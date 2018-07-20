@@ -1,7 +1,7 @@
 pragma solidity ^0.4.18;
 
 
-import "../IWingsController.sol";
+import "../interfaces/IWingsController.sol";
 
 
 // Minimal crowdsale token for custom contracts

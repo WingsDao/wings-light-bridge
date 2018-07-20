@@ -69,24 +69,24 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b5060405160408061010183398101604052805160209091015160009190915560015560c1806100406000396000f30060806040526004361060395763ffffffff60e060020a6000350416633350ae368114603b57806380fa81b1146062578063a823cfaf146074575b005b348015604657600080fd5b5060506004356086565b60408051918252519081900360200190f35b348015606d57600080fd5b5060506089565b348015607f57600080fd5b506050608f565b90565b60005481565b600154815600a165627a7a72305820492c354e0b05a1b1cd34c6f31b8e263807c1dd61487b2a740c796017ed8b2c040029",
-  "deployedBytecode": "0x60806040526004361060395763ffffffff60e060020a6000350416633350ae368114603b57806380fa81b1146062578063a823cfaf146074575b005b348015604657600080fd5b5060506004356086565b60408051918252519081900360200190f35b348015606d57600080fd5b5060506089565b348015607f57600080fd5b506050608f565b90565b60005481565b600154815600a165627a7a72305820492c354e0b05a1b1cd34c6f31b8e263807c1dd61487b2a740c796017ed8b2c040029",
-  "sourceMap": "111:376:4:-;;;160:162;8:9:-1;5:2;;;30:1;27;20:12;5:2;160:162:4;;;;;;;;;;;;;;;;;;;247:13;:30;;;;283:15;:34;111:376;;;;;;",
-  "deployedSourceMap": "111:376:4:-;;;;;;;;;-1:-1:-1;;;111:376:4;;;;;;;;;;;;;;;;;;;;;326:124;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;326:124:4;;;;;;;;;;;;;;;;;;;;;87:28:2;;8:9:-1;5:2;;;30:1;27;20:12;5:2;87:28:2;;;;119:30;;8:9:-1;5:2;;;30:1;27;20:12;5:2;119:30:2;;;;326:124:4;430:15;326:124::o;87:28:2:-;;;;:::o;119:30::-;;;;:::o",
-  "source": "pragma solidity ^0.4.18;\n\n\nimport \"../IWingsController.sol\";\n\n\n// Minimal crowdsale token for custom contracts\ncontract ControllerStub is IWingsController {\n\n  function ControllerStub(uint256 _ethRewardPart, uint256 _tokenRewardPart) public {\n    ethRewardPart = _ethRewardPart;\n    tokenRewardPart = _tokenRewardPart;\n  }\n\n  function fitCollectedValueIntoRange(uint256 _totalCollected) public view returns (uint256) {\n    return _totalCollected;\n  }\n\n  function() public payable {\n  }\n}\n",
+  "bytecode": "0x608060405234801561001057600080fd5b5060405160408061010183398101604052805160209091015160009190915560015560c1806100406000396000f30060806040526004361060395763ffffffff60e060020a6000350416633350ae368114603b57806380fa81b1146062578063a823cfaf146074575b005b348015604657600080fd5b5060506004356086565b60408051918252519081900360200190f35b348015606d57600080fd5b5060506089565b348015607f57600080fd5b506050608f565b90565b60005481565b600154815600a165627a7a723058207470e17f0e2b1715df99e8322509a1993c7a733740abc62237fc779f4187596c0029",
+  "deployedBytecode": "0x60806040526004361060395763ffffffff60e060020a6000350416633350ae368114603b57806380fa81b1146062578063a823cfaf146074575b005b348015604657600080fd5b5060506004356086565b60408051918252519081900360200190f35b348015606d57600080fd5b5060506089565b348015607f57600080fd5b506050608f565b90565b60005481565b600154815600a165627a7a723058207470e17f0e2b1715df99e8322509a1993c7a733740abc62237fc779f4187596c0029",
+  "sourceMap": "122:376:7:-;;;171:162;8:9:-1;5:2;;;30:1;27;20:12;5:2;171:162:7;;;;;;;;;;;;;;;;;;;258:13;:30;;;;294:15;:34;122:376;;;;;;",
+  "deployedSourceMap": "122:376:7:-;;;;;;;;;-1:-1:-1;;;122:376:7;;;;;;;;;;;;;;;;;;;;;337:124;;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;337:124:7;;;;;;;;;;;;;;;;;;;;;87:28:6;;8:9:-1;5:2;;;30:1;27;20:12;5:2;87:28:6;;;;119:30;;8:9:-1;5:2;;;30:1;27;20:12;5:2;119:30:6;;;;337:124:7;441:15;337:124::o;87:28:6:-;;;;:::o;119:30::-;;;;:::o",
+  "source": "pragma solidity ^0.4.18;\n\n\nimport \"../interfaces/IWingsController.sol\";\n\n\n// Minimal crowdsale token for custom contracts\ncontract ControllerStub is IWingsController {\n\n  function ControllerStub(uint256 _ethRewardPart, uint256 _tokenRewardPart) public {\n    ethRewardPart = _ethRewardPart;\n    tokenRewardPart = _tokenRewardPart;\n  }\n\n  function fitCollectedValueIntoRange(uint256 _totalCollected) public view returns (uint256) {\n    return _totalCollected;\n  }\n\n  function() public payable {\n  }\n}\n",
   "sourcePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/test/ControllerStub.sol",
   "ast": {
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/test/ControllerStub.sol",
     "exportedSymbols": {
       "ControllerStub": [
-        543
+        826
       ]
     },
-    "id": 544,
+    "id": 827,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 509,
+        "id": 792,
         "literals": [
           "solidity",
           "^",
@@ -94,16 +94,16 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:4"
+        "src": "0:24:7"
       },
       {
-        "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/IWingsController.sol",
-        "file": "../IWingsController.sol",
-        "id": 510,
+        "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/interfaces/IWingsController.sol",
+        "file": "../interfaces/IWingsController.sol",
+        "id": 793,
         "nodeType": "ImportDirective",
-        "scope": 544,
-        "sourceUnit": 505,
-        "src": "27:33:4",
+        "scope": 827,
+        "sourceUnit": 791,
+        "src": "27:44:7",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -113,57 +113,57 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 511,
+              "id": 794,
               "name": "IWingsController",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 504,
-              "src": "138:16:4",
+              "referencedDeclaration": 790,
+              "src": "149:16:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IWingsController_$504",
+                "typeIdentifier": "t_contract$_IWingsController_$790",
                 "typeString": "contract IWingsController"
               }
             },
-            "id": 512,
+            "id": 795,
             "nodeType": "InheritanceSpecifier",
-            "src": "138:16:4"
+            "src": "149:16:7"
           }
         ],
         "contractDependencies": [
-          504
+          790
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 543,
+        "id": 826,
         "linearizedBaseContracts": [
-          543,
-          504
+          826,
+          790
         ],
         "name": "ControllerStub",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 527,
+              "id": 810,
               "nodeType": "Block",
-              "src": "241:81:4",
+              "src": "252:81:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 521,
+                    "id": 804,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 519,
+                      "id": 802,
                       "name": "ethRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 494,
-                      "src": "247:13:4",
+                      "referencedDeclaration": 780,
+                      "src": "258:13:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -173,43 +173,43 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 520,
+                      "id": 803,
                       "name": "_ethRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 514,
-                      "src": "263:14:4",
+                      "referencedDeclaration": 797,
+                      "src": "274:14:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "247:30:4",
+                    "src": "258:30:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 522,
+                  "id": 805,
                   "nodeType": "ExpressionStatement",
-                  "src": "247:30:4"
+                  "src": "258:30:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 525,
+                    "id": 808,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 523,
+                      "id": 806,
                       "name": "tokenRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 496,
-                      "src": "283:15:4",
+                      "referencedDeclaration": 782,
+                      "src": "294:15:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -219,31 +219,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 524,
+                      "id": 807,
                       "name": "_tokenRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 516,
-                      "src": "301:16:4",
+                      "referencedDeclaration": 799,
+                      "src": "312:16:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "283:34:4",
+                    "src": "294:34:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 526,
+                  "id": 809,
                   "nodeType": "ExpressionStatement",
-                  "src": "283:34:4"
+                  "src": "294:34:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 528,
+            "id": 811,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -251,16 +251,16 @@
             "name": "ControllerStub",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 517,
+              "id": 800,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 514,
+                  "id": 797,
                   "name": "_ethRewardPart",
                   "nodeType": "VariableDeclaration",
-                  "scope": 528,
-                  "src": "184:22:4",
+                  "scope": 811,
+                  "src": "195:22:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -268,10 +268,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 513,
+                    "id": 796,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "184:7:4",
+                    "src": "195:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -282,11 +282,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 516,
+                  "id": 799,
                   "name": "_tokenRewardPart",
                   "nodeType": "VariableDeclaration",
-                  "scope": 528,
-                  "src": "208:24:4",
+                  "scope": 811,
+                  "src": "219:24:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -294,10 +294,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 515,
+                    "id": 798,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "208:7:4",
+                    "src": "219:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -307,50 +307,50 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "183:50:4"
+              "src": "194:50:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 518,
+              "id": 801,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "241:0:4"
+              "src": "252:0:7"
             },
-            "scope": 543,
-            "src": "160:162:4",
+            "scope": 826,
+            "src": "171:162:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 537,
+              "id": 820,
               "nodeType": "Block",
-              "src": "417:33:4",
+              "src": "428:33:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 535,
+                    "id": 818,
                     "name": "_totalCollected",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 530,
-                    "src": "430:15:4",
+                    "referencedDeclaration": 813,
+                    "src": "441:15:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 534,
-                  "id": 536,
+                  "functionReturnParameters": 817,
+                  "id": 819,
                   "nodeType": "Return",
-                  "src": "423:22:4"
+                  "src": "434:22:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 538,
+            "id": 821,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -358,16 +358,16 @@
             "name": "fitCollectedValueIntoRange",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 531,
+              "id": 814,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 530,
+                  "id": 813,
                   "name": "_totalCollected",
                   "nodeType": "VariableDeclaration",
-                  "scope": 538,
-                  "src": "362:23:4",
+                  "scope": 821,
+                  "src": "373:23:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -375,10 +375,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 529,
+                    "id": 812,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "362:7:4",
+                    "src": "373:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -388,20 +388,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "361:25:4"
+              "src": "372:25:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 534,
+              "id": 817,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 533,
+                  "id": 816,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 538,
-                  "src": "408:7:4",
+                  "scope": 821,
+                  "src": "419:7:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -409,10 +409,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 532,
+                    "id": 815,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "408:7:4",
+                    "src": "419:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -422,23 +422,23 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "407:9:4"
+              "src": "418:9:7"
             },
-            "scope": 543,
-            "src": "326:124:4",
+            "scope": 826,
+            "src": "337:124:7",
             "stateMutability": "view",
-            "superFunction": 503,
+            "superFunction": 789,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 541,
+              "id": 824,
               "nodeType": "Block",
-              "src": "480:5:4",
+              "src": "491:5:7",
               "statements": []
             },
             "documentation": null,
-            "id": 542,
+            "id": 825,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -446,43 +446,43 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 539,
+              "id": 822,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "462:2:4"
+              "src": "473:2:7"
             },
             "payable": true,
             "returnParameters": {
-              "id": 540,
+              "id": 823,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "480:0:4"
+              "src": "491:0:7"
             },
-            "scope": 543,
-            "src": "454:31:4",
+            "scope": 826,
+            "src": "465:31:7",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 544,
-        "src": "111:376:4"
+        "scope": 827,
+        "src": "122:376:7"
       }
     ],
-    "src": "0:488:4"
+    "src": "0:499:7"
   },
   "legacyAST": {
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/test/ControllerStub.sol",
     "exportedSymbols": {
       "ControllerStub": [
-        543
+        826
       ]
     },
-    "id": 544,
+    "id": 827,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 509,
+        "id": 792,
         "literals": [
           "solidity",
           "^",
@@ -490,16 +490,16 @@
           ".18"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:4"
+        "src": "0:24:7"
       },
       {
-        "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/IWingsController.sol",
-        "file": "../IWingsController.sol",
-        "id": 510,
+        "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/interfaces/IWingsController.sol",
+        "file": "../interfaces/IWingsController.sol",
+        "id": 793,
         "nodeType": "ImportDirective",
-        "scope": 544,
-        "sourceUnit": 505,
-        "src": "27:33:4",
+        "scope": 827,
+        "sourceUnit": 791,
+        "src": "27:44:7",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -509,57 +509,57 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 511,
+              "id": 794,
               "name": "IWingsController",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 504,
-              "src": "138:16:4",
+              "referencedDeclaration": 790,
+              "src": "149:16:7",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IWingsController_$504",
+                "typeIdentifier": "t_contract$_IWingsController_$790",
                 "typeString": "contract IWingsController"
               }
             },
-            "id": 512,
+            "id": 795,
             "nodeType": "InheritanceSpecifier",
-            "src": "138:16:4"
+            "src": "149:16:7"
           }
         ],
         "contractDependencies": [
-          504
+          790
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 543,
+        "id": 826,
         "linearizedBaseContracts": [
-          543,
-          504
+          826,
+          790
         ],
         "name": "ControllerStub",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 527,
+              "id": 810,
               "nodeType": "Block",
-              "src": "241:81:4",
+              "src": "252:81:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 521,
+                    "id": 804,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 519,
+                      "id": 802,
                       "name": "ethRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 494,
-                      "src": "247:13:4",
+                      "referencedDeclaration": 780,
+                      "src": "258:13:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -569,43 +569,43 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 520,
+                      "id": 803,
                       "name": "_ethRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 514,
-                      "src": "263:14:4",
+                      "referencedDeclaration": 797,
+                      "src": "274:14:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "247:30:4",
+                    "src": "258:30:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 522,
+                  "id": 805,
                   "nodeType": "ExpressionStatement",
-                  "src": "247:30:4"
+                  "src": "258:30:7"
                 },
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 525,
+                    "id": 808,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 523,
+                      "id": 806,
                       "name": "tokenRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 496,
-                      "src": "283:15:4",
+                      "referencedDeclaration": 782,
+                      "src": "294:15:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -615,31 +615,31 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 524,
+                      "id": 807,
                       "name": "_tokenRewardPart",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 516,
-                      "src": "301:16:4",
+                      "referencedDeclaration": 799,
+                      "src": "312:16:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "283:34:4",
+                    "src": "294:34:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 526,
+                  "id": 809,
                   "nodeType": "ExpressionStatement",
-                  "src": "283:34:4"
+                  "src": "294:34:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 528,
+            "id": 811,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -647,16 +647,16 @@
             "name": "ControllerStub",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 517,
+              "id": 800,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 514,
+                  "id": 797,
                   "name": "_ethRewardPart",
                   "nodeType": "VariableDeclaration",
-                  "scope": 528,
-                  "src": "184:22:4",
+                  "scope": 811,
+                  "src": "195:22:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -664,10 +664,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 513,
+                    "id": 796,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "184:7:4",
+                    "src": "195:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -678,11 +678,11 @@
                 },
                 {
                   "constant": false,
-                  "id": 516,
+                  "id": 799,
                   "name": "_tokenRewardPart",
                   "nodeType": "VariableDeclaration",
-                  "scope": 528,
-                  "src": "208:24:4",
+                  "scope": 811,
+                  "src": "219:24:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -690,10 +690,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 515,
+                    "id": 798,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "208:7:4",
+                    "src": "219:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -703,50 +703,50 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "183:50:4"
+              "src": "194:50:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 518,
+              "id": 801,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "241:0:4"
+              "src": "252:0:7"
             },
-            "scope": 543,
-            "src": "160:162:4",
+            "scope": 826,
+            "src": "171:162:7",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 537,
+              "id": 820,
               "nodeType": "Block",
-              "src": "417:33:4",
+              "src": "428:33:7",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 535,
+                    "id": 818,
                     "name": "_totalCollected",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 530,
-                    "src": "430:15:4",
+                    "referencedDeclaration": 813,
+                    "src": "441:15:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 534,
-                  "id": 536,
+                  "functionReturnParameters": 817,
+                  "id": 819,
                   "nodeType": "Return",
-                  "src": "423:22:4"
+                  "src": "434:22:7"
                 }
               ]
             },
             "documentation": null,
-            "id": 538,
+            "id": 821,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -754,16 +754,16 @@
             "name": "fitCollectedValueIntoRange",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 531,
+              "id": 814,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 530,
+                  "id": 813,
                   "name": "_totalCollected",
                   "nodeType": "VariableDeclaration",
-                  "scope": 538,
-                  "src": "362:23:4",
+                  "scope": 821,
+                  "src": "373:23:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -771,10 +771,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 529,
+                    "id": 812,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "362:7:4",
+                    "src": "373:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -784,20 +784,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "361:25:4"
+              "src": "372:25:7"
             },
             "payable": false,
             "returnParameters": {
-              "id": 534,
+              "id": 817,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 533,
+                  "id": 816,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 538,
-                  "src": "408:7:4",
+                  "scope": 821,
+                  "src": "419:7:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -805,10 +805,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 532,
+                    "id": 815,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "408:7:4",
+                    "src": "419:7:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -818,23 +818,23 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "407:9:4"
+              "src": "418:9:7"
             },
-            "scope": 543,
-            "src": "326:124:4",
+            "scope": 826,
+            "src": "337:124:7",
             "stateMutability": "view",
-            "superFunction": 503,
+            "superFunction": 789,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 541,
+              "id": 824,
               "nodeType": "Block",
-              "src": "480:5:4",
+              "src": "491:5:7",
               "statements": []
             },
             "documentation": null,
-            "id": 542,
+            "id": 825,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -842,30 +842,30 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 539,
+              "id": 822,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "462:2:4"
+              "src": "473:2:7"
             },
             "payable": true,
             "returnParameters": {
-              "id": 540,
+              "id": 823,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "480:0:4"
+              "src": "491:0:7"
             },
-            "scope": 543,
-            "src": "454:31:4",
+            "scope": 826,
+            "src": "465:31:7",
             "stateMutability": "payable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 544,
-        "src": "111:376:4"
+        "scope": 827,
+        "src": "122:376:7"
       }
     ],
-    "src": "0:488:4"
+    "src": "0:499:7"
   },
   "compiler": {
     "name": "solc",
@@ -873,5 +873,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-07-19T15:52:01.905Z"
+  "updatedAt": "2018-07-20T09:49:34.659Z"
 }

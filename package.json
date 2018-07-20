@@ -26,7 +26,6 @@
   "homepage": "https://github.com/wingsdao/wings-light-bridge#readme",
   "dependencies": {
     "truffle": "^4.0.4",
-    "zeppelin-solidity": "1.4.0",
-    "wings-integration": "^1.2.0"
+    "zeppelin-solidity": "1.4.0"
   }
 }
