@@ -261,26 +261,36 @@ If some error occurred during token and/or ETH reward transfer to Bridge contrac
 function withdraw() public;
 ```
 
-### setCrowdsaleGoal
+### setCrowdsaleGoal (optional)
+
+You can set and update crowdsale goals in the Bridge any time before the end of crowdsale.
 
 ```sc
 function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public;
 ```
 
 **Parameters:**
- - `_minimalGoal` - uint256 - soft cap of crowdsale
- - `_hardCap` - uint256 - hard cap of crowdsale
+ - `_minimalGoal` - uint256 - soft cap of crowdsale (in the same currency as the forecast question)
+ - `_hardCap` - uint256 - hard cap of crowdsale (in the same currency as the forecast question)
 
-### setCrowdsalePeriod
+ **Important:** If collected minimal goal or hard cap is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
+ *Example: If your hard cap is 1000000$ you will have to pass 1000000000000000000000000 as `_hardCap`.*
+
+*NOTE: Hard cap must be greater then minimal goal. Minimal goal must be greater then 0.*
+
+### setCrowdsalePeriod (optional)
+
+You can set and update crowdsale time frame in the Bridge any time before the end of crowdsale.
 
 ```sc
 function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public;
 ```
 
 **Parameters:**
- - `_startTimestamp` - uint256 - start of crowdsale
- - `_endTimestamp` - uint256 - end of crowdsale
+ - `_startTimestamp` - uint256 - start of crowdsale (unix timestamp)
+ - `_endTimestamp` - uint256 - end of crowdsale (unix timestamp)
 
+ *NOTE: End timestamp must be greater then start timestamp. Start timestamp must be greater then 0.*
 
 ### calculateRewards
 
