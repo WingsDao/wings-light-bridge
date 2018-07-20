@@ -16,6 +16,8 @@ contract ControllerStub is IWingsController {
     return _totalCollected;
   }
 
+  function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress) public {}
+
   function() public payable {
   }
 }
