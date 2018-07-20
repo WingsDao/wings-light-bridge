@@ -1,6 +1,6 @@
 # Wings Light Bridge
 
-In this tutorial we are going to walkthrough the Wings integration process.
+Wings easy integration.
 
 ## Content
 #### Initial setup
@@ -36,6 +36,8 @@ In this tutorial we are going to walkthrough the Wings integration process.
 - Ganache-cli v6.1.0
 
 # Step by step guide
+
+In this tutorial we are going to walkthrough the Wings integration process.
 
 ### 1. Setup
 
