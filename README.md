@@ -23,6 +23,8 @@ Wings easy integration.
   - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
   - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [withdraw](https://github.com/WingsDao/wings-light-bridge#withdraw)
+  - [setCrowdsaleGoal](https://github.com/WingsDao/wings-light-bridge#setCrowdsaleGoal-(optional))
+  - [setCrowdsalePeriod](https://github.com/WingsDao/wings-light-bridge#setCrowdsalePeriod-(optional))
 
 #### Finishing Bridge
   - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
