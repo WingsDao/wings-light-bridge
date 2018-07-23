@@ -95,7 +95,7 @@ contract('Bridge', (accounts) => {
         let hardCap = events[0].args.hardCap.toString(10)
 
         console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`)
-        console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')}`)
+        console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`)
         minimalGoal.should.be.equal(goal.min)
         hardCap.should.be.equal(goal.max)
       }
