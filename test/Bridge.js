@@ -79,6 +79,54 @@ contract('Bridge', (accounts) => {
     }
   })
 
+  it('Should allow to set goals of crowdsale', async () => {
+    let goal = {
+      min: web3.toWei(10, 'ether').toString(10),
+      max: web3.toWei(1000, 'ether').toString(10)
+    }
+
+    await bridge.setCrowdsaleGoal(goal.min, goal.max, { from: creator })
+
+    let CUSTOM_CROWDSALE_GOAL_ADDED = bridge.CUSTOM_CROWDSALE_GOAL_ADDED({}, { fromBlock: 0, toBlock: 'latest' })
+
+    CUSTOM_CROWDSALE_GOAL_ADDED.get((error, events) => {
+      if (!error) {
+        let minimalGoal = events[0].args.minimalGoal.toString(10)
+        let hardCap = events[0].args.hardCap.toString(10)
+
+        console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`)
+        console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')}`)
+        minimalGoal.should.be.equal(goal.min)
+        hardCap.should.be.equal(goal.max)
+      }
+    })
+  })
+
+  it('Should allow to set time period of crowdsale', async () => {
+    const now = Date.now()
+
+    let timestamps = {
+      start: now.toString(10),
+      end: (now + 86400 * 5).toString(10)
+    }
+
+    await bridge.setCrowdsalePeriod(timestamps.start, timestamps.end, { from: creator })
+
+    let CUSTOM_CROWDSALE_PERIOD_ADDED = bridge.CUSTOM_CROWDSALE_PERIOD_ADDED({}, { fromBlock: 0, toBlock: 'latest' })
+
+    CUSTOM_CROWDSALE_PERIOD_ADDED.get((error, events) => {
+      if (!error) {
+        let startTimestamp = events[0].args.startTimestamp.toString(10)
+        let endTimestamp = events[0].args.endTimestamp.toString(10)
+
+        console.log(`Start timestamp: ${Math.floor(parseInt(startTimestamp)/1000)}`)
+        console.log(`End timestamp: ${Math.floor(parseInt(endTimestamp)/1000)}`)
+        startTimestamp.should.be.equal(timestamps.start)
+        endTimestamp.should.be.equal(timestamps.end)
+      }
+    })
+  })
+
   it('Should notify sale', async () => {
     await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
       from: creator
