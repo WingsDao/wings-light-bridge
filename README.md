@@ -9,14 +9,12 @@ Wings easy integration.
   - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
   - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
 
-#### During forecasting
+#### Crowdsale start
   - [Find DAO address from url](https://github.com/WingsDao/wings-light-bridge#1-find-dao-address-from-url)
   - [Transfer management to DAO](https://github.com/WingsDao/wings-light-bridge#2-transfer-management-to-dao)
-
-#### Crowdsale start
-  - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#2-find-crowdsalecontroller-address)
-  - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#3-start-crowdsale)
+  - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#3-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
+  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#4-find-crowdsalecontroller-address)
+  - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#5-start-crowdsale)
 
 #### Bridge methods
   - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
@@ -65,7 +63,7 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 ---
 
-## If you already created project on wings.ai head to [¶During forecasting](https://github.com/WingsDao/wings-light-bridge#during-forecasting).
+## If you already created project on wings.ai head to [¶Crowdsale start](https://github.com/WingsDao/wings-light-bridge#crowdsale-start).
 
 ---
 
@@ -88,7 +86,15 @@ After this step you can start your project's forecasting.
 
 ---
 
-## During forecasting
+---
+
+
+When the forecasting finish you have 45 days to start your project's crowdsale.
+
+
+---
+
+## Crowdsale start
 
 ### 1. Find DAO address from url
 
@@ -122,19 +128,9 @@ function transferManager(address _newManager) public;
 await bridge.transferManager(dao.address, { from: yourAccount }) // change with your DAO address
 ```
 
----
-
-
-When the forecasting finish you have 45 days to start your project's crowdsale.
-
-
----
-
-## Crowdsale start
-
 To start crowdsale, complete the following steps.
 
-### 1. Make a call to method createCustomCrowdsale in DAO contract
+### 3. Make a call to method createCustomCrowdsale in DAO contract
 
 Make a call to method `DAO.createCustomCrowdsale()`.
 
@@ -148,7 +144,7 @@ function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(
 await dao.createCustomCrowdsale()
 ```
 
-### 2. Find crowdsaleController address
+### 4. Find crowdsaleController address
 
 Make a call to getter method `DAO.crowdsaleController()`.
 
@@ -164,7 +160,7 @@ const ccAddress = await dao.crowdsaleController.call()
 const crowdsaleController = await IWingsController.at(ccAddress)
 ```
 
-### 3. Start crowdsale
+### 5. Start crowdsale
 
 To start your project's crowdsale (`Bridge`) you need to make a call to `crowdsaleController`'s method `start`.
 
