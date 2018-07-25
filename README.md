@@ -264,6 +264,8 @@ If some error occurred during token and/or ETH reward transfer to Bridge contrac
 ```sc
 function withdraw() public;
 ```
+**Description:**
+- Can be called any time before Bridge is finished.
 
 ### setCrowdsaleGoal (optional)
 
@@ -272,6 +274,8 @@ You can set and update crowdsale goals in the Bridge any time before the end of 
 ```sc
 function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public;
 ```
+**Description:**
+- Can be called any time before Bridge is finished.
 
 **Parameters:**
  - `_minimalGoal` - uint256 - soft cap of crowdsale (in the same currency as the forecast question)
@@ -289,6 +293,8 @@ You can set and update crowdsale time frame in the Bridge any time before the en
 ```sc
 function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public;
 ```
+**Description:**
+- Can be called any time before Bridge is finished.
 
 **Parameters:**
  - `_startTimestamp` - uint256 - start of crowdsale (unix timestamp)
@@ -334,9 +340,23 @@ function finish()
   whenCrowdsaleAlive()
   onlyOwner()
 {
+  uint256 ethBalance = address(this).balance;
+  uint256 tokenBalance = token.balanceOf(address(this));
+
+  uint256 ethReward;
+  uint256 tokenReward;
+
+  (ethReward, tokenReward) = calculateRewards();
+
+  require(ethBalance >= ethReward && tokenBalance >= tokenReward);
+
   completed = true;
+
+  CUSTOM_CROWDSALE_FINISH();
 }
 ```
+**Description:**
+- Checks if the Bridge balance has enough ETH and tokens for rewards.
 
 ---
 
