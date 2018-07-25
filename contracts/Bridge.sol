@@ -237,7 +237,7 @@ contract Bridge is IBridge {
   }
 
   // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured
-  function withdraw() public onlyOwner() {
+  function withdraw() public onlyOwner() uncompleted() {
     uint256 ethBalance = address(this).balance;
     uint256 tokenBalance = token.balanceOf(address(this));
 

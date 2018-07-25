@@ -8,6 +8,10 @@ const sendETH = async (txObject) => {
   await web3.eth.sendTransaction(txObject)
 }
 
+const isRevert = (e) => {
+  e.message.should.be.equal('VM Exception while processing transaction: revert')
+}
+
 contract('Bridge', (accounts) => {
   let creator = accounts[0]
   let participant = accounts[1]
@@ -155,7 +159,7 @@ contract('Bridge', (accounts) => {
         from: creator
       })
     } catch (e) {
-      e.message.should.be.equal('VM Exception while processing transaction: revert')
+      isRevert(e)
     }
   })
 
@@ -199,7 +203,7 @@ contract('Bridge', (accounts) => {
         from: creator
       })
     } catch (e) {
-      e.message.should.be.equal('VM Exception while processing transaction: revert')
+      isRevert(e)
     }
   })
 
@@ -217,11 +221,15 @@ contract('Bridge', (accounts) => {
     ethBalance.should.be.equal(ethReward)
   })
 
-  it('Should allow to withdraw reward', async () => {
-    await bridge.withdraw({ from: creator })
+  it('Shouldn\'t allow to withdraw reward after finish', async () => {
+    try {
+      await bridge.withdraw({ from: creator })
+    } catch (e) {
+      isRevert(e)
+    }
   })
 
-  it('Shouldn\'t have rewards on contract', async () => {
+  it.skip('Shouldn\'t have rewards on contract', async () => {
     const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
     const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
 
