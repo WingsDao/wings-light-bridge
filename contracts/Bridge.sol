@@ -144,9 +144,17 @@ contract Bridge is IBridge {
     whenCrowdsaleAlive()
     onlyOwner()
   {
-    completed = true;
+    uint256 ethBalance = address(this).balance;
+    uint256 tokenBalance = token.balanceOf(address(this));
 
-    endTimestamp = block.timestamp;
+    uint256 ethReward;
+    uint256 tokenReward;
+
+    (ethReward, tokenReward) = calculateRewards();
+
+    require(ethBalance >= ethReward && tokenBalance >= tokenReward);
+
+    completed = true;
 
     CUSTOM_CROWDSALE_FINISH();
   }
@@ -198,7 +206,7 @@ contract Bridge is IBridge {
   }
 
   // Change token address (in case you've used the dafault token address during bridge deployment)
-  function changeToken(address _newToken) public onlyOwnerOrManager() {
+  function changeToken(address _newToken) public onlyOwnerOrManager() uncompleted() {
     token = DetailedERC20(_newToken);
 
     uint8 tokenDecimals = uint8(token.decimals());

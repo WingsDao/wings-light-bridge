@@ -106,8 +106,8 @@ contract('Bridge', (accounts) => {
     const now = Date.now()
 
     let timestamps = {
-      start: now.toString(10),
-      end: (now + 86400 * 5).toString(10)
+      start: Math.floor(now/1000).toString(10),
+      end: Math.floor((now + 86400 * 5)/1000).toString(10)
     }
 
     await bridge.setCrowdsalePeriod(timestamps.start, timestamps.end, { from: creator })
@@ -119,8 +119,8 @@ contract('Bridge', (accounts) => {
         let startTimestamp = events[0].args.startTimestamp.toString(10)
         let endTimestamp = events[0].args.endTimestamp.toString(10)
 
-        console.log(`Start timestamp: ${Math.floor(parseInt(startTimestamp)/1000)}`)
-        console.log(`End timestamp: ${Math.floor(parseInt(endTimestamp)/1000)}`)
+        console.log(`Start timestamp: ${parseInt(startTimestamp)}`)
+        console.log(`End timestamp: ${parseInt(endTimestamp)}`)
         startTimestamp.should.be.equal(timestamps.start)
         endTimestamp.should.be.equal(timestamps.end)
       }
@@ -147,6 +147,16 @@ contract('Bridge', (accounts) => {
     await bridge.transferManager(controller.address, {
       from: creator
     })
+  })
+
+  it('Shouldn\'t allow to finish Bridge before rewards were sent', async () => {
+    try {
+      await bridge.finish({
+        from: creator
+      })
+    } catch (e) {
+      e.message.should.be.equal('VM Exception while processing transaction: revert')
+    }
   })
 
   it('Should transfer token and ETH rewards', async () => {
@@ -181,6 +191,16 @@ contract('Bridge', (accounts) => {
 
     const completed = await bridge.isSuccessful.call()
     completed.should.be.equal(true);
+  })
+
+  it('Shouldn\'t allow to change token address after Bridge was finished', async () => {
+    try {
+      await bridge.changeToken(token.address, {
+        from: creator
+      })
+    } catch (e) {
+      e.message.should.be.equal('VM Exception while processing transaction: revert')
+    }
   })
 
   it('Should have tokens reward on contract', async () => {
