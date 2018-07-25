@@ -136,7 +136,7 @@ Make a call to method `DAO.createCustomCrowdsale()`.
 
 **Interface:**
 ```sc
-function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(Stage.ForecastingClosed);
+function createCustomCrowdsale() public;
 ```
 
 **Example:**
@@ -166,12 +166,7 @@ To start your project's crowdsale (`Bridge`) you need to make a call to `crowdsa
 
 **Interface:**
 ```sc
-function start(
-        uint256 _startTimestamp,
-        uint256 _endTimestamp,
-        address _fundingAddress
-    )
-        public;
+function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress) public;
 ```
 **Parameters:**
   - `_startTimestamp` - timestamp of the start of your crowdsale.
@@ -200,13 +195,7 @@ After this step your crowdsale is taking place and you come back right before th
 If you need to check address of token contract which you specified during Bridge deploy, use `getToken` method.
 
 ```sc
-function getToken()
-  public
-  view
-  returns (address)
-{
-  return address(token);
-}
+function getToken() public view returns (address);
 ```
 **Returns:**
   - address of token contract
@@ -224,16 +213,6 @@ function changeToken(address _newToken) public onlyOwner() {
 ```
 **Parameters:**
   - `_newToken` - address of new token contract
-
-### withdraw
-
-If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
-
-```sc
-function withdraw() public;
-```
-**Description:**
-- Can be called any time before Bridge is finished.
 
 ### setCrowdsaleGoal (optional)
 
@@ -270,25 +249,24 @@ function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) publ
 
  *NOTE: End timestamp must be greater then start timestamp. Start timestamp must be greater then 0.*
 
-## Finishing Bridge
+### withdraw
 
+If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
+
+```sc
+function withdraw() public;
+```
+**Description:**
+- Can be called any time before Bridge is finished.
+
+## Finishing Bridge
 
 ### notifySale
 
 When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
 
 ```sc
-function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
- public
- hasBeenStarted()
- hasntStopped()
- whenCrowdsaleAlive()
- onlyOwner()
-{
- totalCollected = totalCollected.add(_amount);
- totalCollectedETH = totalCollectedETH.add(_ethAmount);
- totalSold = totalSold.add(_tokensAmount);
-}
+function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) public;
 ```
 
 **Parameters:**
@@ -306,16 +284,10 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
 Communicates with `CrowdsaleController` (aka `IWingsController`) and calculates rewards.
 
 ```sc
-function calculateRewards() public view returns (uint256, uint256) {
-  uint256 tokenRewardPart = IWingsController(manager).tokenRewardPart();
-  uint256 ethRewardPart = IWingsController(manager).ethRewardPart();
-
-  uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
-  uint256 ethReward = (ethRewardPart == 0) ? 0 : (totalCollected.mul(ethRewardPart) / 1000000);
-
-  return (ethReward, tokenReward);
-}
+function calculateRewards() public view returns (uint256, uint256);
 ```
+**Description:**
+ - Calculates rewards absolutely the same as it does the wings crowdsale controller.
 
 **Returns:**
   - `ethReward` - ETH reward amount (in Wei)
@@ -329,33 +301,14 @@ And now, before making a call to `finish` method, make a call to method `calcula
 
 ### finish
 
-Call this method to stop `Bridge`. Changes the state of crowdsale to `completed`.
+Call this method to stop `Bridge`.
 
 ```sc
-function finish()
-  public
-  hasntStopped()
-  hasBeenStarted()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  uint256 ethBalance = address(this).balance;
-  uint256 tokenBalance = token.balanceOf(address(this));
-
-  uint256 ethReward;
-  uint256 tokenReward;
-
-  (ethReward, tokenReward) = calculateRewards();
-
-  require(ethBalance >= ethReward && tokenBalance >= tokenReward);
-
-  completed = true;
-
-  CUSTOM_CROWDSALE_FINISH();
-}
+function finish() public;
 ```
 **Description:**
 - Checks if the Bridge balance has enough ETH and tokens for rewards.
+- Changes the state of crowdsale to `completed`.
 
 ---
 
