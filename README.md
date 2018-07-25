@@ -19,12 +19,12 @@ Wings easy integration.
 #### Bridge methods
   - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
   - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
-  - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
   - [withdraw](https://github.com/WingsDao/wings-light-bridge#withdraw)
   - [setCrowdsaleGoal](https://github.com/WingsDao/wings-light-bridge#setCrowdsaleGoal-(optional))
   - [setCrowdsalePeriod](https://github.com/WingsDao/wings-light-bridge#setCrowdsalePeriod-(optional))
 
 #### Finishing Bridge
+  - [Summarising crowdsale results](https://github.com/WingsDao/wings-light-bridge#notifySale)
   - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
   - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
   - [Finishing Bridge](https://github.com/WingsDao/wings-light-bridge#finish)
@@ -225,34 +225,6 @@ function changeToken(address _newToken) public onlyOwner() {
 **Parameters:**
   - `_newToken` - address of new token contract
 
-### notifySale
-
-When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
-
-```sc
-function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
-  public
-  hasBeenStarted()
-  hasntStopped()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  totalCollected = totalCollected.add(_amount);
-  totalCollectedETH = totalCollectedETH.add(_ethAmount);
-  totalSold = totalSold.add(_tokensAmount);
-}
-```
-
-**Parameters:**
-  - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
-  - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
-  - `_tokensAmount` - amount of tokens sold
-
-**Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
-*Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
-
-**Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
-
 ### withdraw
 
 If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
@@ -297,6 +269,37 @@ function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) publ
  - `_endTimestamp` - uint256 - end of crowdsale (unix timestamp)
 
  *NOTE: End timestamp must be greater then start timestamp. Start timestamp must be greater then 0.*
+
+## Finishing Bridge
+
+
+### notifySale
+
+When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
+
+```sc
+function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
+ public
+ hasBeenStarted()
+ hasntStopped()
+ whenCrowdsaleAlive()
+ onlyOwner()
+{
+ totalCollected = totalCollected.add(_amount);
+ totalCollectedETH = totalCollectedETH.add(_ethAmount);
+ totalSold = totalSold.add(_tokensAmount);
+}
+```
+
+**Parameters:**
+ - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
+ - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
+ - `_tokensAmount` - amount of tokens sold
+
+**Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
+*Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
+
+**Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
 
 ### calculateRewards
 
