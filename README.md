@@ -4,30 +4,30 @@ Wings easy integration.
 
 ## Content
 #### Initial setup
-  - [Setup](https://github.com/WingsDao/wings-light-bridge#1-setup)
-  - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
-  - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
-  - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
+  - [Setup](#1-setup)
+  - [Prepare constructor arguments](#2-prepare-constructor-arguments)
+  - [Deploy](#3-deploy)
+  - [Create project](#4-create-project)
 
 #### Crowdsale start
-  - [Find DAO address from url](https://github.com/WingsDao/wings-light-bridge#1-find-dao-address-from-url)
-  - [Transfer management to DAO](https://github.com/WingsDao/wings-light-bridge#2-transfer-management-to-dao)
-  - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#3-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#4-find-crowdsalecontroller-address)
-  - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#5-start-crowdsale)
+  - [Find DAO address from url](#1-find-dao-address-from-url)
+  - [Transfer management to DAO](#2-transfer-management-to-dao)
+  - [Make a call to method createCustomCrowdsale in DAO contract](#3-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
+  - [Find crowdsaleController address](#4-find-crowdsalecontroller-address)
+  - [Start crowdsale](#5-start-crowdsale)
 
 #### Bridge methods
-  - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
-  - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
-  - [withdraw](https://github.com/WingsDao/wings-light-bridge#withdraw)
-  - [setCrowdsaleGoal](https://github.com/WingsDao/wings-light-bridge#setCrowdsaleGoal-(optional))
-  - [setCrowdsalePeriod](https://github.com/WingsDao/wings-light-bridge#setCrowdsalePeriod-(optional))
+  - [getToken](#gettoken)
+  - [changeToken](#changetoken)
+  - [withdraw](#withdraw)
+  - [setCrowdsaleGoal](#setCrowdsaleGoal-(optional))
+  - [setCrowdsalePeriod](#setCrowdsalePeriod-(optional))
 
 #### Finishing Bridge
-  - [Summarising crowdsale results](https://github.com/WingsDao/wings-light-bridge#notifySale)
-  - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
-  - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
-  - [Finishing Bridge](https://github.com/WingsDao/wings-light-bridge#finish)
+  - [Summarising crowdsale results](#notifySale)
+  - [Calculating rewards](#calculaterewards)
+  - [Transferring rewards](#transferring-rewards)
+  - [Finishing Bridge](#finish)
 
 ## Requirements
 
@@ -63,7 +63,7 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 ---
 
-## If you already created project on wings.ai head to [¶Crowdsale start](https://github.com/WingsDao/wings-light-bridge#crowdsale-start).
+## If you already created project on wings.ai head to [¶Crowdsale start](#crowdsale-start).
 
 ---
 
