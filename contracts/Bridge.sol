@@ -1,40 +1,51 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.18;
 
 
-import 'wings-integration/contracts/BasicCrowdsale.sol';
 import 'zeppelin-solidity/contracts/math/SafeMath.sol';
+import 'zeppelin-solidity/contracts/token/DetailedERC20.sol';
 
-import './IWingsController.sol';
-import './DefaultToken.sol';
+import './interfaces/IWingsController.sol';
+import './interfaces/IBridge.sol';
 
 
 /*
   Standalone Bridge
 */
-contract Bridge is BasicCrowdsale {
+contract Bridge is IBridge {
 
   using SafeMath for uint256;
 
+  event CROWDSALE_START(uint256 startTimestamp, uint256 endTimestamp, address fundingAddress);
   event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
+  event CUSTOM_CROWDSALE_GOAL_ADDED(uint256 minimalGoal, uint256 hardCap);
+  event CUSTOM_CROWDSALE_PERIOD_ADDED(uint256 startTimestamp, uint256 endTimestamp);
   event CUSTOM_CROWDSALE_FINISH();
 
+  modifier onlyOwnerOrManager() {
+    require(msg.sender == owner || msg.sender == manager);
+    _;
+  }
+
+  modifier uncompleted() {
+    require(!completed);
+    _;
+  }
+
   // Crowdsale token must be ERC20-compliant
-  DefaultToken token;
+  DetailedERC20 token;
 
   // Crowdsale state
   bool completed;
 
   // Constructor
-  constructor(
-    uint256 _minimalGoal,
-    uint256 _hardCap,
-    address _token
+  function Bridge(
+    address _owner,
+    address _manager
   )
-    BasicCrowdsale(msg.sender, msg.sender) // owner, manager
+    public
   {
-    minimalGoal = _minimalGoal;
-    hardCap = _hardCap;
-    token = DefaultToken(_token);
+    owner = _owner;
+    manager = _manager;
   }
 
   /*
@@ -44,13 +55,14 @@ contract Bridge is BasicCrowdsale {
   // Returns address of crowdsale token
   function getToken()
     public
+    view
     returns (address)
   {
     return address(token);
   }
 
   // Mints token Rewards to Forecasting contract
-  // called by CrowdsaleController
+  // called by IWingsController
   function mintTokenRewards(
     address _contract,
     uint256 _amount    // agreed part of totalSold which is intended for rewards
@@ -62,7 +74,28 @@ contract Bridge is BasicCrowdsale {
     token.transfer(_contract, _amount);
   }
 
-  function releaseTokens() public onlyManager() hasntStopped() whenCrowdsaleSuccessful() {
+  // called by CrowdsaleController to transfer reward part of ETH
+  // collected by successful crowdsale to Forecasting contract.
+  // This call is made upon closing successful crowdfunding process
+  // iff agreed ETH reward part is not zero
+  function mintETHRewards(
+    address _contract,  // Forecasting contract
+    uint256 _amount     // agreed part of totalCollected which is intended for rewards
+  )
+    public
+    onlyManager() // manager is CrowdsaleController instance
+  {
+    require(_contract.call.value(_amount)());
+  }
+
+  // cancels crowdsale
+  function stop() public onlyManager() hasntStopped()  {
+    // we can stop only not started and not completed crowdsale
+    if (started) {
+      require(!isFailed());
+      require(!isSuccessful());
+    }
+    stopped = true;
   }
 
   /*
@@ -87,7 +120,7 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Validates parameters and starts crowdsale
-  // called by CrowdsaleController
+  // called by IWingsController
   function start(
     uint256 _startTimestamp,
     uint256 _endTimestamp,
@@ -100,7 +133,7 @@ contract Bridge is BasicCrowdsale {
   {
     started = true;
 
-    emit CROWDSALE_START(_startTimestamp, _endTimestamp, _fundingAddress);
+    CROWDSALE_START(_startTimestamp, _endTimestamp, address(0));
   }
 
   // Finish crowdsale
@@ -111,9 +144,19 @@ contract Bridge is BasicCrowdsale {
     whenCrowdsaleAlive()
     onlyOwner()
   {
+    uint256 ethBalance = address(this).balance;
+    uint256 tokenBalance = token.balanceOf(address(this));
+
+    uint256 ethReward;
+    uint256 tokenReward;
+
+    (ethReward, tokenReward) = calculateRewards();
+
+    require(ethBalance >= ethReward && tokenBalance >= tokenReward);
+
     completed = true;
 
-    emit CUSTOM_CROWDSALE_FINISH();
+    CUSTOM_CROWDSALE_FINISH();
   }
 
   function isFailed()
@@ -163,14 +206,38 @@ contract Bridge is BasicCrowdsale {
   }
 
   // Change token address (in case you've used the dafault token address during bridge deployment)
-  function changeToken(address _newToken) public onlyOwner() {
-    token = DefaultToken(_newToken);
+  function changeToken(address _newToken) public onlyOwnerOrManager() uncompleted() {
+    token = DetailedERC20(_newToken);
 
-    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), uint8(token.decimals()));
+    uint8 tokenDecimals = uint8(token.decimals());
+
+    require(tokenDecimals >= 8 && tokenDecimals <= 18);
+
+    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), tokenDecimals);
+  }
+
+  // Set/update crowdsale goal
+  function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() uncompleted() {
+    require(_minimalGoal > 0 && _hardCap > _minimalGoal);
+
+    minimalGoal = _minimalGoal;
+    hardCap = _hardCap;
+
+    CUSTOM_CROWDSALE_GOAL_ADDED(minimalGoal, hardCap);
+  }
+
+  // Set/update crowdsale period
+  function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public onlyOwnerOrManager() uncompleted() {
+    require(_startTimestamp > 0 && _endTimestamp > _startTimestamp);
+
+    startTimestamp = _startTimestamp;
+    endTimestamp = _endTimestamp;
+
+    CUSTOM_CROWDSALE_PERIOD_ADDED(startTimestamp, endTimestamp);
   }
 
   // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured
-  function withdraw() public onlyOwner() {
+  function withdraw() public onlyOwner() uncompleted() {
     uint256 ethBalance = address(this).balance;
     uint256 tokenBalance = token.balanceOf(address(this));
 
