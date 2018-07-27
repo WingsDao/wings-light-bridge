@@ -213,7 +213,7 @@ contract Bridge is IBridge {
 
     require(tokenDecimals >= 8 && tokenDecimals <= 18);
 
-    emit CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), tokenDecimals);
+    CUSTOM_CROWDSALE_TOKEN_ADDED(address(token), tokenDecimals);
   }
 
   // Set/update crowdsale goal
