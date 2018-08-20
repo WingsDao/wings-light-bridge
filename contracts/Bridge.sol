@@ -218,9 +218,12 @@ contract Bridge is IBridge {
 
   // Set/update crowdsale goal
   function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() uncompleted() {
-    require(_minimalGoal > 0 && _hardCap > _minimalGoal);
+    require(_hardCap > _minimalGoal);
 
-    minimalGoal = _minimalGoal;
+    if (_minimalGoal > 0) {
+      minimalGoal = _minimalGoal;
+    }
+
     hardCap = _hardCap;
 
     CUSTOM_CROWDSALE_GOAL_ADDED(minimalGoal, hardCap);
