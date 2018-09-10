@@ -77,8 +77,8 @@ Create project on Wings platform as custom contract and provide address of **bri
 
 Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), select **Custom Contract**, then in **Project overview** tab we need to add Bridge contract address to **Bridge contract address** field.
 
-![select custom contract](https://imgur.com/DCn704E)
-![add bridge contract address](https://imgur.com/YqZ5MB4)
+![select custom contract](https://i.imgur.com/DCn704E.png)
+![add bridge contract address](https://i.imgur.com/YqZ5MB4.png)
 
 ---
 
