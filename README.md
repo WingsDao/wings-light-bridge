@@ -75,11 +75,10 @@ During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as argument
 
 Create project on Wings platform as custom contract and provide address of **bridge** contract.
 
-Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
+Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), select **Custom Contract**, then in **Project overview** tab we need to add Bridge contract address to **Bridge contract address** field.
 
-Like on image:
-
-![contract address](https://i.imgur.com/myATGnp.png)
+![select custom contract](https://imgur.com/DCn704E)
+![add bridge contract address](https://imgur.com/YqZ5MB4)
 
 ---
 
