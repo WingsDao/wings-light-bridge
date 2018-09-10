@@ -4,30 +4,30 @@ In this tutorial we are going to walkthrough the Wings integration process.
 
 ## Content
 #### Initial setup
-  - [Setup](https://github.com/WingsDao/wings-light-bridge#1-setup)
-  - [Prepare constructor arguments](https://github.com/WingsDao/wings-light-bridge#2-prepare-constructor-arguments)
-  - [Deploy](https://github.com/WingsDao/wings-light-bridge#3-deploy)
-  - [Create project](https://github.com/WingsDao/wings-light-bridge#4-create-project)
+  - [Setup](#1-setup)
+  - [Prepare constructor arguments](#2-prepare-constructor-arguments)
+  - [Deploy](#3-deploy)
+  - [Create project](#4-create-project)
 
 #### During forecasting
-  - [Find DAO address from url](https://github.com/WingsDao/wings-light-bridge#1-find-dao-address-from-url)
-  - [Transfer management to DAO](https://github.com/WingsDao/wings-light-bridge#2-transfer-management-to-dao)
+  - [Find DAO address from url](#1-find-dao-address-from-url)
+  - [Transfer management to DAO](#2-transfer-management-to-dao)
 
 #### Crowdsale start
-  - [Make a call to method createCustomCrowdsale in DAO contract](https://github.com/WingsDao/wings-light-bridge#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](https://github.com/WingsDao/wings-light-bridge#2-find-crowdsalecontroller-address)
-  - [Start crowdsale](https://github.com/WingsDao/wings-light-bridge#3-start-crowdsale)
+  - [Make a call to method createCustomCrowdsale in DAO contract](#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
+  - [Find crowdsaleController address](#2-find-crowdsalecontroller-address)
+  - [Start crowdsale](#3-start-crowdsale)
 
 #### Bridge methods
-  - [getToken](https://github.com/WingsDao/wings-light-bridge#gettoken)
-  - [changeToken](https://github.com/WingsDao/wings-light-bridge#changetoken)
-  - [notifySale](https://github.com/WingsDao/wings-light-bridge#notifysale)
-  - [withdraw](https://github.com/WingsDao/wings-light-bridge#withdraw)
+  - [getToken](#gettoken)
+  - [changeToken](#changetoken)
+  - [notifySale](#notifysale)
+  - [withdraw](#withdraw)
 
 #### Finishing Bridge
-  - [Calculating rewards](https://github.com/WingsDao/wings-light-bridge#calculaterewards)
-  - [Transferring rewards](https://github.com/WingsDao/wings-light-bridge#transferring-rewards)
-  - [Finishing Bridge](https://github.com/WingsDao/wings-light-bridge#finish)
+  - [Calculating rewards](#calculaterewards)
+  - [Transferring rewards](#transferring-rewards)
+  - [Finishing Bridge](#finish)
 
 ## Requirements
 
