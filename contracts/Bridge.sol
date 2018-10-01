@@ -1,10 +1,6 @@
 pragma solidity ^0.4.18;
 
 
-import 'zeppelin-solidity/contracts/math/SafeMath.sol';
-import 'zeppelin-solidity/contracts/token/DetailedERC20.sol';
-
-import './interfaces/IWingsController.sol';
 import './interfaces/IBridge.sol';
 
 
@@ -12,34 +8,6 @@ import './interfaces/IBridge.sol';
     Standalone Bridge
 */
 contract Bridge is IBridge {
-
-    using SafeMath for uint256;
-
-    event CROWDSALE_START(uint256 startTimestamp, uint256 endTimestamp, address fundingAddress);
-    event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
-    event CUSTOM_CROWDSALE_GOAL_ADDED(uint256 minimalGoal, uint256 hardCap);
-    event CUSTOM_CROWDSALE_PERIOD_ADDED(uint256 startTimestamp, uint256 endTimestamp);
-    event CUSTOM_CROWDSALE_FINISH();
-
-    modifier onlyOwnerOrManager() {
-        require(msg.sender == owner || msg.sender == manager);
-        _;
-    }
-
-    modifier uncompleted() {
-        require(!completed);
-        _;
-    }
-
-    // crowdsale token must be ERC20-compliant
-    DetailedERC20 token;
-
-    // crowdsale state
-    bool completed;
-    bool failed;
-
-    // whether sale results were communicated to crowdsale controller or not
-    bool notifiedSale;
 
     // Constructor
     function Bridge(address _owner, address _manager) public {
@@ -185,7 +153,9 @@ contract Bridge is IBridge {
 
     // Set/update crowdsale goal
     function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public onlyOwnerOrManager() uncompleted() {
-        require(_minimalGoal == 0 || _hardCap > _minimalGoal);
+        if (_minimalGoal > 0 && _hardCap > 0) {
+            require(_hardCap > _minimalGoal);
+        }
 
         if (_minimalGoal > 0) {
             minimalGoal = _minimalGoal;
