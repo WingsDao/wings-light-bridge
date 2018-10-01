@@ -87,6 +87,10 @@ contract Bridge is IBridge {
         hasntStopped()
         onlyManager()
     {
+        if (_startTimestamp > 0 && _endTimestamp > 0) {
+            require(_endTimestamp > _startTimestamp);
+        }
+
         startTimestamp = _startTimestamp;
         endTimestamp = _endTimestamp;
 
@@ -168,7 +172,9 @@ contract Bridge is IBridge {
 
     // Set/update crowdsale period
     function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public onlyOwnerOrManager() uncompleted() {
-        require(_startTimestamp > 0 && _endTimestamp > 0 && _endTimestamp > _startTimestamp);
+        if (_startTimestamp > 0 && _endTimestamp > 0) {
+            require(_endTimestamp > _startTimestamp);
+        }
 
         startTimestamp = _startTimestamp;
         endTimestamp = _endTimestamp;

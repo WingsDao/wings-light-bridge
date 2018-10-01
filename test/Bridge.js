@@ -59,7 +59,7 @@ contract('Bridge', (accounts) => {
     });
 
     it('allow to change token', async () => {
-        let changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'});
+        const changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'});
 
         await bridge.changeToken(token.address, {
             from: creator
@@ -72,7 +72,7 @@ contract('Bridge', (accounts) => {
     });
 
     it('doesn\'t allow to change token to token with incorrect decimals', async () => {
-        let badToken = await Token.new('Bad Token', 'BT', 4, web3.toWei(10000, 'ether'), {
+        const badToken = await Token.new('Bad Token', 'BT', 4, web3.toWei(10000, 'ether'), {
             from: creator
         });
 
@@ -84,7 +84,7 @@ contract('Bridge', (accounts) => {
     });
 
     it('allow to set only minimal goal', async () => {
-        let minimalGoal = web3.toWei(10, 'ether').toString(10);
+        const minimalGoal = web3.toWei(10, 'ether').toString(10);
 
         await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
 
@@ -95,7 +95,7 @@ contract('Bridge', (accounts) => {
     });
 
     it('allow to set only hard cap', async () => {
-        let hardCap = web3.toWei(1000, 'ether').toString(10);
+        const hardCap = web3.toWei(1000, 'ether').toString(10);
 
         await bridge.setCrowdsaleGoal(0, hardCap, { from: creator });
 
@@ -106,15 +106,15 @@ contract('Bridge', (accounts) => {
     });
 
     it('allow to set goals of crowdsale', async () => {
-        let goal = {
+        const goal = {
             min: web3.toWei(15, 'ether').toString(10),
             max: web3.toWei(1500, 'ether').toString(10)
         };
 
         await bridge.setCrowdsaleGoal(goal.min, goal.max, { from: creator });
 
-        let minimalGoal = (await bridge.minimalGoal.call()).toString(10);
-        let hardCap = (await bridge.hardCap.call()).toString(10);
+        const minimalGoal = (await bridge.minimalGoal.call()).toString(10);
+        const hardCap = (await bridge.hardCap.call()).toString(10);
 
         console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`);
         console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`);
@@ -123,10 +123,23 @@ contract('Bridge', (accounts) => {
         hardCap.should.be.equal(goal.max);
     });
 
+    it('allow to set only end timestamp', async () => {
+        const now = Date.now();
+
+        const endTimestamp = Math.floor(now/1000).toString(10);
+
+        await bridge.setCrowdsalePeriod(0, endTimestamp, { from: creator });
+
+        let bridgeEndTimestamp = (await bridge.endTimestamp.call()).toString(10);
+        console.log(`End timestamp: ${parseInt(bridgeEndTimestamp)}`);
+
+        bridgeEndTimestamp.should.be.equal(endTimestamp);
+    });
+
     it('allow to set time period of crowdsale', async () => {
         const now = Date.now();
 
-        let timestamps = {
+        const timestamps = {
             start: Math.floor(now/1000).toString(10),
             end: Math.floor((now + 86400 * 5)/1000).toString(10)
         };

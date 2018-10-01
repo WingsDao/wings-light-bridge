@@ -11,14 +11,14 @@
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
     "exportedSymbols": {
       "Migrations": [
-        629
+        645
       ]
     },
-    "id": 630,
+    "id": 646,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 628,
+        "id": 644,
         "literals": [
           "solidity",
           "^",
@@ -34,14 +34,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 629,
+        "id": 645,
         "linearizedBaseContracts": [
-          629
+          645
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 630,
+        "scope": 646,
         "src": "27:23:2"
       }
     ],
@@ -51,14 +51,14 @@
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
     "exportedSymbols": {
       "Migrations": [
-        629
+        645
       ]
     },
-    "id": 630,
+    "id": 646,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 628,
+        "id": 644,
         "literals": [
           "solidity",
           "^",
@@ -74,14 +74,14 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 629,
+        "id": 645,
         "linearizedBaseContracts": [
-          629
+          645
         ],
         "name": "Migrations",
         "nodeType": "ContractDefinition",
         "nodes": [],
-        "scope": 630,
+        "scope": 646,
         "src": "27:23:2"
       }
     ],
@@ -93,5 +93,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-10-01T13:56:54.221Z"
+  "updatedAt": "2018-10-01T19:23:08.236Z"
 }
