@@ -299,6 +299,17 @@ And now, before making a call to `finish` method, make a call to method `calcula
 
 **Important:** Send token and ETH rewards to `Bridge` contract.
 
+### rewardsAreReady
+
+Check whether rewards are ready and Bridge can be finished.
+
+```cs
+function rewardsAreReady() public;
+```
+
+**Returns:**
+- `bool` - whether Bridge contract contains rewards and is ready to be finished
+
 ### finish
 
 Call this method to stop `Bridge`.
@@ -309,6 +320,7 @@ function finish() public;
 **Description:**
 - Checks if the Bridge balance has enough ETH and tokens for rewards.
 - Changes the state of crowdsale to `completed`.
+- If total collected amount is less then minimal goal - crowdsale status will evaluate to failed.
 
 ---
 
