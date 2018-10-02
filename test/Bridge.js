@@ -4,17 +4,10 @@ const Bridge = artifacts.require('Bridge');
 const Token = artifacts.require('TestToken');
 const ControllerStub = artifacts.require('ControllerStub');
 
-const sendETH = async (txObject) => {
-    await web3.eth.sendTransaction(txObject);
-}
-
-const isRevert = (e) => {
-    e.message.should.be.equal('VM Exception while processing transaction: revert');
-}
+const { sendETH, isRevert } = require('./helpers/utils');
 
 contract('Bridge', (accounts) => {
     let creator = accounts[0];
-    let participant = accounts[1];
 
     const rewards = {
         tokens: 10000,
@@ -25,7 +18,7 @@ contract('Bridge', (accounts) => {
     let totalCollectedETH = web3.toWei(100, 'ether');
     let totalSold = web3.toWei(1500, 'ether');
 
-    let token, crowdsale, controller, bridge, decimals;
+    let token, controller, bridge;
 
     before(async () => {
         // deploy bridge
@@ -78,8 +71,10 @@ contract('Bridge', (accounts) => {
 
         try {
             await bridge.changeToken(badToken.address, { from: creator });
+
+            throw new Error('Should return revert');
         } catch (e) {
-            (e.message === 'VM Exception while processing transaction: revert').should.be.equal(true);
+            isRevert(e);
         }
     });
 
@@ -89,7 +84,7 @@ contract('Bridge', (accounts) => {
         await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
 
         let bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
-        console.log(`Minimal goal: ${web3.fromWei(bridgeMinimalGoal, 'ether')} ETH`);
+        // console.log(`Minimal goal: ${web3.fromWei(bridgeMinimalGoal, 'ether')} ETH`);
 
         bridgeMinimalGoal.should.be.equal(minimalGoal);
     });
@@ -100,7 +95,7 @@ contract('Bridge', (accounts) => {
         await bridge.setCrowdsaleGoal(0, hardCap, { from: creator });
 
         let bridgeHardCap = (await bridge.hardCap.call()).toString(10);
-        console.log(`Hard cap: ${web3.fromWei(bridgeHardCap, 'ether')} ETH`);
+        // console.log(`Hard cap: ${web3.fromWei(bridgeHardCap, 'ether')} ETH`);
 
         bridgeHardCap.should.be.equal(hardCap);
     });
@@ -116,8 +111,8 @@ contract('Bridge', (accounts) => {
         const minimalGoal = (await bridge.minimalGoal.call()).toString(10);
         const hardCap = (await bridge.hardCap.call()).toString(10);
 
-        console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`);
-        console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`);
+        // console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`);
+        // console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`);
 
         minimalGoal.should.be.equal(goal.min);
         hardCap.should.be.equal(goal.max);
@@ -131,7 +126,7 @@ contract('Bridge', (accounts) => {
         await bridge.setCrowdsalePeriod(0, endTimestamp, { from: creator });
 
         let bridgeEndTimestamp = (await bridge.endTimestamp.call()).toString(10);
-        console.log(`End timestamp: ${parseInt(bridgeEndTimestamp)}`);
+        // console.log(`End timestamp: ${parseInt(bridgeEndTimestamp)}`);
 
         bridgeEndTimestamp.should.be.equal(endTimestamp);
     });
@@ -149,8 +144,8 @@ contract('Bridge', (accounts) => {
         let startTimestamp = (await bridge.startTimestamp.call()).toString(10);
         let endTimestamp = (await bridge.endTimestamp.call()).toString(10);
 
-        console.log(`Start timestamp: ${parseInt(startTimestamp)}`);
-        console.log(`End timestamp: ${parseInt(endTimestamp)}`);
+        // console.log(`Start timestamp: ${parseInt(startTimestamp)}`);
+        // console.log(`End timestamp: ${parseInt(endTimestamp)}`);
 
         startTimestamp.should.be.equal(timestamps.start);
         endTimestamp.should.be.equal(timestamps.end);
@@ -183,6 +178,8 @@ contract('Bridge', (accounts) => {
             await bridge.finish({
                 from: creator
             });
+
+            throw new Error('Should return revert');
         } catch (e) {
             isRevert(e);
         }
@@ -203,23 +200,28 @@ contract('Bridge', (accounts) => {
         });
     });
 
-    it('update total sold value in bridge', async () => {
+    it('correct total sold value in bridge', async () => {
         const bgSold = await bridge.totalSold.call();
         bgSold.toString(10).should.be.equal(totalSold.toString(10));
     });
 
-    it('update total collected value in bridge', async () => {
+    it('correct total collected value in bridge', async () => {
         const bgCollected = await bridge.totalCollected.call();
         bgCollected.toString(10).should.be.equal(totalCollected.toString(10));
     });
 
-    it('finish Bridge', async () => {
+    it('check whether rewards are ready', async () => {
+        const rewardsReady = await bridge.rewardsAreReady.call();
+        rewardsReady.should.be.equal(true);
+    });
+
+    it('finish Bridge successfully', async () => {
         await bridge.finish({
             from: creator
         });
 
-        const completed = await bridge.isSuccessful.call();
-        completed.should.be.equal(true);
+        const successful = await bridge.isSuccessful.call();
+        successful.should.be.equal(true);
     });
 
     it('doesn\'t allow to change token address after Bridge was finished', async () => {
@@ -227,6 +229,8 @@ contract('Bridge', (accounts) => {
             await bridge.changeToken(token.address, {
                 from: creator
             });
+
+            throw new Error('Should return revert');
         } catch (e) {
             isRevert(e);
         }

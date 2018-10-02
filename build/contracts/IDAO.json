@@ -35,14 +35,14 @@
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/interfaces/IDAO.sol",
     "exportedSymbols": {
       "IDAO": [
-        905
+        917
       ]
     },
-    "id": 906,
+    "id": 918,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 896,
+        "id": 908,
         "literals": [
           "solidity",
           "^",
@@ -58,9 +58,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 905,
+        "id": 917,
         "linearizedBaseContracts": [
-          905
+          917
         ],
         "name": "IDAO",
         "nodeType": "ContractDefinition",
@@ -68,7 +68,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 899,
+            "id": 911,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -76,19 +76,19 @@
             "name": "createCustomCrowdsale",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 897,
+              "id": 909,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "77:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 898,
+              "id": 910,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "86:0:4"
             },
-            "scope": 905,
+            "scope": 917,
             "src": "47:40:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -97,7 +97,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 904,
+            "id": 916,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -105,22 +105,22 @@
             "name": "crowdsaleController",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 900,
+              "id": 912,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "120:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 903,
+              "id": 915,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 902,
+                  "id": 914,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 904,
+                  "scope": 916,
                   "src": "144:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -129,7 +129,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 901,
+                    "id": 913,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "144:7:4",
@@ -144,14 +144,14 @@
               ],
               "src": "143:9:4"
             },
-            "scope": 905,
+            "scope": 917,
             "src": "92:61:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 906,
+        "scope": 918,
         "src": "27:128:4"
       }
     ],
@@ -161,14 +161,14 @@
     "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/interfaces/IDAO.sol",
     "exportedSymbols": {
       "IDAO": [
-        905
+        917
       ]
     },
-    "id": 906,
+    "id": 918,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 896,
+        "id": 908,
         "literals": [
           "solidity",
           "^",
@@ -184,9 +184,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 905,
+        "id": 917,
         "linearizedBaseContracts": [
-          905
+          917
         ],
         "name": "IDAO",
         "nodeType": "ContractDefinition",
@@ -194,7 +194,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 899,
+            "id": 911,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -202,19 +202,19 @@
             "name": "createCustomCrowdsale",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 897,
+              "id": 909,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "77:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 898,
+              "id": 910,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "86:0:4"
             },
-            "scope": 905,
+            "scope": 917,
             "src": "47:40:4",
             "stateMutability": "nonpayable",
             "superFunction": null,
@@ -223,7 +223,7 @@
           {
             "body": null,
             "documentation": null,
-            "id": 904,
+            "id": 916,
             "implemented": false,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -231,22 +231,22 @@
             "name": "crowdsaleController",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 900,
+              "id": 912,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "120:2:4"
             },
             "payable": false,
             "returnParameters": {
-              "id": 903,
+              "id": 915,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 902,
+                  "id": 914,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 904,
+                  "scope": 916,
                   "src": "144:7:4",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -255,7 +255,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 901,
+                    "id": 913,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "144:7:4",
@@ -270,14 +270,14 @@
               ],
               "src": "143:9:4"
             },
-            "scope": 905,
+            "scope": 917,
             "src": "92:61:4",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 906,
+        "scope": 918,
         "src": "27:128:4"
       }
     ],
@@ -289,5 +289,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-10-01T19:23:08.240Z"
+  "updatedAt": "2018-10-02T07:17:08.870Z"
 }

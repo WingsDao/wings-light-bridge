@@ -110,30 +110,7 @@ contract Bridge is IBridge {
         // allow to finish bridge only if owner has communicated crowdsale results
         require(notifiedSale);
 
-        uint256 ethReward;
-        uint256 tokenReward;
-
-        (ethReward, tokenReward) = calculateRewards();
-
-        // if there are rewards to pay but token is absent
-        if ((ethReward > 0 || tokenReward > 0) && address(token) == address(0)) {
-            revert();
-        }
-
-        // check if there are enough rewards on this address
-        if (address(token) != address(0)) {
-            if (ethReward > 0) {
-                uint256 ethBalance = address(this).balance;
-
-                require(ethBalance >= ethReward);
-            }
-
-            if (tokenReward > 0) {
-                uint256 tokenBalance = token.balanceOf(address(this));
-
-                require(tokenBalance >= tokenReward);
-            }
-        }
+        require(rewardsAreReady());
 
         if (!reachedMinGoal()) {
             failed = true;
@@ -182,13 +159,18 @@ contract Bridge is IBridge {
         CUSTOM_CROWDSALE_PERIOD_ADDED(startTimestamp, endTimestamp);
     }
 
-    // Gives owner ability to withdraw eth and wings from Bridge contract balance in case if some error during reward calculation occured
-    function withdraw() public onlyOwner() uncompleted() {
+    // Gives owner ability to withdraw eth and wings from Bridge contract balance in case
+    // if some error during reward calculation occured or crowdsale failed
+    function withdraw() public onlyOwner() {
+        if (completed && !failed) {
+            revert();
+        }
+
         uint256 ethBalance = address(this).balance;
         uint256 tokenBalance = token.balanceOf(address(this));
 
         if (ethBalance > 0) {
-            require(msg.sender.send(ethBalance));
+            msg.sender.transfer(ethBalance);
         }
 
         if (tokenBalance > 0) {
@@ -218,9 +200,6 @@ contract Bridge is IBridge {
     }
 
     function reachedMinGoal() public view returns (bool) {
-        if (totalCollectedETH > 0) {
-            return totalCollectedETH >= minimalGoal;
-        }
         return totalCollected >= minimalGoal;
     }
 
@@ -244,6 +223,40 @@ contract Bridge is IBridge {
         }
 
         return (ethReward, tokenReward);
+    }
+
+    // Find out whether rewards are ready to be distributed
+    function rewardsAreReady() public view returns (bool) {
+        uint256 ethReward;
+        uint256 tokenReward;
+
+        (ethReward, tokenReward) = calculateRewards();
+
+        // if there are rewards to pay but token is absent
+        if ((ethReward > 0 || tokenReward > 0) && address(token) == address(0)) {
+            return false;
+        }
+
+        // check if there are enough rewards on this address
+        if (address(token) != address(0)) {
+            if (ethReward > 0) {
+                uint256 ethBalance = address(this).balance;
+
+                if (ethBalance < ethReward) {
+                    return false;
+                }
+            }
+
+            if (tokenReward > 0) {
+                uint256 tokenBalance = token.balanceOf(address(this));
+
+                if (tokenBalance < tokenReward) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     /*
