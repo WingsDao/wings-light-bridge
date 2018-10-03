@@ -72,11 +72,11 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 Create project on Wings platform as custom contract and provide address of **bridge** contract.
 
-Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
-
-Like on image:
-
-![contract address](https://i.imgur.com/myATGnp.png)
+Now we need to create project on Wings platform.
+1. Go to [Wings project creating](https://www.wings.ai/project_creating) and select **Custom Contract**
+![select custom contract](https://i.imgur.com/DCn704E.png)
+2. In **Project overview** tab add Bridge contract address to **Bridge contract address** field
+![add bridge contract address](https://i.imgur.com/YqZ5MB4.png)
 
 ---
 
