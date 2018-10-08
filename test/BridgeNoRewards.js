@@ -1,3 +1,5 @@
+'use strict';
+
 const { should } = require('chai').should();
 
 const Bridge = artifacts.require('Bridge');

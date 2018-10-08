@@ -1,3 +1,5 @@
+'use strict';
+
 const Bridge = artifacts.require('Bridge');
 
 module.exports = (deployer) => {

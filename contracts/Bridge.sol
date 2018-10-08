@@ -161,7 +161,7 @@ contract Bridge is IBridge {
 
     // Gives owner ability to withdraw eth and wings from Bridge contract balance in case
     // if some error during reward calculation occured or crowdsale failed
-    function withdraw() public onlyOwner() {
+    function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public onlyOwner() {
         if (completed && !failed) {
             revert();
         }
@@ -169,12 +169,14 @@ contract Bridge is IBridge {
         uint256 ethBalance = address(this).balance;
         uint256 tokenBalance = token.balanceOf(address(this));
 
-        if (ethBalance > 0) {
-            msg.sender.transfer(ethBalance);
+        require(ethBalance >= _ethAmount && tokenBalance >= _tokenAmount);
+
+        if (_ethAmount > 0) {
+            msg.sender.transfer(_ethAmount);
         }
 
-        if (tokenBalance > 0) {
-            require(token.transfer(msg.sender, tokenBalance));
+        if (_tokenAmount > 0) {
+            require(token.transfer(msg.sender, _tokenAmount));
         }
     }
 

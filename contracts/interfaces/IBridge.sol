@@ -102,7 +102,7 @@ contract IBridge is Ownable {
     function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) public;
     function calculateRewards() public view returns (uint256, uint256);
     function finish() public;
-    function withdraw() public;
+    function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public;
     function stop() public;
     function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress) public;
     function isFailed() public view returns (bool);

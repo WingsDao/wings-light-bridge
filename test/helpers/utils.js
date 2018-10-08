@@ -1,3 +1,5 @@
+'use strict';
+
 exports.sendETH = async (txObject) => {
     await web3.eth.sendTransaction(txObject);
 };

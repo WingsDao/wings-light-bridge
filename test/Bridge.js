@@ -1,3 +1,5 @@
+'use strict';
+
 const { should } = require('chai').should();
 
 const Bridge = artifacts.require('Bridge');
@@ -252,7 +254,7 @@ contract('Bridge', (accounts) => {
 
     it('doesn\'t allow to withdraw reward after finish', async () => {
         try {
-            await bridge.withdraw({ from: creator });
+            await bridge.withdraw(1, 1, { from: creator });
 
             throw new Error('Should return revert');
         } catch (e) {

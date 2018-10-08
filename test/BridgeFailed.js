@@ -1,3 +1,5 @@
+'use strict';
+
 const { should } = require('chai').should();
 
 const Bridge = artifacts.require('Bridge');
@@ -154,7 +156,10 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
     });
 
     it('allow to withdraw rewards after the finish has failed', async () => {
-        await bridge.withdraw({ from: creator });
+        const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10);
+        const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10);
+
+        await bridge.withdraw(ethReward, tokenReward, { from: creator });
     });
 
     it('bridge address should have 0 balance', async () => {
