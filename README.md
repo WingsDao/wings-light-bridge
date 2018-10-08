@@ -254,8 +254,12 @@ function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) publ
 If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
 
 ```sc
-function withdraw() public;
+function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public;
 ```
+**Parameters:**
+- `_ethAmount` - uint256 - amount of wei to withdraw
+- `_tokenAmount` - uint256 - amount of tokens (minimal value similar to wei in eth) to withdraw
+
 **Description:**
 - Can be called any time before Bridge is finished.
 
