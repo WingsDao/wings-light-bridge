@@ -110,10 +110,11 @@ contract Bridge is IBridge {
         // allow to finish bridge only if owner has communicated crowdsale results
         require(notifiedSale);
 
-        require(rewardsAreReady());
-
         if (!reachedMinGoal()) {
             failed = true;
+        } else {
+            // if crowdsale is not failed there should be rewards in order to finish bridge
+            require(rewardsAreReady());
         }
 
         completed = true;
@@ -234,27 +235,25 @@ contract Bridge is IBridge {
 
         (ethReward, tokenReward) = calculateRewards();
 
-        // if there are rewards to pay but token is absent
-        if ((ethReward > 0 || tokenReward > 0) && address(token) == address(0)) {
-            return false;
+        // check if there are enough eth rewards on this address
+        if (ethReward > 0) {
+            uint256 ethBalance = address(this).balance;
+
+            if (ethBalance < ethReward) {
+                return false;
+            }
         }
 
-        // check if there are enough rewards on this address
-        if (address(token) != address(0)) {
-            if (ethReward > 0) {
-                uint256 ethBalance = address(this).balance;
-
-                if (ethBalance < ethReward) {
-                    return false;
-                }
+        // check if there are enough tokens rewards on this address
+        if (tokenReward > 0) {
+            if (address(token) == address(0)) {
+                return false;
             }
 
-            if (tokenReward > 0) {
-                uint256 tokenBalance = token.balanceOf(address(this));
+            uint256 tokenBalance = token.balanceOf(address(this));
 
-                if (tokenBalance < tokenReward) {
-                    return false;
-                }
+            if (tokenBalance < tokenReward) {
+                return false;
             }
         }
 
