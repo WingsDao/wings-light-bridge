@@ -72,11 +72,11 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 Create project on Wings platform as custom contract and provide address of **bridge** contract.
 
-Now we need to create project on Wings platform. We go to [Wings](https://wings.ai), fill project details, and in **Smart contract** tab we need to select __Custom Contract__ and put **Bridge Contract Address** to __Contract address__ field.
-
-Like on image:
-
-![contract address](https://i.imgur.com/myATGnp.png)
+Now we need to create project on Wings platform.
+1. Go to [Wings project creating](https://www.wings.ai/project_creating) and select **Custom Contract**
+![select custom contract](https://i.imgur.com/DCn704E.png)
+2. In **Project overview** tab add Bridge contract address to **Bridge contract address** field
+![add bridge contract address](https://i.imgur.com/YqZ5MB4.png)
 
 ---
 
@@ -254,8 +254,12 @@ function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) publ
 If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
 
 ```sc
-function withdraw() public;
+function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public;
 ```
+**Parameters:**
+- `_ethAmount` - uint256 - amount of wei to withdraw
+- `_tokenAmount` - uint256 - amount of tokens (minimal value similar to wei in eth) to withdraw
+
 **Description:**
 - Can be called any time before Bridge is finished.
 
@@ -299,6 +303,17 @@ And now, before making a call to `finish` method, make a call to method `calcula
 
 **Important:** Send token and ETH rewards to `Bridge` contract.
 
+### rewardsAreReady
+
+Check whether rewards are ready and Bridge can be finished.
+
+```cs
+function rewardsAreReady() public;
+```
+
+**Returns:**
+- `bool` - whether Bridge contract contains rewards and is ready to be finished
+
 ### finish
 
 Call this method to stop `Bridge`.
@@ -309,6 +324,7 @@ function finish() public;
 **Description:**
 - Checks if the Bridge balance has enough ETH and tokens for rewards.
 - Changes the state of crowdsale to `completed`.
+- If total collected amount is less then minimal goal - crowdsale status will evaluate to failed.
 
 ---
 
