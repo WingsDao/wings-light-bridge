@@ -1,6 +1,6 @@
 {
   "name": "wings-light-bridge",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Wings easy integration.",
   "main": "truffle.js",
   "directories": {
