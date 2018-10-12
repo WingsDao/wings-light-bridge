@@ -1,6 +1,6 @@
 # Wings Light Bridge
 
-In this tutorial we are going to walkthrough the Wings integration process.
+Wings easy integration.
 
 ## Content
 #### Initial setup
@@ -9,33 +9,35 @@ In this tutorial we are going to walkthrough the Wings integration process.
   - [Deploy](#3-deploy)
   - [Create project](#4-create-project)
 
-#### During forecasting
+#### Crowdsale start
   - [Find DAO address from url](#1-find-dao-address-from-url)
   - [Transfer management to DAO](#2-transfer-management-to-dao)
-
-#### Crowdsale start
-  - [Make a call to method createCustomCrowdsale in DAO contract](#1-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
-  - [Find crowdsaleController address](#2-find-crowdsalecontroller-address)
-  - [Start crowdsale](#3-start-crowdsale)
+  - [Make a call to method createCustomCrowdsale in DAO contract](#3-make-a-call-to-method-createcustomcrowdsale-in-dao-contract)
+  - [Find crowdsaleController address](#4-find-crowdsalecontroller-address)
+  - [Start crowdsale](#5-start-crowdsale)
 
 #### Bridge methods
   - [getToken](#gettoken)
   - [changeToken](#changetoken)
-  - [notifySale](#notifysale)
   - [withdraw](#withdraw)
+  - [setCrowdsaleGoal](#setCrowdsaleGoal-(optional))
+  - [setCrowdsalePeriod](#setCrowdsalePeriod-(optional))
 
 #### Finishing Bridge
+  - [Summarising crowdsale results](#notifySale)
   - [Calculating rewards](#calculaterewards)
   - [Transferring rewards](#transferring-rewards)
   - [Finishing Bridge](#finish)
 
 ## Requirements
 
-- Nodejs v10.2.1
-- Truffle v4.1.8
-- Ganache-cli v6.1.0
+- Nodejs ~8.6.0
+- Truffle ^4.0.4
+- Ganache-cli ^6.1.0
 
 # Step by step guide
+
+In this tutorial we are going to walkthrough the Wings integration process.
 
 ### 1. Setup
 
@@ -45,31 +47,26 @@ Clone this repository.
 git clone https://github.com/wingsdao/wings-light-bridge.git
 ```
 
-### 2. Prepare constructor arguments
+### 2. Сonstructor
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case just head to paragraph b) and assign your deployed token address to `token` variable.*
+```
+await deployer.deploy(Bridge, owner, manager, { from: creator })
+```
 
-**a) Prepare these variables for DefaultToken contract:**
-  - `name` - name of your token
-  - `symbol` - symbol of your token
-  - `decimals` - token decimals
-
-**b) Prepare these variables for Bridge contract:**
-  - `minimalGoal` - soft cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
-  - `hardCap` - hard cap of your crowdfunding campaign *(this argument is currently not used in wings light bridge, use default value which is set to 1)*
-  - `token` - address of your ERC20-compliant token
+**Parameters:**
+ - `owner` - address - owner of Bridge
+ - `manager` - address - could be either owner or DAO address (if already exists)
 
 ### 3. Deploy
 
-Deploy contracts to mainnet using truffle, parity, etc.
+Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor arguments described above.
 
-*NOTE: Before deployment of Bridge contract you may already have deployed token contract. In this case you only need to deploy Bridge contract.*
+---
 
-**Deployment process:**
+## If you already created project on wings.ai head to [¶Crowdsale start](#crowdsale-start).
 
-During deployment of `DefaultToken` pass `name`, `symbol` and `decimals` as arguments to constructor.
+---
 
-During deployment of `Bridge` pass `minimalGoal`, `hardCap`, `token` as arguments to constructor.
 
 ### 4. Create project
 
@@ -89,7 +86,15 @@ After this step you can start your project's forecasting.
 
 ---
 
-## During forecasting
+---
+
+
+When the forecasting finish you have 45 days to start your project's crowdsale.
+
+
+---
+
+## Crowdsale start
 
 ### 1. Find DAO address from url
 
@@ -101,9 +106,9 @@ As you see - `0x28e7f296570498f1182cf148034e818df723798a`, it's your DAO contrac
 
 Initiate `DAO` contract with the address we just retrieved:
 
-Here are [ABI](https://github.com/WingsDao/wings-light-bridge/tree/master/ABI) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
+Here are [artifacts](https://github.com/WingsDao/wings-light-bridge/tree/master/build) for contracts and we recommend to use [truffle contract](https://github.com/trufflesuite/truffle-contract) library to make calls.
 
-Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/interfaces) for contracts.
+Here are [interfaces](https://github.com/WingsDao/wings-light-bridge/tree/master/contracts/interfaces) for contracts.
 
 ```js
 const dao = await DAO.at('0x28e7f296570498f1182cf148034e818df723798a') // change with your DAO address
@@ -123,25 +128,15 @@ function transferManager(address _newManager) public;
 await bridge.transferManager(dao.address, { from: yourAccount }) // change with your DAO address
 ```
 
----
-
-
-When the forecasting finish you have 45 days to start your project's crowdsale.
-
-
----
-
-## Crowdsale start
-
 To start crowdsale, complete the following steps.
 
-### 1. Make a call to method createCustomCrowdsale in DAO contract
+### 3. Make a call to method createCustomCrowdsale in DAO contract
 
 Make a call to method `DAO.createCustomCrowdsale()`.
 
 **Interface:**
 ```sc
-function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(Stage.ForecastingClosed);
+function createCustomCrowdsale() public;
 ```
 
 **Example:**
@@ -149,7 +144,7 @@ function createCustomCrowdsale() public onlyOwner() hasntStopped() requireStage(
 await dao.createCustomCrowdsale()
 ```
 
-### 2. Find crowdsaleController address
+### 4. Find crowdsaleController address
 
 Make a call to getter method `DAO.crowdsaleController()`.
 
@@ -162,21 +157,16 @@ function crowdsaleController() public view returns (address);
 **Example:**
 ```js
 const ccAddress = await dao.crowdsaleController.call()
-const crowdsaleController = await CrowdsaleController.at(ccAddress)
+const crowdsaleController = await IWingsController.at(ccAddress)
 ```
 
-### 3. Start crowdsale
+### 5. Start crowdsale
 
 To start your project's crowdsale (`Bridge`) you need to make a call to `crowdsaleController`'s method `start`.
 
 **Interface:**
 ```sc
-function start(
-        uint256 _startTimestamp,
-        uint256 _endTimestamp,
-        address _fundingAddress
-    )
-        public;
+function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress) public;
 ```
 **Parameters:**
   - `_startTimestamp` - timestamp of the start of your crowdsale.
@@ -198,20 +188,14 @@ After this step your crowdsale is taking place and you come back right before th
 
 ---
 
-## When crowdsale is about to end
+## Bridge methods
 
 ### getToken
 
 If you need to check address of token contract which you specified during Bridge deploy, use `getToken` method.
 
 ```sc
-function getToken()
-  public
-  view
-  returns (address)
-{
-  return address(token);
-}
+function getToken() public view returns (address);
 ```
 **Returns:**
   - address of token contract
@@ -230,68 +214,84 @@ function changeToken(address _newToken) public onlyOwner() {
 **Parameters:**
   - `_newToken` - address of new token contract
 
-### notifySale
+### setCrowdsaleGoal (optional)
 
-When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
+You can set and update crowdsale goals in the Bridge any time before the end of crowdsale.
 
 ```sc
-function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount)
-  public
-  hasBeenStarted()
-  hasntStopped()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  totalCollected = totalCollected.add(_amount);
-  totalCollectedETH = totalCollectedETH.add(_ethAmount);
-  totalSold = totalSold.add(_tokensAmount);
-}
+function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public;
 ```
+**Description:**
+- Can be called any time before Bridge is finished.
 
 **Parameters:**
-  - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
-  - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
-  - `_tokensAmount` - amount of tokens sold
+ - `_minimalGoal` - uint256 - soft cap of crowdsale (in the same currency as the forecast question)
+ - `_hardCap` - uint256 - hard cap of crowdsale (in the same currency as the forecast question)
 
-**Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
-*Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
+ **Important:** If collected minimal goal or hard cap is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
+ *Example: If your hard cap is 1000000$ you will have to pass 1000000000000000000000000 as `_hardCap`.*
 
-**Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
+*NOTE: Hard cap must be greater then minimal goal. Minimal goal must be greater then 0.*
+
+### setCrowdsalePeriod (optional)
+
+You can set and update crowdsale time frame in the Bridge any time before the end of crowdsale.
+
+```sc
+function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public;
+```
+**Description:**
+- Can be called any time before Bridge is finished.
+
+**Parameters:**
+ - `_startTimestamp` - uint256 - start of crowdsale (unix timestamp)
+ - `_endTimestamp` - uint256 - end of crowdsale (unix timestamp)
+
+ *NOTE: End timestamp must be greater then start timestamp. Start timestamp must be greater then 0.*
 
 ### withdraw
 
 If some error occurred during token and/or ETH reward transfer to Bridge contract, you can use method `withdraw` to return funds.
 
 ```sc
-function withdraw() public onlyOwner() {
-  uint256 ethBalance = address(this).balance;
-  uint256 tokenBalance = token.balanceOf(address(this));
-
-  if (ethBalance > 0) {
-    require(msg.sender.send(ethBalance));
-  }
-
-  if (tokenBalance > 0) {
-    require(token.transfer(msg.sender, tokenBalance));
-  }
-}
+function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public;
 ```
+**Parameters:**
+- `_ethAmount` - uint256 - amount of wei to withdraw
+- `_tokenAmount` - uint256 - amount of tokens (minimal value similar to wei in eth) to withdraw
+
+**Description:**
+- Can be called any time before Bridge is finished.
+
+## Finishing Bridge
+
+### notifySale
+
+When crowdsale is over, make a call to this method and pass as arguments collected ETH amount and how many tokens were sold.
+
+```sc
+function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) public;
+```
+
+**Parameters:**
+ - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
+ - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
+ - `_tokensAmount` - amount of tokens sold
+
+**Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
+*Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
+
+**Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
 
 ### calculateRewards
 
 Communicates with `CrowdsaleController` (aka `IWingsController`) and calculates rewards.
 
 ```sc
-function calculateRewards() public view returns (uint256, uint256) {
-  uint256 tokenRewardPart = IWingsController(manager).tokenRewardPart();
-  uint256 ethRewardPart = IWingsController(manager).ethRewardPart();
-
-  uint256 tokenReward = totalSold.mul(tokenRewardPart) / 1000000;
-  uint256 ethReward = (ethRewardPart == 0) ? 0 : (totalCollected.mul(ethRewardPart) / 1000000);
-
-  return (ethReward, tokenReward);
-}
+function calculateRewards() public view returns (uint256, uint256);
 ```
+**Description:**
+ - Calculates rewards absolutely the same as it does the wings crowdsale controller.
 
 **Returns:**
   - `ethReward` - ETH reward amount (in Wei)
@@ -303,21 +303,28 @@ And now, before making a call to `finish` method, make a call to method `calcula
 
 **Important:** Send token and ETH rewards to `Bridge` contract.
 
+### rewardsAreReady
+
+Check whether rewards are ready and Bridge can be finished.
+
+```cs
+function rewardsAreReady() public;
+```
+
+**Returns:**
+- `bool` - whether Bridge contract contains rewards and is ready to be finished
+
 ### finish
 
-Call this method to stop `Bridge`. Changes the state of crowdsale to `completed`.
+Call this method to stop `Bridge`.
 
 ```sc
-function finish()
-  public
-  hasntStopped()
-  hasBeenStarted()
-  whenCrowdsaleAlive()
-  onlyOwner()
-{
-  completed = true;
-}
+function finish() public;
 ```
+**Description:**
+- Checks if the Bridge balance has enough ETH and tokens for rewards.
+- Changes the state of crowdsale to `completed`.
+- If total collected amount is less then minimal goal - crowdsale status will evaluate to failed.
 
 ---
 

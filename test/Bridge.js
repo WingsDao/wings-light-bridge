@@ -1,155 +1,264 @@
-const { should } = require('chai').should()
+'use strict';
 
-const Bridge = artifacts.require('Bridge')
-const Token = artifacts.require('TestToken')
-const ControllerStub = artifacts.require('ControllerStub')
+const { should } = require('chai').should();
 
-const sendETH = async (txObject) => {
-  await web3.eth.sendTransaction(txObject)
-}
+const Bridge = artifacts.require('Bridge');
+const Token = artifacts.require('TestToken');
+const ControllerStub = artifacts.require('ControllerStub');
+
+const { sendETH, isRevert } = require('./helpers/utils');
 
 contract('Bridge', (accounts) => {
-  let creator = accounts[0]
-  let participant = accounts[1]
+    let creator = accounts[0];
 
-  const rewards = {
-    tokens: 10000,
-    eth: 10000
-  }
+    const rewards = {
+        tokens: 10000,
+        eth: 10000
+    };
 
-  let totalCollected = web3.toWei(600000, 'ether') // let's say 600000 USD
-  let totalCollectedETH = web3.toWei(100, 'ether')
-  let totalSold = web3.toWei(1500, 'ether')
+    let totalCollected = web3.toWei(600000, 'ether'); // let's say 600000 USD
+    let totalCollectedETH = web3.toWei(100, 'ether');
+    let totalSold = web3.toWei(1500, 'ether');
 
-  let token, crowdsale, controller, bridge, decimals
+    let token, controller, bridge;
 
-  before(async () => {
-    // deploy token
-    token = await Token.new(web3.toWei(10000, 'ether'), {
-      from: creator
-    })
+    before(async () => {
+        // deploy bridge
+        bridge = await Bridge.new(
+            creator,
+            creator,
+            {
+                from: creator
+            }
+        );
 
-    decimals = (await token.decimals.call()).toNumber()
+        // controller stub just for manager
+        controller = await ControllerStub.new(
+            rewards.eth,
+            rewards.tokens,
+            {
+                from: creator
+            }
+        );
 
-    // deploy bridge
-    bridge = await Bridge.new(
-      web3.toWei(55, 'ether'),
-      web3.toWei(555, 'ether'),
-      token.address,
-      {
-        from: creator
-      }
-    )
+        // start crowdsale (in wings will be done in controller)
+        await bridge.start(0, 0, '0x0', {
+            from: creator
+        });
+    });
 
-    // controller stub just for manager
-    controller = await ControllerStub.new(
-      rewards.eth,
-      rewards.tokens,
-      {
-        from: creator
-      }
-    )
+    it('deploy token', async () => {
+        token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {
+            from: creator
+        });
+    });
 
-    // start crowdsale (in wings will be done in controller)
-    await bridge.start(0, 0, '0x0', {
-      from: creator
-    })
-  })
+    it('allow to change token', async () => {
+        const changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'});
 
-  it('Should allow to change token', async () => {
+        await bridge.changeToken(token.address, {
+            from: creator
+        });
 
-    let changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'})
+        changeToken_event.get((error, events) => {
+            let args = events[0].args
+            args.token.should.be.equal(token.address)
+        });
+    });
 
-    await bridge.changeToken(token.address, {
-      from: creator
-    })
+    it('doesn\'t allow to change token to token with incorrect decimals', async () => {
+        const badToken = await Token.new('Bad Token', 'BT', 4, web3.toWei(10000, 'ether'), {
+            from: creator
+        });
 
-    changeToken_event.get((error, events) => {
-      let args = events[0].args
-      args.token.should.be.equal(token.address)
-      args.decimals.toNumber().should.be.equal(decimals)
-    })
-  })
+        try {
+            await bridge.changeToken(badToken.address, { from: creator });
 
-  it('Should notify sale', async () => {
-    await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
-      from: creator
-    })
-  })
+            throw new Error('Should return revert');
+        } catch (e) {
+            isRevert(e);
+        }
+    });
 
-  it('Should check how notification went', async () => {
-    let notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10)
-    let notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10)
-    let notifiedTotalSold = (await bridge.totalSold.call()).toString(10)
+    it('allow to set only minimal goal', async () => {
+        const minimalGoal = web3.toWei(10, 'ether').toString(10);
 
-    notifiedTotalCollected.should.be.equal(totalCollected.toString(10)),
-    notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10))
-    notifiedTotalSold.should.be.equal(totalSold.toString(10))
-  })
+        await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
 
-  it('Should move bridge manager to controller', async () => {
-    await bridge.transferManager(controller.address, {
-      from: creator
-    })
-  })
+        let bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
+        // console.log(`Minimal goal: ${web3.fromWei(bridgeMinimalGoal, 'ether')} ETH`);
 
-  it('Should transfer token and ETH rewards', async () => {
-    const [ethReward, tokenReward] = await bridge.calculateRewards.call()
+        bridgeMinimalGoal.should.be.equal(minimalGoal);
+    });
 
-    // Transfer token reward
-    await token.transfer(bridge.address, tokenReward, { from: creator })
+    it('allow to set only hard cap', async () => {
+        const hardCap = web3.toWei(1000, 'ether').toString(10);
 
-    // Send ETH reward
-    await sendETH({
-      from: creator,
-      to: bridge.address,
-      value: ethReward,
-      gas: 500000
-    })
-  })
+        await bridge.setCrowdsaleGoal(0, hardCap, { from: creator });
 
-  it('Should update total sold value in bridge', async () => {
-    const bgSold = await bridge.totalSold.call()
-    bgSold.toString(10).should.be.equal(totalSold.toString(10))
-  })
+        let bridgeHardCap = (await bridge.hardCap.call()).toString(10);
+        // console.log(`Hard cap: ${web3.fromWei(bridgeHardCap, 'ether')} ETH`);
 
-  it('Should update total collected value in bridge', async () => {
-    const bgCollected = await bridge.totalCollected.call()
-    bgCollected.toString(10).should.be.equal(totalCollected.toString(10))
-  })
+        bridgeHardCap.should.be.equal(hardCap);
+    });
 
-  it('Should finish Bridge', async () => {
-    await bridge.finish({
-      from: creator
-    })
+    it('allow to set goals of crowdsale', async () => {
+        const goal = {
+            min: web3.toWei(15, 'ether').toString(10),
+            max: web3.toWei(1500, 'ether').toString(10)
+        };
 
-    const completed = await bridge.isSuccessful.call()
-    completed.should.be.equal(true);
-  })
+        await bridge.setCrowdsaleGoal(goal.min, goal.max, { from: creator });
 
-  it('Should have tokens reward on contract', async () => {
-    const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10)
-    const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
+        const minimalGoal = (await bridge.minimalGoal.call()).toString(10);
+        const hardCap = (await bridge.hardCap.call()).toString(10);
 
-    tokenBalance.should.be.equal(tokenReward)
-  })
+        // console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`);
+        // console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`);
 
-  it('Should have eth reward on contract', async () => {
-    const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10)
-    const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
+        minimalGoal.should.be.equal(goal.min);
+        hardCap.should.be.equal(goal.max);
+    });
 
-    ethBalance.should.be.equal(ethReward)
-  })
+    it('allow to set only end timestamp', async () => {
+        const now = Date.now();
 
-  it('Should allow to withdraw reward', async () => {
-    await bridge.withdraw({ from: creator })
-  })
+        const endTimestamp = Math.floor(now/1000).toString(10);
 
-  it('Shouldn\'t have rewards on contract', async () => {
-    const ethBalance = web3.eth.getBalance(bridge.address).toString(10)
-    const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10)
+        await bridge.setCrowdsalePeriod(0, endTimestamp, { from: creator });
 
-    ethBalance.should.be.equal('0')
-    tokenBalance.should.be.equal('0')
-  })
-})
+        let bridgeEndTimestamp = (await bridge.endTimestamp.call()).toString(10);
+        // console.log(`End timestamp: ${parseInt(bridgeEndTimestamp)}`);
+
+        bridgeEndTimestamp.should.be.equal(endTimestamp);
+    });
+
+    it('allow to set time period of crowdsale', async () => {
+        const now = Date.now();
+
+        const timestamps = {
+            start: Math.floor(now/1000).toString(10),
+            end: Math.floor((now + 86400 * 5)/1000).toString(10)
+        };
+
+        await bridge.setCrowdsalePeriod(timestamps.start, timestamps.end, { from: creator });
+
+        let startTimestamp = (await bridge.startTimestamp.call()).toString(10);
+        let endTimestamp = (await bridge.endTimestamp.call()).toString(10);
+
+        // console.log(`Start timestamp: ${parseInt(startTimestamp)}`);
+        // console.log(`End timestamp: ${parseInt(endTimestamp)}`);
+
+        startTimestamp.should.be.equal(timestamps.start);
+        endTimestamp.should.be.equal(timestamps.end);
+    });
+
+    it('notify sale', async () => {
+        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
+            from: creator
+        });
+    });
+
+    it('check how notification went', async () => {
+        let notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10);
+        let notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        let notifiedTotalSold = (await bridge.totalSold.call()).toString(10);
+
+        notifiedTotalCollected.should.be.equal(totalCollected.toString(10));
+        notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10));
+        notifiedTotalSold.should.be.equal(totalSold.toString(10));
+    });
+
+    it('move bridge manager to controller', async () => {
+        await bridge.transferManager(controller.address, {
+            from: creator
+        });
+    });
+
+    it('doesn\'t allow to finish Bridge before rewards were sent', async () => {
+        try {
+            await bridge.finish({
+                from: creator
+            });
+
+            throw new Error('Should return revert');
+        } catch (e) {
+            isRevert(e);
+        }
+    });
+
+    it('transfer token and ETH rewards', async () => {
+        const [ethReward, tokenReward] = await bridge.calculateRewards.call();
+
+        // Transfer token reward
+        await token.transfer(bridge.address, tokenReward, { from: creator });
+
+        // Send ETH reward
+        await sendETH({
+            from: creator,
+            to: bridge.address,
+            value: ethReward,
+            gas: 500000
+        });
+    });
+
+    it('correct total sold value in bridge', async () => {
+        const bgSold = await bridge.totalSold.call();
+        bgSold.toString(10).should.be.equal(totalSold.toString(10));
+    });
+
+    it('correct total collected value in bridge', async () => {
+        const bgCollected = await bridge.totalCollected.call();
+        bgCollected.toString(10).should.be.equal(totalCollected.toString(10));
+    });
+
+    it('check whether rewards are ready', async () => {
+        const rewardsReady = await bridge.rewardsAreReady.call();
+        rewardsReady.should.be.equal(true);
+    });
+
+    it('finish Bridge successfully', async () => {
+        await bridge.finish({
+            from: creator
+        });
+
+        const successful = await bridge.isSuccessful.call();
+        successful.should.be.equal(true);
+    });
+
+    it('doesn\'t allow to change token address after Bridge was finished', async () => {
+        try {
+            await bridge.changeToken(token.address, {
+                from: creator
+            });
+
+            throw new Error('Should return revert');
+        } catch (e) {
+            isRevert(e);
+        }
+    });
+
+    it('has tokens reward on contract', async () => {
+        const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10);
+        const tokenBalance = (await token.balanceOf.call(bridge.address)).toString(10);
+
+        tokenBalance.should.be.equal(tokenReward);
+    });
+
+    it('has eth reward on contract', async () => {
+        const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10);
+        const ethBalance = web3.eth.getBalance(bridge.address).toString(10);
+
+        ethBalance.should.be.equal(ethReward);
+    });
+
+    it('doesn\'t allow to withdraw reward after finish', async () => {
+        try {
+            await bridge.withdraw(1, 1, { from: creator });
+
+            throw new Error('Should return revert');
+        } catch (e) {
+            isRevert(e);
+        }
+    });
+});

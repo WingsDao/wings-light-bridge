@@ -1,17 +1,20 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.18;
 
 
-import 'zeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
+import 'zeppelin-solidity/contracts/token/BasicToken.sol';
 
 
 contract TestToken is BasicToken {
 
-  string public name = "Very Test Token";
-  string public symbol = "VTT";
-  uint8 public decimals = 18;
+    string public name;
+    string public symbol;
+    uint8 public decimals;
 
-  constructor(uint256 _totalSupply) {
-    totalSupply_ = _totalSupply;
-    balances[msg.sender] = totalSupply_;
-  }
+    function TestToken(string _name, string _symbol, uint8 _decimals, uint256 _totalSupply) public {
+        name = _name;
+        symbol = _symbol;
+        decimals = _decimals;
+        totalSupply = _totalSupply;
+        balances[msg.sender] = totalSupply;
+    }
 }
