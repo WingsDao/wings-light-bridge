@@ -1,3 +1,8 @@
+/**
+ * // TODO test description
+ * @type {[type]}
+ */
+
 'use strict';
 
 const { should } = require('chai').should();
