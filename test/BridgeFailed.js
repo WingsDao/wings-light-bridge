@@ -26,7 +26,7 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
         eth: 10000
     };
 
-    const totalCollected = web3.toWei(600000, 'ether'); // let's say 600000 USD
+    const totalCollected = web3.toWei(600000, 'ether');
     const totalCollectedETH = web3.toWei(100, 'ether');
     const totalSold = web3.toWei(1500, 'ether');
 

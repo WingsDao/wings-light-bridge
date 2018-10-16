@@ -21,7 +21,7 @@ contract('Bridge with 0% rewards (no rewards)', (accounts) => {
         eth: 0
     };
 
-    const totalCollected = web3.toWei(100, 'ether'); // let's say 100 ETH
+    const totalCollected = web3.toWei(100, 'ether');
     const totalCollectedETH = 0;
     const totalSold = 0;
 
