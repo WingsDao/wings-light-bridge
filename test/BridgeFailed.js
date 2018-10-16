@@ -1,3 +1,13 @@
+/**
+ * Test scenario
+ * - create bridge
+ * - set project token
+ * - set only minimal goal
+ * - notify about collected amount
+ * - finish bridge unsuccessfully
+ * - withdraw rewards
+ */
+
 'use strict';
 
 const { should } = require('chai').should();
@@ -9,42 +19,28 @@ const ControllerStub = artifacts.require('ControllerStub');
 const { sendETH } = require('./helpers/utils');
 
 contract('Bridge hasn\'t reached minimal goal', (accounts) => {
-    let creator = accounts[0];
+    const creator = accounts[0];
 
     const rewards = {
         tokens: 10000,
         eth: 10000
     };
 
-    let totalCollected = web3.toWei(100, 'ether'); // let's say 100 ETH
-    let totalCollectedETH = 0;
-    let totalSold = web3.toWei(1500, 'ether');
+    const totalCollected = web3.toWei(600000, 'ether');
+    const totalCollectedETH = web3.toWei(100, 'ether');
+    const totalSold = web3.toWei(1500, 'ether');
 
     let token, controller, bridge;
 
     before(async () => {
         // deploy bridge
-        bridge = await Bridge.new(
-            creator,
-            creator,
-            {
-                from: creator
-            }
-        );
+        bridge = await Bridge.new(creator, creator, { from: creator });
 
-        // controller stub just for manager
-        controller = await ControllerStub.new(
-            rewards.eth,
-            rewards.tokens,
-            {
-                from: creator
-            }
-        );
+        // deploy controller stub (it is manager of the bridge)
+        controller = await ControllerStub.new(rewards.eth, rewards.tokens, { from: creator });
 
-        // start crowdsale (called from crowdsale controller)
-        await bridge.start(0, 0, '0x0', {
-            from: creator
-        });
+        // start crowdsale (in wings will be done in controller)
+        await bridge.start(0, 0, '0x0', { from: creator });
     });
 
     it('deploy token', async () => {
@@ -53,17 +49,14 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
         });
     });
 
-    it('allow to change token', async () => {
-        const changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'});
-
+    it('change token', async () => {
         await bridge.changeToken(token.address, {
             from: creator
         });
 
-        changeToken_event.get((error, events) => {
-            let args = events[0].args
-            args.token.should.be.equal(token.address)
-        });
+        let projectToken = (await bridge.getToken.call()).toString();
+
+        projectToken.should.be.equal(token.address)
     });
 
     it('set minimal goal', async () => {
@@ -72,15 +65,12 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
         await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
 
         let bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
-        // console.log(`Minimal goal: ${web3.fromWei(bridgeMinimalGoal, 'ether')} ETH`);
 
         bridgeMinimalGoal.should.be.equal(minimalGoal);
     });
 
     it('notify sale with total collected less then minimal goal', async () => {
-        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
-            from: creator
-        });
+        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, { from: creator });
     });
 
     it('check how notification went', async () => {
@@ -155,7 +145,7 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
         ethBalance.should.be.equal(ethReward);
     });
 
-    it('allow to withdraw rewards after the finish has failed', async () => {
+    it('withdraw rewards after bridge finished with fail', async () => {
         const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10);
         const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10);
 

@@ -84,11 +84,11 @@ contract IBridge is Ownable {
     DetailedERC20 token;
 
     // crowdsale status
-    bool completed;
-    bool failed;
+    bool public completed;
+    bool public failed;
 
     // whether sale results were communicated to crowdsale controller or not
-    bool notifiedSale;
+    bool public notifiedSale;
 
     function transferManager(address _newManager) public onlyManager() {
         require(_newManager != address(0));

@@ -1,3 +1,15 @@
+/**
+ * Test scenario:
+ * - create bridge
+ * - set project token
+ * - set goal
+ * - set period
+ * - notify about collected amount
+ * - transfer rewards
+ * - check whether crowdsale reached minimal goal or not
+ * - finish bridge successfully
+ */
+
 'use strict';
 
 const { should } = require('chai').should();
@@ -9,42 +21,28 @@ const ControllerStub = artifacts.require('ControllerStub');
 const { sendETH, isRevert } = require('./helpers/utils');
 
 contract('Bridge', (accounts) => {
-    let creator = accounts[0];
+    const creator = accounts[0];
 
     const rewards = {
         tokens: 10000,
         eth: 10000
     };
 
-    let totalCollected = web3.toWei(600000, 'ether'); // let's say 600000 USD
-    let totalCollectedETH = web3.toWei(100, 'ether');
-    let totalSold = web3.toWei(1500, 'ether');
+    const totalCollected = web3.toWei(600000, 'ether'); // let's say 600000 USD
+    const totalCollectedETH = web3.toWei(1000, 'ether');
+    const totalSold = web3.toWei(100000, 'ether');
 
     let token, controller, bridge;
 
     before(async () => {
         // deploy bridge
-        bridge = await Bridge.new(
-            creator,
-            creator,
-            {
-                from: creator
-            }
-        );
+        bridge = await Bridge.new(creator, creator, { from: creator });
 
-        // controller stub just for manager
-        controller = await ControllerStub.new(
-            rewards.eth,
-            rewards.tokens,
-            {
-                from: creator
-            }
-        );
+        // deploy controller stub (it is manager of the bridge)
+        controller = await ControllerStub.new(rewards.eth, rewards.tokens, { from: creator });
 
         // start crowdsale (in wings will be done in controller)
-        await bridge.start(0, 0, '0x0', {
-            from: creator
-        });
+        await bridge.start(0, 0, '0x0', { from: creator });
     });
 
     it('deploy token', async () => {
@@ -53,17 +51,14 @@ contract('Bridge', (accounts) => {
         });
     });
 
-    it('allow to change token', async () => {
-        const changeToken_event = bridge.CUSTOM_CROWDSALE_TOKEN_ADDED({}, {fromBlock: 0, toBlock: 'latest'});
-
+    it('change token', async () => {
         await bridge.changeToken(token.address, {
             from: creator
         });
 
-        changeToken_event.get((error, events) => {
-            let args = events[0].args
-            args.token.should.be.equal(token.address)
-        });
+        let projectToken = (await bridge.getToken.call()).toString();
+
+        projectToken.should.be.equal(token.address)
     });
 
     it('doesn\'t allow to change token to token with incorrect decimals', async () => {
@@ -80,29 +75,27 @@ contract('Bridge', (accounts) => {
         }
     });
 
-    it('allow to set only minimal goal', async () => {
+    it('set only minimal goal', async () => {
         const minimalGoal = web3.toWei(10, 'ether').toString(10);
 
         await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
 
         let bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
-        // console.log(`Minimal goal: ${web3.fromWei(bridgeMinimalGoal, 'ether')} ETH`);
 
         bridgeMinimalGoal.should.be.equal(minimalGoal);
     });
 
-    it('allow to set only hard cap', async () => {
+    it('set only hard cap', async () => {
         const hardCap = web3.toWei(1000, 'ether').toString(10);
 
         await bridge.setCrowdsaleGoal(0, hardCap, { from: creator });
 
         let bridgeHardCap = (await bridge.hardCap.call()).toString(10);
-        // console.log(`Hard cap: ${web3.fromWei(bridgeHardCap, 'ether')} ETH`);
 
         bridgeHardCap.should.be.equal(hardCap);
     });
 
-    it('allow to set goals of crowdsale', async () => {
+    it('set goals of crowdsale', async () => {
         const goal = {
             min: web3.toWei(15, 'ether').toString(10),
             max: web3.toWei(1500, 'ether').toString(10)
@@ -113,14 +106,11 @@ contract('Bridge', (accounts) => {
         const minimalGoal = (await bridge.minimalGoal.call()).toString(10);
         const hardCap = (await bridge.hardCap.call()).toString(10);
 
-        // console.log(`Minimal goal: ${web3.fromWei(minimalGoal, 'ether')} ETH`);
-        // console.log(`Hard cap: ${web3.fromWei(hardCap, 'ether')} ETH`);
-
         minimalGoal.should.be.equal(goal.min);
         hardCap.should.be.equal(goal.max);
     });
 
-    it('allow to set only end timestamp', async () => {
+    it('set only end timestamp', async () => {
         const now = Date.now();
 
         const endTimestamp = Math.floor(now/1000).toString(10);
@@ -128,12 +118,11 @@ contract('Bridge', (accounts) => {
         await bridge.setCrowdsalePeriod(0, endTimestamp, { from: creator });
 
         let bridgeEndTimestamp = (await bridge.endTimestamp.call()).toString(10);
-        // console.log(`End timestamp: ${parseInt(bridgeEndTimestamp)}`);
 
         bridgeEndTimestamp.should.be.equal(endTimestamp);
     });
 
-    it('allow to set time period of crowdsale', async () => {
+    it('set time period of crowdsale', async () => {
         const now = Date.now();
 
         const timestamps = {
@@ -146,17 +135,12 @@ contract('Bridge', (accounts) => {
         let startTimestamp = (await bridge.startTimestamp.call()).toString(10);
         let endTimestamp = (await bridge.endTimestamp.call()).toString(10);
 
-        // console.log(`Start timestamp: ${parseInt(startTimestamp)}`);
-        // console.log(`End timestamp: ${parseInt(endTimestamp)}`);
-
         startTimestamp.should.be.equal(timestamps.start);
         endTimestamp.should.be.equal(timestamps.end);
     });
 
     it('notify sale', async () => {
-        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {
-            from: creator
-        });
+        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, { from: creator });
     });
 
     it('check how notification went', async () => {
@@ -215,6 +199,12 @@ contract('Bridge', (accounts) => {
     it('check whether rewards are ready', async () => {
         const rewardsReady = await bridge.rewardsAreReady.call();
         rewardsReady.should.be.equal(true);
+    });
+
+    it('crowdsale reached minimal goal', async () => {
+        let reached = await bridge.reachedMinGoal.call();
+
+        reached.should.be.equal(true);
     });
 
     it('finish Bridge successfully', async () => {
