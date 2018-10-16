@@ -81,7 +81,7 @@ contract IBridge is Ownable {
     uint256 public endTimestamp;
 
     // crowdsale token must be ERC20-compliant
-    DetailedERC20 public token;
+    DetailedERC20 token;
 
     // crowdsale status
     bool public completed;
