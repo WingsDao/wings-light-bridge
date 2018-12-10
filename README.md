@@ -283,6 +283,8 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) 
 
 **Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
 
+**NOTE:** Every call to this method will override the previous values.
+
 ### calculateRewards
 
 Communicates with `CrowdsaleController` (aka `IWingsController`) and calculates rewards.

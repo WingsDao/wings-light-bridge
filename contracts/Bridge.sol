@@ -68,11 +68,13 @@ contract Bridge is IBridge {
         whenCrowdsaleAlive()
         onlyOwner()
     {
-        totalCollected = totalCollected.add(_amount);
-        totalCollectedETH = totalCollectedETH.add(_ethAmount);
-        totalSold = totalSold.add(_tokensAmount);
+        totalCollected = _amount;
+        totalCollectedETH = _ethAmount;
+        totalSold = _tokensAmount;
 
         notifiedSale = true;
+
+        CUSTOM_CROWDSALE_RESULT(totalCollected, totalCollectedETH, totalSold);
     }
 
     // Validates parameters and starts crowdsale

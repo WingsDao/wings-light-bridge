@@ -1,97 +1,69 @@
 {
   "contractName": "Migrations",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a72305820e33f30ae23b166876678ccc20dce3e0baac8ede28c9cc5ec962e7fa7ddbae1d90029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a72305820e33f30ae23b166876678ccc20dce3e0baac8ede28c9cc5ec962e7fa7ddbae1d90029",
-  "sourceMap": "27:23:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:23:2;;;;;;;",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058203a5171ddd0ef1d97f34f94fa91a61d919645a0a2110620491c7b0568a51c31c90029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058203a5171ddd0ef1d97f34f94fa91a61d919645a0a2110620491c7b0568a51c31c90029",
+  "sourceMap": "27:23:2:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "27:23:2:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\ncontract Migrations {\n}\n",
-  "sourcePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
+  "sourcePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
   "ast": {
-    "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
-    "exportedSymbols": {
-      "Migrations": [
-        654
-      ]
+    "attributes": {
+      "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
+      "exportedSymbols": {
+        "Migrations": [
+          651
+        ]
+      }
     },
-    "id": 655,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 653,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
+        "id": 650,
+        "name": "PragmaDirective",
         "src": "0:24:2"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 654,
-        "linearizedBaseContracts": [
-          654
-        ],
-        "name": "Migrations",
-        "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 655,
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            651
+          ],
+          "name": "Migrations",
+          "nodes": [
+            null
+          ],
+          "scope": 652
+        },
+        "id": 651,
+        "name": "ContractDefinition",
         "src": "27:23:2"
       }
     ],
-    "src": "0:51:2"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/solidity/Desktop/github/wings-light-bridge/contracts/Migrations.sol",
-    "exportedSymbols": {
-      "Migrations": [
-        654
-      ]
-    },
-    "id": 655,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 653,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "0:24:2"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 654,
-        "linearizedBaseContracts": [
-          654
-        ],
-        "name": "Migrations",
-        "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 655,
-        "src": "27:23:2"
-      }
-    ],
+    "id": 652,
+    "name": "SourceUnit",
     "src": "0:51:2"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.0",
-  "updatedAt": "2018-10-16T06:55:43.624Z"
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-12-10T06:41:30.746Z"
 }
