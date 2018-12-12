@@ -139,14 +139,32 @@ contract('Bridge', (accounts) => {
         endTimestamp.should.be.equal(timestamps.end);
     });
 
-    it('notify sale', async () => {
+    it('notify sale first time with incorrect values', async () => {
+        await bridge.notifySale(web3.toBigNumber(totalCollected).mul(2), web3.toBigNumber(totalCollectedETH).mul(2), web3.toBigNumber(totalSold).mul(2), { from: creator });
+    });
+
+    it('check how notification went', async () => {
+        const notifiedTotalCollected =    (await bridge.totalCollected.call()).toString(10);
+        const notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        const notifiedTotalSold =         (await bridge.totalSold.call()).toString(10);
+
+        const doubleTotalCollected =    web3.toBigNumber(totalCollected).mul(2).toString(10);
+        const doubleTotalCollectedETH = web3.toBigNumber(totalCollectedETH).mul(2).toString(10);
+        const doubleTotalSold =         web3.toBigNumber(totalSold).mul(2).toString(10);
+
+        notifiedTotalCollected.should.be.equal(doubleTotalCollected);
+        notifiedTotalCollectedETH.should.be.equal(doubleTotalCollectedETH);
+        notifiedTotalSold.should.be.equal(doubleTotalSold);
+    });
+
+    it('notify sale second time with correct values', async () => {
         await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, { from: creator });
     });
 
     it('check how notification went', async () => {
-        let notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10);
-        let notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
-        let notifiedTotalSold = (await bridge.totalSold.call()).toString(10);
+        const notifiedTotalCollected =    (await bridge.totalCollected.call()).toString(10);
+        const notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        const notifiedTotalSold =         (await bridge.totalSold.call()).toString(10);
 
         notifiedTotalCollected.should.be.equal(totalCollected.toString(10));
         notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10));

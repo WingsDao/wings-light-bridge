@@ -16,6 +16,7 @@ contract IBridge is Ownable {
     event CUSTOM_CROWDSALE_TOKEN_ADDED(address token, uint8 decimals);
     event CUSTOM_CROWDSALE_GOAL_ADDED(uint256 minimalGoal, uint256 hardCap);
     event CUSTOM_CROWDSALE_PERIOD_ADDED(uint256 startTimestamp, uint256 endTimestamp);
+    event CUSTOM_CROWDSALE_RESULT(uint256 totalCollected, uint256 totalCollectedETH, uint256 totalSold);
     event CUSTOM_CROWDSALE_FINISH();
 
     modifier whenCrowdsaleAlive() {

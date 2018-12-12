@@ -63,7 +63,7 @@ Deploy Bridge contract to mainnet using truffle, parity, etc. with constructor a
 
 ---
 
-## If you already created project on wings.ai head to [¶Crowdsale start](#crowdsale-start).
+## If you already created project on wings.ai head to [¶Crowdsale start](#crowdsale-start-1).
 
 ---
 
@@ -275,13 +275,15 @@ function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) 
 
 **Parameters:**
  - `_amount` - total collected amount *(in currency which you specified in forecasting question)*
- - `_ethAmount` - amount of funds raised *(in Wei) (optional if forecasting question in ETH)*
+ - `_ethAmount` - amount of funds raised *(in Wei) (0 if forecasting currency is ETH)*
  - `_tokensAmount` - amount of tokens sold
 
 **Important:** If collected amount is in normal currency (with 2 decimal places, e.g. USD) it should be padded to the number with 18 decimal places.  
 *Example: If you have collected 1000$ and 14¢ you will have to pass 1000140000000000000000 as `_totalCollected`.*
 
 **Important:** `_amount` should be the same as the currency which was used in forecasting question. If you have collected funds in USD, pass USD collected amount (padded to 18 decimals) as `_amount` argument and its translated amount in ETH as `_ethAmount` argument.
+
+**NOTE:** Every call to this method will override previous values.
 
 ### calculateRewards
 
