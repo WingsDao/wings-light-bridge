@@ -1,3 +1,4 @@
+/* global web3, artifacts, contract */
 /**
  * Test scenario
  * - create bridge
@@ -8,7 +9,7 @@
 
 'use strict';
 
-const { should } = require('chai').should();
+require('chai').should();
 
 const Bridge = artifacts.require('Bridge');
 const ControllerStub = artifacts.require('ControllerStub');
@@ -25,27 +26,27 @@ contract('Bridge with 0% rewards (no rewards)', (accounts) => {
     const totalCollectedETH = 0;
     const totalSold = 0;
 
-    let token, controller, bridge;
+    let controller, bridge;
 
     before(async () => {
         // deploy bridge
-        bridge = await Bridge.new(creator, creator, { from: creator });
+        bridge = await Bridge.new(creator, creator, {from: creator});
 
         // deploy controller stub (it is manager of the bridge)
-        controller = await ControllerStub.new(rewards.eth, rewards.tokens, { from: creator });
+        controller = await ControllerStub.new(rewards.eth, rewards.tokens, {from: creator});
 
         // start crowdsale (in wings will be done in controller)
-        await bridge.start(0, 0, '0x0', { from: creator });
+        await bridge.start(0, 0, '0x0', {from: creator});
     });
 
     it('notify sale with only total collected', async () => {
-        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, { from: creator });
+        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {from: creator});
     });
 
     it('check how notification went', async () => {
-        let notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10);
-        let notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
-        let notifiedTotalSold = (await bridge.totalSold.call()).toString(10);
+        const notifiedTotalCollected = (await bridge.totalCollected.call()).toString(10);
+        const notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        const notifiedTotalSold = (await bridge.totalSold.call()).toString(10);
 
         notifiedTotalCollected.should.be.equal(totalCollected.toString(10));
         notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10));
@@ -53,9 +54,7 @@ contract('Bridge with 0% rewards (no rewards)', (accounts) => {
     });
 
     it('move bridge manager to controller', async () => {
-        await bridge.transferManager(controller.address, {
-            from: creator
-        });
+        await bridge.transferManager(controller.address, {from: creator});
     });
 
     it('correct total sold value in bridge', async () => {
@@ -74,9 +73,7 @@ contract('Bridge with 0% rewards (no rewards)', (accounts) => {
     });
 
     it('finish Bridge successfully without rewards', async () => {
-        await bridge.finish({
-            from: creator
-        });
+        await bridge.finish({from: creator});
 
         const successful = await bridge.isSuccessful.call();
         const failed = await bridge.isFailed.call();

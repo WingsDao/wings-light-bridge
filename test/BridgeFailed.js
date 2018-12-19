@@ -1,3 +1,4 @@
+/* global web3, artifacts, contract */
 /**
  * Test scenario
  * - create bridge
@@ -10,7 +11,7 @@
 
 'use strict';
 
-const { should } = require('chai').should();
+require('chai').should();
 
 const Bridge = artifacts.require('Bridge');
 const Token = artifacts.require('TestToken');
@@ -34,43 +35,39 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
 
     before(async () => {
         // deploy bridge
-        bridge = await Bridge.new(creator, creator, { from: creator });
+        bridge = await Bridge.new(creator, creator, {from: creator});
 
         // deploy controller stub (it is manager of the bridge)
-        controller = await ControllerStub.new(rewards.eth, rewards.tokens, { from: creator });
+        controller = await ControllerStub.new(rewards.eth, rewards.tokens, {from: creator});
 
         // start crowdsale (in wings will be done in controller)
-        await bridge.start(0, 0, '0x0', { from: creator });
+        await bridge.start(0, 0, '0x0', {from: creator});
     });
 
     it('deploy token', async () => {
-        token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {
-            from: creator
-        });
+        token = await Token.new('Test Token', 'TT', 18, web3.toWei(10000, 'ether'), {from: creator});
     });
 
     it('change token', async () => {
-        await bridge.changeToken(token.address, {
-            from: creator
-        });
+        await bridge.changeToken(token.address, {from: creator});
 
-        let projectToken = (await bridge.getToken.call()).toString();
+        const projectToken = (await bridge.getToken.call()).toString();
 
-        projectToken.should.be.equal(token.address)
+        projectToken.should.be.equal(token.address);
     });
 
     it('set minimal goal', async () => {
         const minimalGoal = totalCollected.toString(10) + '0';
 
-        await bridge.setCrowdsaleGoal(minimalGoal, 0, { from: creator });
+        await bridge.setCrowdsaleGoal(minimalGoal, 0, {from: creator});
 
-        let bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
+        const bridgeMinimalGoal = (await bridge.minimalGoal.call()).toString(10);
 
         bridgeMinimalGoal.should.be.equal(minimalGoal);
     });
 
     it('notify sale with total collected less then minimal goal', async () => {
-        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, { from: creator });
+        await bridge.notifySale(totalCollected, totalCollectedETH, totalSold, {from: creator});
     });
 
     it('check how notification went', async () => {
@@ -84,16 +81,14 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
     });
 
     it('move bridge manager to controller', async () => {
-        await bridge.transferManager(controller.address, {
-            from: creator
-        });
+        await bridge.transferManager(controller.address, {from: creator});
     });
 
     it('transfer token and ETH rewards', async () => {
         const [ethReward, tokenReward] = await bridge.calculateRewards.call();
 
         // Transfer token reward
-        await token.transfer(bridge.address, tokenReward, { from: creator });
+        await token.transfer(bridge.address, tokenReward, {from: creator});
 
         // Send ETH reward
         await sendETH({
@@ -120,9 +115,7 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
     });
 
     it('finish Bridge in failed state', async () => {
-        await bridge.finish({
-            from: creator
-        });
+        await bridge.finish({from: creator});
 
         const successful = await bridge.isSuccessful.call();
         const failed = await bridge.isFailed.call();
@@ -149,7 +142,7 @@ contract('Bridge hasn\'t reached minimal goal', (accounts) => {
         const ethReward = web3.toBigNumber(totalCollectedETH == 0 ? totalCollected : totalCollectedETH).mul(rewards.eth).div(1000000).toString(10);
         const tokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1000000).toString(10);
 
-        await bridge.withdraw(ethReward, tokenReward, { from: creator });
+        await bridge.withdraw(ethReward, tokenReward, {from: creator});
     });
 
     it('bridge address should have 0 balance', async () => {
