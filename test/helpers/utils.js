@@ -1,3 +1,4 @@
+/* global web3 */
 'use strict';
 
 exports.sendETH = async (txObject) => {

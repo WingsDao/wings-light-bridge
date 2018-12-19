@@ -8,7 +8,7 @@
   },
   "scripts": {
     "rebuild": "rm -rf build/ && truffle compile",
-    "test": "truffle test test/Bridge.js"
+    "test": "truffle test"
   },
   "repository": {
     "type": "git",
