@@ -217,7 +217,23 @@ contract('Bridge', (accounts) => {
     });
 
     it('finish Bridge successfully', async () => {
+        let totalCollected    = (await bridge.totalCollected.call()).toString(10);
+        let totalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        let totalSold         = (await bridge.totalSold.call()).toString(10);
+
+        console.log('totalCollected:', totalCollected);
+        console.log('totalCollectedETH:', totalCollectedETH);
+        console.log('totalSold:', totalSold);
+
         await bridge.finish({from: creator});
+
+        totalCollected    = (await bridge.totalCollected.call()).toString(10);
+        totalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        totalSold         = (await bridge.totalSold.call()).toString(10);
+
+        console.log('totalCollected:', totalCollected);
+        console.log('totalCollectedETH:', totalCollectedETH);
+        console.log('totalSold:', totalSold);
 
         const successful = await bridge.isSuccessful.call();
         successful.should.be.equal(true);
