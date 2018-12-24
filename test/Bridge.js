@@ -223,6 +223,16 @@ contract('Bridge', (accounts) => {
         successful.should.be.equal(true);
     });
 
+    it('check notified values after finishing crowdsale', async () => {
+        const notifiedTotalCollected =    (await bridge.totalCollected.call()).toString(10);
+        const notifiedTotalCollectedETH = (await bridge.totalCollectedETH.call()).toString(10);
+        const notifiedTotalSold =         (await bridge.totalSold.call()).toString(10);
+
+        notifiedTotalCollected.should.be.equal(totalCollected.toString(10));
+        notifiedTotalCollectedETH.should.be.equal(totalCollectedETH.toString(10));
+        notifiedTotalSold.should.be.equal(totalSold.toString(10));
+    });
+
     it('doesn\'t allow to change token address after Bridge was finished', async () => {
         try {
             await bridge.changeToken(token.address, {from: creator});

@@ -1,8 +1,8 @@
 {
   "contractName": "Migrations",
   "abi": [],
-  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a723058203a5171ddd0ef1d97f34f94fa91a61d919645a0a2110620491c7b0568a51c31c90029",
-  "deployedBytecode": "0x6060604052600080fd00a165627a7a723058203a5171ddd0ef1d97f34f94fa91a61d919645a0a2110620491c7b0568a51c31c90029",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820ead79fce729ecbe0cc79cf76748b087fac083896492f96827be4b081c4eb77940029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820ead79fce729ecbe0cc79cf76748b087fac083896492f96827be4b081c4eb77940029",
   "sourceMap": "27:23:2:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "27:23:2:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\ncontract Migrations {\n}\n",
@@ -12,7 +12,7 @@
       "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
       "exportedSymbols": {
         "Migrations": [
-          651
+          655
         ]
       }
     },
@@ -26,7 +26,7 @@
             ".18"
           ]
         },
-        "id": 650,
+        "id": 654,
         "name": "PragmaDirective",
         "src": "0:24:2"
       },
@@ -42,20 +42,20 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            651
+            655
           ],
           "name": "Migrations",
           "nodes": [
             null
           ],
-          "scope": 652
+          "scope": 656
         },
-        "id": 651,
+        "id": 655,
         "name": "ContractDefinition",
         "src": "27:23:2"
       }
     ],
-    "id": 652,
+    "id": 656,
     "name": "SourceUnit",
     "src": "0:51:2"
   },
@@ -65,5 +65,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2018-12-19T06:54:02.634Z"
+  "updatedAt": "2018-12-24T07:11:24.068Z"
 }
