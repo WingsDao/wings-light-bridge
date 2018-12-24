@@ -110,6 +110,6 @@ contract IBridge is Ownable {
     function isActive() public view returns (bool);
     function isSuccessful() public view returns (bool);
 
-    function releaseTokens() public {}
+    function releaseTokens() public pure {}
     function deposit() public payable {}
 }

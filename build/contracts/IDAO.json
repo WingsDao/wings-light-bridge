@@ -2,15 +2,6 @@
   "contractName": "IDAO",
   "abi": [
     {
-      "constant": false,
-      "inputs": [],
-      "name": "createCustomCrowdsale",
-      "outputs": [],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
       "constant": true,
       "inputs": [],
       "name": "crowdsaleController",
@@ -23,6 +14,15 @@
       "payable": false,
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "createCustomCrowdsale",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ],
   "bytecode": "0x",
@@ -32,262 +32,171 @@
   "source": "pragma solidity ^0.4.18;\n\n\ncontract IDAO {\n    function createCustomCrowdsale() public;\n    function crowdsaleController() public view returns (address);\n}\n",
   "sourcePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/interfaces/IDAO.sol",
   "ast": {
-    "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/interfaces/IDAO.sol",
-    "exportedSymbols": {
-      "IDAO": [
-        927
-      ]
+    "attributes": {
+      "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/interfaces/IDAO.sol",
+      "exportedSymbols": {
+        "IDAO": [
+          927
+        ]
+      }
     },
-    "id": 928,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
         "id": 918,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
+        "name": "PragmaDirective",
         "src": "0:24:4"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 927,
-        "linearizedBaseContracts": [
-          927
-        ],
-        "name": "IDAO",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            927
+          ],
+          "name": "IDAO",
+          "scope": 928
+        },
+        "children": [
           {
-            "body": null,
-            "documentation": null,
+            "attributes": {
+              "body": null,
+              "constant": false,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
+              ],
+              "name": "createCustomCrowdsale",
+              "payable": false,
+              "scope": 927,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 919,
+                "name": "ParameterList",
+                "src": "77:2:4"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 920,
+                "name": "ParameterList",
+                "src": "86:0:4"
+              }
+            ],
             "id": 921,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "createCustomCrowdsale",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 919,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "77:2:4"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 920,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "86:0:4"
-            },
-            "scope": 927,
-            "src": "47:40:4",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
+            "name": "FunctionDefinition",
+            "src": "47:40:4"
           },
           {
-            "body": null,
-            "documentation": null,
-            "id": 926,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": true,
-            "modifiers": [],
-            "name": "crowdsaleController",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 922,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "120:2:4"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 925,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 924,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 926,
-                  "src": "144:7:4",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 923,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "144:7:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "constant": true,
+              "implemented": false,
+              "isConstructor": false,
+              "modifiers": [
+                null
               ],
-              "src": "143:9:4"
+              "name": "crowdsaleController",
+              "payable": false,
+              "scope": 927,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "public"
             },
-            "scope": 927,
-            "src": "92:61:4",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "public"
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 922,
+                "name": "ParameterList",
+                "src": "120:2:4"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 926,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 923,
+                        "name": "ElementaryTypeName",
+                        "src": "144:7:4"
+                      }
+                    ],
+                    "id": 924,
+                    "name": "VariableDeclaration",
+                    "src": "144:7:4"
+                  }
+                ],
+                "id": 925,
+                "name": "ParameterList",
+                "src": "143:9:4"
+              }
+            ],
+            "id": 926,
+            "name": "FunctionDefinition",
+            "src": "92:61:4"
           }
         ],
-        "scope": 928,
+        "id": 927,
+        "name": "ContractDefinition",
         "src": "27:128:4"
       }
     ],
-    "src": "0:156:4"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/interfaces/IDAO.sol",
-    "exportedSymbols": {
-      "IDAO": [
-        927
-      ]
-    },
     "id": 928,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 918,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "0:24:4"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 927,
-        "linearizedBaseContracts": [
-          927
-        ],
-        "name": "IDAO",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "body": null,
-            "documentation": null,
-            "id": 921,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": false,
-            "modifiers": [],
-            "name": "createCustomCrowdsale",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 919,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "77:2:4"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 920,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "86:0:4"
-            },
-            "scope": 927,
-            "src": "47:40:4",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "public"
-          },
-          {
-            "body": null,
-            "documentation": null,
-            "id": 926,
-            "implemented": false,
-            "isConstructor": false,
-            "isDeclaredConst": true,
-            "modifiers": [],
-            "name": "crowdsaleController",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 922,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "120:2:4"
-            },
-            "payable": false,
-            "returnParameters": {
-              "id": 925,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 924,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 926,
-                  "src": "144:7:4",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 923,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "144:7:4",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "143:9:4"
-            },
-            "scope": 927,
-            "src": "92:61:4",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "public"
-          }
-        ],
-        "scope": 928,
-        "src": "27:128:4"
-      }
-    ],
+    "name": "SourceUnit",
     "src": "0:156:4"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-22T15:18:43.883Z"
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-12-24T07:11:24.069Z"
 }

@@ -1,97 +1,69 @@
 {
   "contractName": "Migrations",
   "abi": [],
-  "bytecode": "0x6080604052348015600f57600080fd5b50603580601d6000396000f3006080604052600080fd00a165627a7a7230582064fb9021494fca3dc0fae0a381e7ec444dc094cc1e2c7264eecffd24dc816a7c0029",
-  "deployedBytecode": "0x6080604052600080fd00a165627a7a7230582064fb9021494fca3dc0fae0a381e7ec444dc094cc1e2c7264eecffd24dc816a7c0029",
-  "sourceMap": "27:23:2:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;27:23:2;;;;;;;",
+  "bytecode": "0x60606040523415600e57600080fd5b603580601b6000396000f3006060604052600080fd00a165627a7a72305820ead79fce729ecbe0cc79cf76748b087fac083896492f96827be4b081c4eb77940029",
+  "deployedBytecode": "0x6060604052600080fd00a165627a7a72305820ead79fce729ecbe0cc79cf76748b087fac083896492f96827be4b081c4eb77940029",
+  "sourceMap": "27:23:2:-;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "27:23:2:-;;;;;",
   "source": "pragma solidity ^0.4.18;\n\n\ncontract Migrations {\n}\n",
   "sourcePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
   "ast": {
-    "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
-    "exportedSymbols": {
-      "Migrations": [
-        655
-      ]
+    "attributes": {
+      "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
+      "exportedSymbols": {
+        "Migrations": [
+          655
+        ]
+      }
     },
-    "id": 656,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.4",
+            ".18"
+          ]
+        },
         "id": 654,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
+        "name": "PragmaDirective",
         "src": "0:24:2"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            655
+          ],
+          "name": "Migrations",
+          "nodes": [
+            null
+          ],
+          "scope": 656
+        },
         "id": 655,
-        "linearizedBaseContracts": [
-          655
-        ],
-        "name": "Migrations",
-        "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 656,
+        "name": "ContractDefinition",
         "src": "27:23:2"
       }
     ],
-    "src": "0:51:2"
-  },
-  "legacyAST": {
-    "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
-    "exportedSymbols": {
-      "Migrations": [
-        655
-      ]
-    },
     "id": 656,
-    "nodeType": "SourceUnit",
-    "nodes": [
-      {
-        "id": 654,
-        "literals": [
-          "solidity",
-          "^",
-          "0.4",
-          ".18"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "0:24:2"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 655,
-        "linearizedBaseContracts": [
-          655
-        ],
-        "name": "Migrations",
-        "nodeType": "ContractDefinition",
-        "nodes": [],
-        "scope": 656,
-        "src": "27:23:2"
-      }
-    ],
+    "name": "SourceUnit",
     "src": "0:51:2"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.18+commit.9cf6e910.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-22T15:18:43.882Z"
+  "schemaVersion": "1.0.1",
+  "updatedAt": "2018-12-24T07:11:24.068Z"
 }
