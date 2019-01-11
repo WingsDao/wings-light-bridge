@@ -96,19 +96,28 @@ contract IBridge is Ownable {
         manager = _newManager;
     }
 
+    // public view
+    function isFailed() public view returns (bool);
+    function isActive() public view returns (bool);
+    function isSuccessful() public view returns (bool);
+    function reachedMinGoal() public view returns (bool);
     function getToken() public view returns (address);
+    function calculateRewards() public view returns (uint256, uint256);
+    function rewardsAreReady() public view returns (bool);
+
+    // public
     function changeToken(address _newToken) public;
     function setCrowdsaleGoal(uint256 _minimalGoal, uint256 _hardCap) public;
     function setCrowdsalePeriod(uint256 _startTimestamp, uint256 _endTimestamp) public;
     function notifySale(uint256 _amount, uint256 _ethAmount, uint256 _tokensAmount) public;
-    function calculateRewards() public view returns (uint256, uint256);
     function finish() public;
     function withdraw(uint256 _ethAmount, uint256 _tokenAmount) public;
-    function stop() public;
+
+    // public only manager (CrowdsaleController)
     function start(uint256 _startTimestamp, uint256 _endTimestamp, address _fundingAddress) public;
-    function isFailed() public view returns (bool);
-    function isActive() public view returns (bool);
-    function isSuccessful() public view returns (bool);
+    function mintTokenRewards(address _contract, uint256 _amount) public;
+    function mintETHRewards(address _contract, uint256 _amount) public;
+    function stop() public;
 
     function releaseTokens() public pure {}
     function deposit() public payable {}

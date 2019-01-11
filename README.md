@@ -32,7 +32,7 @@ Wings easy integration.
 ## Requirements
 
 - Nodejs ~8.6.0
-- Truffle ^4.0.4
+- Truffle 4.0.4
 - Ganache-cli ^6.1.0
 
 # Step by step guide
