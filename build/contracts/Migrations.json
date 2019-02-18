@@ -12,7 +12,7 @@
       "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/Migrations.sol",
       "exportedSymbols": {
         "Migrations": [
-          655
+          664
         ]
       }
     },
@@ -26,7 +26,7 @@
             ".18"
           ]
         },
-        "id": 654,
+        "id": 663,
         "name": "PragmaDirective",
         "src": "0:24:2"
       },
@@ -42,20 +42,20 @@
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            655
+            664
           ],
           "name": "Migrations",
           "nodes": [
             null
           ],
-          "scope": 656
+          "scope": 665
         },
-        "id": 655,
+        "id": 664,
         "name": "ContractDefinition",
         "src": "27:23:2"
       }
     ],
-    "id": 656,
+    "id": 665,
     "name": "SourceUnit",
     "src": "0:51:2"
   },
@@ -65,5 +65,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2019-01-11T15:29:52.242Z"
+  "updatedAt": "2019-02-18T15:27:18.453Z"
 }
