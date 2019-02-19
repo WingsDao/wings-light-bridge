@@ -29,9 +29,9 @@ contract('Bridge', (accounts) => {
         eth: 10000
     };
 
-    const totalCollected = web3.toWei(600000, 'ether'); // let's say 600000 USD
-    const totalCollectedETH = web3.toWei(1000, 'ether');
-    const totalSold = web3.toWei(100000, 'ether');
+    const totalCollected    = web3.toWei(600000, 'ether'); // let's say 600000 USD
+    const totalCollectedETH = web3.toWei(10, 'ether');
+    const totalSold         = web3.toWei(100000, 'ether');
 
     let token, controller, bridge;
 
@@ -182,6 +182,12 @@ contract('Bridge', (accounts) => {
 
     it('transfer token and ETH rewards', async () => {
         const [ethReward, tokenReward] = await bridge.calculateRewards.call();
+
+        const expectedEthReward   = web3.toBigNumber(totalCollectedETH).mul(rewards.eth).div(1e6).toString(10);
+        const expectedTokenReward = web3.toBigNumber(totalSold).mul(rewards.tokens).div(1e6).toString(10);
+
+        ethReward.toString(10).should.be.equal(expectedEthReward);
+        tokenReward.toString(10).should.be.equal(expectedTokenReward);
 
         // Transfer token reward
         await token.transfer(bridge.address, tokenReward, {from: creator});

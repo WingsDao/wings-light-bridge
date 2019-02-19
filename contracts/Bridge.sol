@@ -58,8 +58,6 @@ contract Bridge is IBridge {
             totalCollectedCopy = totalCollectedETH;
         }
 
-        totalCollectedCopy = IWingsController(manager).fitCollectedValueIntoRange(totalCollectedCopy);
-
         if (hasEthReward) {
             ethReward = totalCollectedCopy.mul(ethRewardPart) / 1000000;
         }
