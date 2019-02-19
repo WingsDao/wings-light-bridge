@@ -36,7 +36,7 @@
       "absolutePath": "/Users/solidity/Desktop/wings/wings-light-bridge/contracts/interfaces/IDAO.sol",
       "exportedSymbols": {
         "IDAO": [
-          960
+          942
         ]
       }
     },
@@ -50,7 +50,7 @@
             ".18"
           ]
         },
-        "id": 951,
+        "id": 933,
         "name": "PragmaDirective",
         "src": "0:24:4"
       },
@@ -66,10 +66,10 @@
           "documentation": null,
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            960
+            942
           ],
           "name": "IDAO",
-          "scope": 961
+          "scope": 943
         },
         "children": [
           {
@@ -83,7 +83,7 @@
               ],
               "name": "createCustomCrowdsale",
               "payable": false,
-              "scope": 960,
+              "scope": 942,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -96,7 +96,7 @@
                   ]
                 },
                 "children": [],
-                "id": 952,
+                "id": 934,
                 "name": "ParameterList",
                 "src": "77:2:4"
               },
@@ -107,12 +107,12 @@
                   ]
                 },
                 "children": [],
-                "id": 953,
+                "id": 935,
                 "name": "ParameterList",
                 "src": "86:0:4"
               }
             ],
-            "id": 954,
+            "id": 936,
             "name": "FunctionDefinition",
             "src": "47:40:4"
           },
@@ -127,7 +127,7 @@
               ],
               "name": "crowdsaleController",
               "payable": false,
-              "scope": 960,
+              "scope": 942,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -140,7 +140,7 @@
                   ]
                 },
                 "children": [],
-                "id": 955,
+                "id": 937,
                 "name": "ParameterList",
                 "src": "120:2:4"
               },
@@ -150,7 +150,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 959,
+                      "scope": 941,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -163,32 +163,32 @@
                           "name": "address",
                           "type": "address"
                         },
-                        "id": 956,
+                        "id": 938,
                         "name": "ElementaryTypeName",
                         "src": "144:7:4"
                       }
                     ],
-                    "id": 957,
+                    "id": 939,
                     "name": "VariableDeclaration",
                     "src": "144:7:4"
                   }
                 ],
-                "id": 958,
+                "id": 940,
                 "name": "ParameterList",
                 "src": "143:9:4"
               }
             ],
-            "id": 959,
+            "id": 941,
             "name": "FunctionDefinition",
             "src": "92:61:4"
           }
         ],
-        "id": 960,
+        "id": 942,
         "name": "ContractDefinition",
         "src": "27:128:4"
       }
     ],
-    "id": 961,
+    "id": 943,
     "name": "SourceUnit",
     "src": "0:156:4"
   },
@@ -198,5 +198,5 @@
   },
   "networks": {},
   "schemaVersion": "1.0.1",
-  "updatedAt": "2019-02-18T15:27:18.453Z"
+  "updatedAt": "2019-02-19T07:06:51.534Z"
 }
